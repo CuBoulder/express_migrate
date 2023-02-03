@@ -1,0 +1,13 @@
+type: module
+name: Migrate Express
+description: 'Express Migration Tools'
+package: Custom
+core_version_requirement: ^9 || ^10
+
+dependencies:
+  - drupal:migrate
+  - migrate_drupal
+  - migrate_plus
+
+version: '10.x-1.0-dev'
+project: 'migrate_express'

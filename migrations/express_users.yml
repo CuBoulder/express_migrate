@@ -1,0 +1,47 @@
+id: express_users
+label: Express User Migration
+migration_tags:
+  - express
+
+source:
+  plugin: url
+  data_fetcher_plugin: file
+  data_parser_plugin: xml
+  urls:
+    - modules/custom/migrate_express/data.xml
+  item_selector: /root/users/item
+  fields:
+    - name: uid
+      label: 'uid'
+      selector: 'uid'
+    - name: name
+      label: 'Name'
+      selector: 'name'
+    - name: mail
+      label: 'Mail'
+      selector: 'mail'
+    - name: status
+      label: 'Status'
+      selector: 'status'
+    - name: roles
+      label: 'Roles'
+      selector: 'roles/item'
+
+  ids:
+    uid:
+      type: integer
+process:
+  name: name
+  mail: mail
+  status: status
+  roles: roles
+destination:
+  plugin: entity:user
+
+
+
+migration_dependencies: {}
+dependencies:
+  enforced:
+    module:
+      - migrate_express
