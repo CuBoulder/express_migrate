@@ -1,0 +1,51 @@
+id: express_nodes_article_list_page
+label: Express Nodes Article List Page Migration
+migration_tags:
+  - express
+
+source:
+  plugin: url
+  data_fetcher_plugin: file
+  data_parser_plugin: simple_xml
+  urls:
+    - modules/custom/migrate_express/data.xml
+  item_selector: /root/nodes/item/article_list_page/item
+  fields:
+    - name: nid
+      label: 'nid'
+      selector: 'nid'
+    - name: vid
+      label: 'vid'
+      selector: 'vid'
+    - name: type
+      label: 'Type'
+      selector: 'type'
+    - name: title
+      label: 'Title'
+      selector: 'title'
+#    - name: body_value
+#      label: 'Body Value'
+#      selector: 'fields/item[field_name="body"]/data/item[column_name="body_value"]/value'
+  ids:
+    nid:
+      type: integer
+process:
+  type:
+    plugin: default_value
+    default_value: 'ucb_article_list'
+  langcode:
+    plugin: default_value
+    default_value: 'und'
+  title: title
+#  'body/value': body_value
+
+destination:
+  plugin: entity:node
+
+
+
+migration_dependencies: {}
+dependencies:
+  enforced:
+    module:
+      - migrate_express
