@@ -1,0 +1,68 @@
+id: express_media
+label: Express Media Migration
+migration_tags:
+  - express
+
+source:
+  plugin: url
+  data_fetcher_plugin: file
+  data_parser_plugin: simple_xml
+  urls:
+    - modules/custom/migrate_express/data.xml
+  item_selector: /root/files/item
+  fields:
+    - name: fid
+      label: 'fid'
+      selector: 'fid'
+    - name: uid
+      label: 'uid'
+      selector: 'uid'
+    - name: filename
+      label: 'Filename'
+      selector: 'filename'
+    - name: uri
+      label: 'URI'
+      selector: 'uri'
+    - name: filemime
+      label: 'filemime'
+      selector: 'filemime'
+    - name: type
+      label: 'Type'
+      selector: 'type'
+    - name: filepath
+      label: 'Filepath'
+      selector: 'filepath'
+
+  ids:
+    fid:
+      type: integer
+process:
+  name: filename
+  uri:
+    plugin: file_copy
+    source:
+      - filepath
+      - uri
+  field_media_image/target_id:
+    plugin: migration_lookup
+    migration: images_example
+    source: id
+  thumbnail/target_id:
+    plugin: migration_lookup
+    migration: images_example
+    source: id
+
+destination:
+  plugin: entity:media
+  default_bundle: image
+
+
+
+migration_dependencies:
+  required:
+    - express_files
+
+dependencies:
+  enforced:
+    module:
+      - migrate_express

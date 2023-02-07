@@ -1,0 +1,60 @@
+id: express_files
+label: Express Files Migration
+migration_tags:
+  - express
+
+source:
+  plugin: url
+  data_fetcher_plugin: file
+  data_parser_plugin: simple_xml
+  urls:
+    - modules/custom/migrate_express/data.xml
+  item_selector: /root/files/item
+  fields:
+    - name: fid
+      label: 'fid'
+      selector: 'fid'
+    - name: uid
+      label: 'uid'
+      selector: 'uid'
+    - name: filename
+      label: 'Filename'
+      selector: 'filename'
+    - name: uri
+      label: 'URI'
+      selector: 'uri'
+    - name: filemime
+      label: 'filemime'
+      selector: 'filemime'
+    - name: type
+      label: 'Type'
+      selector: 'type'
+    - name: filepath
+      label: 'Filepath'
+      selector: 'filepath'
+
+  ids:
+    fid:
+      type: integer
+process:
+  name: filename
+  uri:
+    plugin: file_copy
+    source:
+      - filepath
+      - uri
+
+
+destination:
+  plugin: entity:file
+  source_path_property: filepath
+  destination_path_property: uri
+
+
+
+
+migration_dependencies: {}
+dependencies:
+  enforced:
+    module:
+      - migrate_express
