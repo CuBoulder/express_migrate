@@ -23,9 +23,42 @@ source:
     - name: title
       label: 'Title'
       selector: 'title'
-#    - name: body_value
-#      label: 'Body Value'
-#      selector: 'fields/item[field_name="body"]/data/item[column_name="body_value"]/value'
+    - name: address
+      label: 'Address'
+      selector: 'fields/item[field_name="field_person_address"]/data/item[column_name="field_person_address_value"]/value'
+
+    - name: email
+      label: 'Email'
+      selector: 'fields/item[field_name="field_person_email"]/data/item[column_name="field_person_email_email"]/value'
+
+    - name: first_name
+      label: 'First Name'
+      selector: 'fields/item[field_name="field_person_first_name"]/data/item[column_name="field_person_first_name_value"]/value'
+
+    - name: last_name
+      label: 'Last Name'
+      selector: 'fields/item[field_name="field_person_last_name"]/data/item[column_name="field_person_last_name_value"]/value'
+
+    - name: office_hours
+      label: 'Office Hours'
+      selector: 'fields/item[field_name="field_person_office_hours"]/data/item[column_name="field_person_office_hours_value"]/value'
+
+    - name: phone
+      label: 'Phone'
+      selector: 'fields/item[field_name="field_person_phone"]/data/item[column_name="field_person_phone_value"]/value'
+
+    - name: person_title
+      label: 'Person Title'
+      selector: 'fields/item[field_name="field_person_title"]/data/item[column_name="field_person_title_value"]/value'
+
+    - name: body_value
+      label: 'Body Value'
+      selector: 'fields/item[field_name="body"]/data/item[column_name="body_value"]/value'
+
+    - name: links
+      label: 'Links'
+      selector: 'fields/item[field_name="field_person_website"]/data/item[column_name="field_person_website_url"]/value'
+
   ids:
     nid:
       type: integer
@@ -37,7 +70,20 @@ process:
     plugin: default_value
     default_value: 'und'
   title: title
-#  'body/value': body_value
+  field_ucb_person_address: address
+  field_ucb_person_email: email
+  field_ucb_person_first_name: first_name
+  field_ucb_person_last_name: last_name
+  field_ucb_person_office_hours: office_hours
+  field_ucb_person_phone: phone
+  field_ucb_person_title: person_title
+  'body/value': body_value
+#  field_ucb_person_links:
+#    plugin: iterator
+#    source: field_url
+#    process:
+#      uri: url
+#      title: title
 
 destination:
   plugin: entity:node

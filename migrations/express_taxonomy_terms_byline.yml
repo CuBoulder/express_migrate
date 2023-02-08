@@ -1,5 +1,5 @@
-id: express_taxonomy_terms
-label: Express Taxonomy Term Migration
+id: express_taxonomy_terms_byline
+label: Express Taxonomy Term Byline Migration
 migration_tags:
   - express
 
@@ -9,14 +9,14 @@ source:
   data_parser_plugin: xml
   urls:
     - modules/custom/migrate_express/data.xml
-  item_selector: /root/vocabularies/item/terms/item
+  item_selector: /root/vocabularies/byline/item
   fields:
-    - name: tid
-      label: 'tid'
-      selector: tid
-    - name: vid
-      label: 'vid'
-      selector: vid
+#    - name: tid
+#      label: 'tid'
+#      selector: tid
+#    - name: vid
+#      label: 'vid'
+#      selector: vid
     - name: name
       label: 'Name'
       selector: name
@@ -30,11 +30,11 @@ source:
       label: 'Weight'
       selector: weight
   ids:
-    tid:
-      type: integer
+    name:
+      type: string
 process:
-  tid: tid
-  vid: vid
+#  tid: tid
+#  vid: vid
   name: name
   description: description
   weight: weight
@@ -43,6 +43,7 @@ process:
     default_value: 0
 destination:
   plugin: entity:taxonomy_term
+  default_bundle: byline
 
 
 

@@ -1,0 +1,56 @@
+id: express_taxonomy_terms_department
+label: Express Taxonomy Term Department Migration
+migration_tags:
+  - express
+
+source:
+  plugin: url
+  data_fetcher_plugin: file
+  data_parser_plugin: xml
+  urls:
+    - modules/custom/migrate_express/data.xml
+  item_selector: /root/vocabularies/department/item
+  fields:
+#    - name: tid
+#      label: 'tid'
+#      selector: tid
+#    - name: vid
+#      label: 'vid'
+#      selector: vid
+    - name: name
+      label: 'Name'
+      selector: name
+    - name: description
+      label: 'Description'
+      selector: description
+    - name: format
+      label: 'Format'
+      selector: format
+    - name: weight
+      label: 'Weight'
+      selector: weight
+  ids:
+    name:
+      type: string
+process:
+#  tid: tid
+#  vid: vid
+  name: name
+  description: description
+  weight: weight
+  parent:
+    plugin: default_value
+    default_value: 0
+destination:
+  plugin: entity:taxonomy_term
+  default_bundle: department
+
+
+
+migration_dependencies:
+  required:
+    - express_vocabularies
+dependencies:
+  enforced:
+    module:
+      - migrate_express
