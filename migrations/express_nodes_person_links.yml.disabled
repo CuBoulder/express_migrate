@@ -1,0 +1,66 @@
+id: express_nodes_person
+label: Express Nodes Person Migration
+migration_tags:
+  - express
+
+source:
+  plugin: url
+  data_fetcher_plugin: file
+  data_parser_plugin: simple_xml
+  urls:
+    - modules/custom/migrate_express/data.xml
+  item_selector: /root/nodes/item/person/item
+  fields:
+    - name: nid
+      label: 'nid'
+      selector: 'nid'
+    - name: uri
+      label: 'vid'
+      selector: 'vid'
+    - name: description
+      label: 'Type'
+      selector: 'type'
+
+
+    - name: links
+      label: 'Links'
+      selector: 'fields/item[field_name="field_person_website"]/data/item'
+
+  ids:
+    nid:
+      type: integer
+process:
+  type:
+    plugin: default_value
+    default_value: 'ucb_person'
+  langcode:
+    plugin: default_value
+    default_value: 'und'
+  title: title
+  field_ucb_person_address: address
+  field_ucb_person_email: email
+  field_ucb_person_first_name: first_name
+  field_ucb_person_last_name: last_name
+  field_ucb_person_office_hours: office_hours
+  field_ucb_person_phone: phone
+  field_ucb_person_title: person_title
+  'body/value': body_value
+  field_ucb_person_links:
+    plugin: sub_process
+    source: links
+    process:
+      uri: field_person_website_url
+      title: field_person_website_title
+
+destination:
+  plugin: entity:node
+
+
+
+migration_dependencies:
+  required:
+    - express_nodes_person
+dependencies:
+  enforced:
+    module:
+      - migrate_express

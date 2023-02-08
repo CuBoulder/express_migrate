@@ -57,7 +57,7 @@ source:
 
     - name: links
       label: 'Links'
-      selector: 'fields/item[field_name="field_person_website"]/data/item[column_name="field_person_website_url"]/value'
+      selector: 'fields/item[field_name="field_person_website"]/data/item'
 
   ids:
     nid:
@@ -79,11 +79,11 @@ process:
   field_ucb_person_title: person_title
   'body/value': body_value
 #  field_ucb_person_links:
-#    plugin: iterator
-#    source: field_url
+#    plugin: sub_process
+#    source: links
 #    process:
-#      uri: url
-#      title: title
+#      uri: field_person_website_url
+#      title: field_person_website_title
 
 destination:
   plugin: entity:node
