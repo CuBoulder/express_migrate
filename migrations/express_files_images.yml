@@ -1,5 +1,5 @@
-id: express_media
-label: Express Media Migration
+id: express_files_images
+label: Express Files Images Migration
 migration_tags:
   - express
 
@@ -9,7 +9,7 @@ source:
   data_parser_plugin: simple_xml
   urls:
     - modules/custom/migrate_express/data.xml
-  item_selector: /root/files/item
+  item_selector: /root/files/images/item
   fields:
     - name: fid
       label: 'fid'
@@ -43,25 +43,17 @@ process:
     source:
       - filepath
       - uri
-  field_media_image/target_id:
-    plugin: migration_lookup
-    migration: express_files
-    source: id
-  thumbnail/target_id:
-    plugin: migration_lookup
-    migration: express_files
-    source: id
+
 
 destination:
-  plugin: entity:media
-  default_bundle: image
+  plugin: entity:file
+  source_path_property: filepath
+  destination_path_property: uri
 
 
 
-migration_dependencies:
-  required:
-    - express_files
 
+migration_dependencies: {}
 dependencies:
   enforced:
     module:

@@ -55,9 +55,9 @@ source:
       label: 'Body Value'
       selector: 'fields/item[field_name="body"]/data/item[column_name="body_value"]/value'
 
-    - name: links
-      label: 'Links'
-      selector: 'fields/item[field_name="field_person_website"]/data/item'
+#    - name: links
+#      label: 'Links'
+#      selector: 'fields/item[field_name="field_person_website"]/data/item'
 
   ids:
     nid:
