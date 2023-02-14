@@ -2,6 +2,7 @@ id: express_nodes_person
 label: Express Nodes Person Migration
 migration_tags:
   - express
+  - test
 
 source:
   plugin: url
@@ -23,41 +24,71 @@ source:
     - name: title
       label: 'Title'
       selector: 'title'
+
     - name: address
       label: 'Address'
-      selector: 'fields/item[field_name="field_person_address"]/data/item[column_name="field_person_address_value"]/value'
+      selector: 'fields/field_person_address/data/item/field_person_address_value'
+
+    - name: address_format
+      label: 'Address Format'
+      selector: 'fields/field_person_address/data/item/field_person_address_format'
 
     - name: email
       label: 'Email'
-      selector: 'fields/item[field_name="field_person_email"]/data/item[column_name="field_person_email_email"]/value'
+      selector: 'fields/field_person_email/data/item/field_person_email_email'
 
     - name: first_name
       label: 'First Name'
-      selector: 'fields/item[field_name="field_person_first_name"]/data/item[column_name="field_person_first_name_value"]/value'
+      selector: 'fields/field_person_first_name/data/item/field_person_first_name_value'
 
     - name: last_name
       label: 'Last Name'
-      selector: 'fields/item[field_name="field_person_last_name"]/data/item[column_name="field_person_last_name_value"]/value'
+      selector: 'fields/field_person_last_name/data/item/field_person_last_name_value'
 
     - name: office_hours
       label: 'Office Hours'
-      selector: 'fields/item[field_name="field_person_office_hours"]/data/item[column_name="field_person_office_hours_value"]/value'
+      selector: 'fields/field_person_office_hours/data/item/field_person_office_hours_value'
+
+    - name: office_hours_format
+      label: 'Office Hours Format'
+      selector: 'fields/field_person_office_hours/data/item/field_person_office_hours_format'
 
     - name: phone
       label: 'Phone'
-      selector: 'fields/item[field_name="field_person_phone"]/data/item[column_name="field_person_phone_value"]/value'
+      selector: 'fields/field_person_phone/data/item/field_person_phone_value'
 
     - name: person_title
       label: 'Person Title'
-      selector: 'fields/item[field_name="field_person_title"]/data/item[column_name="field_person_title_value"]/value'
+      selector: 'fields/field_person_title/data/item/field_person_title_value'
 
     - name: body_value
       label: 'Body Value'
-      selector: 'fields/item[field_name="body"]/data/item[column_name="body_value"]/value'
+      selector: 'fields/body/data/item/body_value'
+
+    - name: body_summary
+      label: 'Body Summary'
+      selector: 'fields/body/data/item/body_summary'
+
+    - name: body_format
+      label: 'Body Format'
+      selector: 'fields/body/data/item/body_format'
 
 #    - name: links
 #      label: 'Links'
 #      selector: 'fields/item[field_name="field_person_website"]/data/item'
+
+#    - name: field_person_website_url
+#      label: 'Website URL'
+#      selector: 'fields/field_person_website/data/item/field_person_website_url'
+#
+#    - name: field_person_website_title
+#      label: 'Website Title'
+#      selector: 'fields/field_person_website/data/item/field_person_website_title'
+
+    - name: field_person_website
+      label: 'Website'
+      selector: 'fields/field_person_website/data/item'
+
 
   ids:
     nid:
@@ -71,19 +102,42 @@ process:
     default_value: 'und'
   title: title
   field_ucb_person_address: address
+  #'field_ucb_person_address/format': address_format
   field_ucb_person_email: email
   field_ucb_person_first_name: first_name
   field_ucb_person_last_name: last_name
   field_ucb_person_office_hours: office_hours
+  #'field_ucb_person_office_hours/format': office_hours_format
   field_ucb_person_phone: phone
   field_ucb_person_title: person_title
   'body/value': body_value
-#  field_ucb_person_links:
+  'body/summary': body_summary
+  'body/format': body_format
+
+#  'field_ucb_person_links/uri':
 #    plugin: sub_process
-#    source: links
+#    source: field_person_website_url
 #    process:
-#      uri: field_person_website_url
-#      title: field_person_website_title
+#
+#  'field_ucb_person_links/title': field_person_website_title
+
+  dump_sourcevar:
+    plugin: callback
+    callable: var_dump
+    source: field_person_website
+
+
+#
+#  'field_ucb_person_links':
+#    - plugin: callback
+#      callable: simplexml_load_string
+#      source: field_person_website
+#    - plugin: sub_process
+#      key: bar
+#      process:
+#        title: "field_person_website_url"
+#        uri: "field_person_website_title"
+
 
 destination:
   plugin: entity:node
