@@ -2,6 +2,7 @@ id: express_taxonomy_terms_department
 label: Express Taxonomy Term Department Migration
 migration_tags:
   - express
+  - test
 
 source:
   plugin: url
@@ -11,12 +12,9 @@ source:
     - modules/custom/migrate_express/data.xml
   item_selector: /root/vocabularies/department/item
   fields:
-#    - name: tid
-#      label: 'tid'
-#      selector: tid
-#    - name: vid
-#      label: 'vid'
-#      selector: vid
+    - name: tid
+      label: 'tid'
+      selector: tid
     - name: name
       label: 'Name'
       selector: name
@@ -30,8 +28,8 @@ source:
       label: 'Weight'
       selector: weight
   ids:
-    name:
-      type: string
+    tid:
+      type: integer
 process:
 #  tid: tid
 #  vid: vid

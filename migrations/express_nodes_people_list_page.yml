@@ -23,9 +23,57 @@ source:
     - name: title
       label: 'Title'
       selector: 'title'
-#    - name: body_value
-#      label: 'Body Value'
-#      selector: 'fields/item[field_name="body"]/data/item[column_name="body_value"]/value'
+
+    - name: body_value
+      label: 'Body Value'
+      selector: 'fields/body/data/item/body_value'
+
+    - name: body_summary
+      label: 'Body Summary'
+      selector: 'fields/body/data/item/body_summary'
+
+    - name: body_format
+      label: 'Body Format'
+      selector: 'fields/body/data/item/body_format'
+
+    - name: dept_filter_show
+      label: 'Group By'
+      selector: 'fields/field_people_dept_filter_show/data/item/field_people_dept_filter_show_value'
+
+    - name: filter1_show
+      label: 'Filter 1 Show'
+      selector: 'fields/field_people_filter1_show/data/item/field_people_filter1_show_value'
+
+    - name: filter2_show
+      label: 'Filter 2 Show'
+      selector: 'fields/field_people_filter2_show/data/item/field_people_filter2_show_value'
+
+    - name: filter3_show
+      label: 'Filter 3 Show'
+      selector: 'fields/field_people_filter3_show/data/item/field_people_filter3_show_value'
+
+
+    - name: group_by
+      label: 'Group By'
+      selector: 'fields/field_people_group_by/data/item/field_people_group_by_value'
+
+    - name: list_display
+      label: 'List Display'
+      selector: 'fields/field_people_list_display/data/item/field_people_list_display_value'
+
+    - name: order_by
+      label: 'Order By'
+      selector: 'fields/field_people_order_by/data/item/field_people_order_by_value'
+
+    - name: pos_filter_show
+      label: 'Position Filter Show'
+      selector: 'fields/field_people_pos_filter_show/data/item/field_people_pos_filter_show_value'
+
+    - name: childterms
+      label: 'Child Terms'
+      selector: 'fields/field_people_childterms/data/item/field_people_childterms_value'
+
+
   ids:
     nid:
       type: integer
@@ -37,7 +85,21 @@ process:
     plugin: default_value
     default_value: 'und'
   title: title
-#  'body/value': body_value
+
+  'body/value': body_value
+  'body/summary': body_summary
+  'body/format': body_format
+
+  field_ucb_people_department_s: dept_filter_show
+  field_ucb_people_filter_1_s: filter1_show
+  field_ucb_people_filter_2_s: filter2_show
+  field_ucb_people_filter_3_s: filter3_show
+  field_ucb_people_job_type_s: pos_filter_show
+
+  field_ucb_people_display: list_display
+
+  field_ucb_people_group_by: group_by
+  field_ucb_people_order_by: order_by
 
 destination:
   plugin: entity:node

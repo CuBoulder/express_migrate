@@ -73,21 +73,25 @@ source:
       label: 'Body Format'
       selector: 'fields/body/data/item/body_format'
 
-#    - name: links
-#      label: 'Links'
-#      selector: 'fields/item[field_name="field_person_website"]/data/item'
-
-#    - name: field_person_website_url
-#      label: 'Website URL'
-#      selector: 'fields/field_person_website/data/item/field_person_website_url'
-#
-#    - name: field_person_website_title
-#      label: 'Website Title'
-#      selector: 'fields/field_person_website/data/item/field_person_website_title'
-
     - name: field_person_website
       label: 'Website'
       selector: 'fields/field_person_website/data/item'
+
+    - name: department
+      label: 'Department'
+      selector: 'fields/field_person_department/data/item/field_person_department_tid'
+
+    - name: department_items
+      label: 'Department'
+      selector: 'fields/field_person_department/data/item'
+
+    - name: department_data
+      label: 'Department'
+      selector: 'fields/field_person_department/data'
+
+    - name: photo_fid
+      label: 'Photo'
+      selector: 'fields/field_person_photo/data/item/field_person_photo_fid'
 
 
   ids:
@@ -101,50 +105,137 @@ process:
     plugin: default_value
     default_value: 'und'
   title: title
-  field_ucb_person_address: address
-  #'field_ucb_person_address/format': address_format
+  'field_ucb_person_address/value': address
+  'field_ucb_person_address/format':
+    - plugin: default_value
+      default_value: "wysiwyg"
+      source: address_format
   field_ucb_person_email: email
   field_ucb_person_first_name: first_name
   field_ucb_person_last_name: last_name
-  field_ucb_person_office_hours: office_hours
-  #'field_ucb_person_office_hours/format': office_hours_format
+  'field_ucb_person_office_hours/value': office_hours
+  'field_ucb_person_office_hours/format':
+    - plugin: default_value
+      default_value: "wysiwyg"
+      source: office_hours_format
   field_ucb_person_phone: phone
   field_ucb_person_title: person_title
   'body/value': body_value
   'body/summary': body_summary
   'body/format': body_format
 
-#  'field_ucb_person_links/uri':
-#    plugin: sub_process
-#    source: field_person_website_url
-#    process:
+  field_ucb_person_links:
+    - plugin: callback
+      callable: migrate_object_to_array
+      source: field_person_website
+    - plugin: sub_process
+      process:
+        uri: 'field_person_website_url'
+        title: 'field_person_website_title'
+
+
+
+
+#  deptid:
+#    - plugin: migration_lookup
+#      migration: express_taxonomy_terms_department
+#      source: department
+##      - plugin: callback
+##        callable: var_dump
 #
-#  'field_ucb_person_links/title': field_person_website_title
-
-  dump_sourcevar:
-    plugin: callback
-    callable: var_dump
-    source: field_person_website
-
-
-#
-#  'field_ucb_person_links':
+#  dump:
 #    - plugin: callback
-#      callable: simplexml_load_string
-#      source: field_person_website
-#    - plugin: sub_process
-#      key: bar
-#      process:
-#        title: "field_person_website_url"
-#        uri: "field_person_website_title"
+#      callable: var_dump
+#      source: '@deptid'
+#
+#  field_ucb_person_department/target_id: '@deptid'
 
+
+#  deptdump:
+#    - plugin: callback
+#      callable: migrate_object_to_array
+#      source: department_items
+#    - plugin: callback
+#      callable: var_dump
+
+
+#  field_ucb_person_department/target_id:
+#    - plugin: migration_lookup
+#      migration: express_taxonomy_terms_department
+#      source: department
+##    - plugin: callback
+##      callable: var_dump
+
+#
+#  field_ucb_person_department:
+#    - plugin: callback
+#      callable: migrate_object_to_array
+#      source: department_items
+##    - plugin: callback
+##      callable: ensure_array
+##      source: department_items
+##    - plugin: callback
+##      callable: var_dump
+#    - plugin: log
+#      source: department_items
+#    - plugin: sub_process
+#      process:
+#        target_id:
+#          - plugin: callback
+#            callable: var_dump
+#          - plugin: migration_lookup
+#            migration: express_taxonomy_terms_department
+#            source: 'field_person_department_tid'
+
+#  deptdump:
+#    - plugin: callback
+#      callable: multifix
+#      source: department_data
+##    - plugin: callback
+##      callable: var_dump
+#
+#  dump:
+#    - plugin: callback
+#      callable: var_dump
+#      source: '@deptdump'
+
+
+#  fixarray:
+#    - plugin: callback
+#      callable: multifix
+#      source: department_data
+
+#  dump:
+#    - plugin: callback
+#      callable: var_dump
+#      source: '@fixarray'
+
+#  field_ucb_person_department:
+#    - plugin: sub_process
+#      source: '@deptdump'
+#      process:
+#        target_id:
+#          - plugin: callback
+#            callable: var_dump
+#          - plugin: migration_lookup
+#            migration: express_taxonomy_terms_department
+#            source: 'field_person_department_tid'
+
+
+  field_ucb_person_photo/target_id:
+    plugin: migration_lookup
+    migration: express_media_images
+    source: photo_fid
 
 destination:
   plugin: entity:node
 
 
 
-migration_dependencies: {}
+migration_dependencies:
+  required:
+    - express_taxonomy_terms_department
+    - express_media_images
 dependencies:
   enforced:
     module:

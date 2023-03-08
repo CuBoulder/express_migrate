@@ -25,7 +25,22 @@ source:
       selector: 'title'
     - name: body_value
       label: 'Body Value'
-      selector: 'fields/item[field_name="body"]/data/item[column_name="body_value"]/value'
+      selector: 'fields/body/data/item/body_value'
+
+    - name: body_summary
+      label: 'Body Summary'
+      selector: 'fields/body/data/item/body_summary'
+
+    - name: body_format
+      label: 'Body Format'
+      selector: 'fields/body/data/item/body_format'
+
+    - name: photo_fid
+      label: 'Address'
+      selector: 'fields/field_photo/data/item/field_photo_fid'
+
+
+
   ids:
     nid:
       type: integer
@@ -38,6 +53,13 @@ process:
     default_value: 'und'
   title: title
   'body/value': body_value
+  'body/summary': body_summary
+  'body/format': body_format
+
+  field_ucb_person_photo/target_id:
+    plugin: migration_lookup
+    migration: express_media_images
+    source: photo_fid
 
 destination:
   plugin: entity:node

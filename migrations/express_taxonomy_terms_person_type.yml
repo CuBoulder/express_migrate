@@ -29,6 +29,7 @@ source:
     - name: weight
       label: 'Weight'
       selector: weight
+
   ids:
     name:
       type: string
@@ -41,9 +42,12 @@ process:
   parent:
     plugin: default_value
     default_value: 0
+
+
+
 destination:
   plugin: entity:taxonomy_term
-  default_bundle: person_type
+  default_bundle: ucb_person_job_type
 
 
 

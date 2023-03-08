@@ -1,0 +1,60 @@
+<?php
+
+function migrate_object_to_array($arg1) {
+
+  return (array) $arg1;
+
+
+}
+
+function ensure_array($arg1) {
+  if (isset($arg1[0]))
+  {
+    return $arg1;
+  }
+  else
+  {
+    $x = [];
+    $x[0] = $arg1;
+    return $x;
+  }
+}
+
+function multifix($arg1) {
+
+
+  print('>>>');
+  $a = (array) $arg1;
+  $b = [];
+  $b[] = (array) $a['item'];
+
+  $c = [];
+  $c[] = $b;
+
+  print_r($c);
+
+  print('<<<');
+  return $c;
+
+
+
+  $data = (array) $arg1;
+  if (isset($data['item'][0]))
+  {
+    $x = [];
+    foreach ($data['item'] as $value)
+    {
+      $x[] = (array)$value;
+    }
+    #print_r($x, true);
+    $y = [];
+
+    return $x;
+  }
+  else
+  {
+
+  }
+
+
+}

@@ -23,9 +23,38 @@ source:
     - name: title
       label: 'Title'
       selector: 'title'
-#    - name: body_value
-#      label: 'Body Value'
-#      selector: 'fields/item[field_name="body"]/data/item[column_name="body_value"]/value'
+
+    - name: body_value
+      label: 'Body Value'
+      selector: 'fields/body/data/item/body_value'
+
+    - name: body_summary
+      label: 'Body Summary'
+      selector: 'fields/body/data/item/body_summary'
+
+    - name: body_format
+      label: 'Body Format'
+      selector: 'fields/body/data/item/body_format'
+
+    - name: date_display
+      label: 'Date Display'
+      selector: 'fields/field_article_date_display/data/item/field_article_date_display_value'
+
+    - name: external_url
+      label: 'External URL'
+      selector: 'fields/field_article_external_url/data/item/field_article_external_url_value'
+
+    - name: thumbnail_fid
+      label: 'Thumbnail'
+      selector: 'fields/field_article_thumbnail/data/item/field_article_thumbnail_fid'
+
+    - name: photo_fid
+      label: 'Photo'
+      selector: 'fields/field_article_photo/data/item/field_article_photo_fid'
+
+
+
+
   ids:
     nid:
       type: integer
@@ -37,7 +66,7 @@ process:
     plugin: default_value
     default_value: 'und'
   title: title
-#  'body/value': body_value
+
 
 destination:
   plugin: entity:node

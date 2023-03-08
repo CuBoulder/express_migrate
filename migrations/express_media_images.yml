@@ -1,7 +1,8 @@
-id: express_media
+id: express_media_images
 label: Express Media Images Migration
 migration_tags:
   - express
+  - test
 
 source:
   plugin: url
