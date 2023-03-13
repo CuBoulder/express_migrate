@@ -18,12 +18,27 @@ source:
     - name: vid
       label: 'vid'
       selector: 'vid'
+    - name: uid
+      label: 'uid'
+      selector: 'uid'
     - name: type
       label: 'Type'
       selector: 'type'
     - name: title
       label: 'Title'
       selector: 'title'
+
+    - name: status
+      label: 'Status'
+      selector: 'status'
+
+    - name: created
+      label: 'Created'
+      selector: 'created'
+
+    - name: changed
+      label: 'Changed'
+      selector: 'changed'
 
     - name: address
       label: 'Address'
@@ -89,6 +104,10 @@ source:
       label: 'Department'
       selector: 'fields/field_person_department/data'
 
+    - name: job_type
+      label: 'Job Type'
+      selector: 'fields/field_person_job_type/data/item/field_person_job_type_tid'
+
     - name: photo_fid
       label: 'Photo'
       selector: 'fields/field_person_photo/data/item/field_person_photo_fid'
@@ -104,6 +123,11 @@ process:
   langcode:
     plugin: default_value
     default_value: 'und'
+  status: status
+
+  created: created
+  changed: changed
+
   title: title
   'field_ucb_person_address/value': address
   'field_ucb_person_address/format':
@@ -134,7 +158,10 @@ process:
         title: 'field_person_website_title'
 
 
-
+  uid:
+    - plugin: migration_lookup
+      migration: express_users
+      source: uid
 
 #  deptid:
 #    - plugin: migration_lookup

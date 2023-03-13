@@ -2,6 +2,7 @@ id: express_nodes_article
 label: Express Nodes Article Migration
 migration_tags:
   - express
+  - article
 
 source:
   plugin: url
@@ -24,17 +25,18 @@ source:
       label: 'Title'
       selector: 'title'
 
-    - name: body_value
-      label: 'Body Value'
-      selector: 'fields/body/data/item/body_value'
+#    - name: body_value
+#      label: 'Body Value'
+#      selector: 'fields/body/data/item/body_value'
 
     - name: body_summary
       label: 'Body Summary'
       selector: 'fields/body/data/item/body_summary'
 
-    - name: body_format
-      label: 'Body Format'
-      selector: 'fields/body/data/item/body_format'
+
+#    - name: body_format
+#      label: 'Body Format'
+#      selector: 'fields/body/data/item/body_format'
 
     - name: date_display
       label: 'Date Display'
@@ -48,9 +50,7 @@ source:
       label: 'Thumbnail'
       selector: 'fields/field_article_thumbnail/data/item/field_article_thumbnail_fid'
 
-    - name: photo_fid
-      label: 'Photo'
-      selector: 'fields/field_article_photo/data/item/field_article_photo_fid'
+
 
 
 
@@ -66,14 +66,36 @@ process:
     plugin: default_value
     default_value: 'und'
   title: title
+  field_ucb_article_summary: body_summary
+
+  pseudo_field_ucb_article_content:
+    plugin: migration_lookup
+    migration: express_nodes_article_paragraph
+    source: nid
+
+  field_ucb_article_content:
+    plugin: sub_process
+    source:
+      - '@pseudo_field_ucb_article_content'
+    process:
+      target_id: '0'
+      target_revision_id: '1'
+
+  field_ucb_article_thumbnail/target_id:
+    plugin: migration_lookup
+    migration: express_media_images
+    source: thumbnail_fid
+
 
 
 destination:
   plugin: entity:node
 
+migration_dependencies:
+  required:
+    - express_nodes_article_paragraph
+    - express_media_images
 
-
-migration_dependencies: {}
 dependencies:
   enforced:
     module:

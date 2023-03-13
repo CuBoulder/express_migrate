@@ -1,0 +1,74 @@
+id: express_nodes_article_paragraph
+label: Express Nodes Article Paragraph Migration
+migration_tags:
+  - express
+  - article
+
+source:
+  plugin: url
+  data_fetcher_plugin: file
+  data_parser_plugin: simple_xml
+  urls:
+    - modules/custom/migrate_express/data.xml
+  item_selector: /root/nodes/item/article/item
+  fields:
+    - name: nid
+      label: 'nid'
+      selector: 'nid'
+
+    - name: title
+      label: 'Title'
+      selector: 'title'
+
+    - name: body_value
+      label: 'Body Value'
+      selector: 'fields/body/data/item/body_value'
+
+#    - name: body_summary
+#      label: 'Body Summary'
+#      selector: 'fields/body/data/item/body_summary'
+
+    - name: body_format
+      label: 'Body Format'
+      selector: 'fields/body/data/item/body_format'
+
+
+  ids:
+    nid:
+      type: integer
+process:
+  'field_article_text/value': body_value
+  'field_article_text/format': body_format
+
+
+
+  pseudo_field_article_media_selection:
+    plugin: migration_lookup
+    migration: express_nodes_article_paragraph_media
+    source: nid
+
+  field_article_media_selection:
+    plugin: sub_process
+    source:
+      - '@pseudo_field_article_media_selection'
+    process:
+      target_id: '0'
+      target_revision_id: '1'
+
+
+
+
+destination:
+  plugin: 'entity_reference_revisions:paragraph'
+  default_bundle: 'article_content'
+
+
+migration_dependencies:
+  required:
+    - express_media_images
+    - express_nodes_article_paragraph_media
+
+dependencies:
+  enforced:
+    module:
+      - migrate_express

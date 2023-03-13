@@ -1,0 +1,46 @@
+id: express_nodes_article_paragraph_media
+label: Express Nodes Article Paragraph Media Migration
+migration_tags:
+  - express
+  - article
+  - test2
+
+source:
+  plugin: url
+  data_fetcher_plugin: file
+  data_parser_plugin: simple_xml
+  urls:
+    - modules/custom/migrate_express/data.xml
+  item_selector: /root/nodes/item/article/item
+  fields:
+    - name: nid
+      label: 'nid'
+      selector: 'nid'
+
+    - name: image_fid
+      label: 'Photo'
+      selector: 'fields/field_image/data/item/field_image_fid'
+
+  ids:
+    nid:
+      type: integer
+process:
+  'field_media':
+    plugin: migration_lookup
+    migration: express_media_images
+    source: image_fid
+
+
+destination:
+  plugin: 'entity_reference_revisions:paragraph'
+  default_bundle: 'media'
+
+
+migration_dependencies:
+  required:
+    - express_media_images
+
+dependencies:
+  enforced:
+    module:
+      - migrate_express

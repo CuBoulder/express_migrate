@@ -3,6 +3,7 @@ label: Express Media Images Migration
 migration_tags:
   - express
   - test
+  - article
 
 source:
   plugin: url
