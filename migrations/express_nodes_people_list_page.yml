@@ -17,12 +17,28 @@ source:
     - name: vid
       label: 'vid'
       selector: 'vid'
+    - name: uid
+      label: 'uid'
+      selector: 'uid'
     - name: type
       label: 'Type'
       selector: 'type'
     - name: title
       label: 'Title'
       selector: 'title'
+
+    - name: status
+      label: 'Status'
+      selector: 'status'
+
+    - name: created
+      label: 'Created'
+      selector: 'created'
+
+    - name: changed
+      label: 'Changed'
+      selector: 'changed'
+
 
     - name: body_value
       label: 'Body Value'
@@ -85,6 +101,16 @@ process:
     plugin: default_value
     default_value: 'und'
   title: title
+
+  status: status
+  created: created
+  changed: changed
+  uid:
+    - plugin: migration_lookup
+      migration: express_users
+      source: uid
+
+
 
   'body/value': body_value
   'body/summary': body_summary

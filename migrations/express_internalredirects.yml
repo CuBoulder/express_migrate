@@ -1,0 +1,42 @@
+id: express_internalredirects
+label: Express Internal Redirects Migration
+migration_tags:
+  - express
+
+source:
+  plugin: url
+  data_fetcher_plugin: file
+  data_parser_plugin: simple_xml
+  urls:
+    - modules/custom/migrate_express/data.xml
+  item_selector: /root/internalredirects/item
+  fields:
+    - name: rid
+      label: 'rid'
+      selector: 'rid'
+    - name: source
+      label: 'source'
+      selector: 'source'
+    - name: redirect
+      label: 'redirect'
+      selector: 'redirect'
+
+  ids:
+    rid:
+      type: integer
+process:
+  redirect_source/path: source
+  redirect_redirect/uri: redirect
+  status_code:
+    plugin: default_value
+    default_value: 301
+
+
+destination:
+  plugin: entity:redirect
+
+migration_dependencies: {}
+dependencies:
+  enforced:
+    module:
+      - migrate_express
