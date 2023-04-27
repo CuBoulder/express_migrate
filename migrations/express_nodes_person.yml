@@ -28,6 +28,10 @@ source:
       label: 'Title'
       selector: 'title'
 
+    - name: path
+      label: 'Path'
+      selector: 'path'
+
     - name: status
       label: 'Status'
       selector: 'status'
@@ -125,10 +129,16 @@ process:
     default_value: 'und'
   status: status
 
+  title: title
+
+  path/alias: path
+  path/pathauto:
+    plugin: default_value
+    default_value: 0
+
   created: created
   changed: changed
 
-  title: title
   'field_ucb_person_address/value': address
   'field_ucb_person_address/format':
     - plugin: default_value

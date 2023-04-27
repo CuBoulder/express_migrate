@@ -1,0 +1,46 @@
+id: express_urlaliases
+label: Express URL Alias Migration
+migration_tags:
+  - express
+
+source:
+  plugin: url
+  data_fetcher_plugin: file
+  data_parser_plugin: simple_xml
+  urls:
+    - modules/custom/migrate_express/data.xml
+  item_selector: /root/urlaliases/item
+  fields:
+    - name: pid
+      label: 'pid'
+      selector: 'pid'
+    - name: source
+      label: 'source'
+      selector: 'source'
+    - name: alias
+      label: 'alias'
+      selector: 'alias'
+
+  ids:
+    pid:
+      type: integer
+process:
+  source: source
+  alias: alias
+
+
+destination:
+  plugin: entity:path_alias
+
+migration_dependencies:
+  required:
+    - express_nodes_article
+    - express_nodes_article_list_page
+    - express_nodes_page
+    - express_nodes_people_list_page
+    - express_nodes_person
+
+dependencies:
+  enforced:
+    module:
+      - migrate_express

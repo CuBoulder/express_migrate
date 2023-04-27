@@ -35,6 +35,22 @@ source:
       label: 'options'
       selector: 'options'
 
+    - name: expanded
+      label: 'expanded'
+      selector: 'expanded'
+
+    - name: changed
+      label: 'changed'
+      selector: 'changed'
+
+    - name: weight
+      label: 'weight'
+      selector: 'weight'
+
+    - name: enabled
+      label: 'enabled'
+      selector: 'enabled'
+
   ids:
     mlid:
       type: integer
@@ -64,16 +80,16 @@ process:
 #  url: '@route/url'
 #  options: '@route/options'
 #  external: external
-#  weight: weight
-#  expanded: expanded
-#  enabled: enabled
-#  parent:
-#    plugin: menu_link_parent
-#    source:
-#      - plid
-#      - '@menu_name'
-#      - parent_link_path
-#  changed: updated
+  weight: weight
+  expanded: expanded
+  enabled: enabled
+  parent:
+    plugin: menu_link_parent
+    source:
+      - plid
+      - '@menu_name'
+      - parent_link_path
+  changed: updated
 
 
 destination:

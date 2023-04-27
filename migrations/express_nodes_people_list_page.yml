@@ -27,6 +27,10 @@ source:
       label: 'Title'
       selector: 'title'
 
+    - name: path
+      label: 'Path'
+      selector: 'path'
+
     - name: status
       label: 'Status'
       selector: 'status'
@@ -101,6 +105,11 @@ process:
     plugin: default_value
     default_value: 'und'
   title: title
+
+  path/alias: path
+  path/pathauto:
+    plugin: default_value
+    default_value: 0
 
   status: status
   created: created
