@@ -1,0 +1,127 @@
+id: express_bean_feature_callout_field_callouts
+label: Express Beans Feature Callout Field Callouts Migration
+migration_tags:
+  - express
+
+source:
+  plugin: url
+  data_fetcher_plugin: file
+  data_parser_plugin: simple_xml
+  urls:
+    - modules/custom/migrate_express/data.xml
+  item_selector: /root/beans/feature_callout/item/fields/field_callouts/data/item/grid_layout_content
+  fields:
+
+#
+#    - name: title
+#      label: 'Title'
+#      selector: 'title'
+#
+#    - name: body_value
+#      label: 'Body Value'
+#      selector: 'fields/body/data/item/body_value'
+
+    #    - name: body_summary
+    #      label: 'Body Summary'
+    #      selector: 'fields/body/data/item/body_summary'
+
+#    - name: body_format
+#      label: 'Body Format'
+#      selector: 'fields/body/data/item/body_format'
+
+    - name: id
+      label: 'id'
+      selector: 'id'
+
+    - name: field_callout_image_fid
+      label: 'field_callout_image_fid'
+      selector: 'field_callout_image/field_callout_image_fid'
+
+    - name: field_callout_image_alt
+      label: 'field_callout_image_alt'
+      selector: 'field_callout_image/field_callout_image_alt'
+
+    - name: field_callout_image_title
+      label: 'field_callout_image_title'
+      selector: 'field_callout_image/field_callout_image_title'
+
+    - name: field_callout_image_width
+      label: 'field_callout_image_width'
+      selector: 'field_callout_image/field_callout_image_width'
+
+    - name: field_callout_image_height
+      label: 'field_callout_image_height'
+      selector: 'field_callout_image/field_callout_image_height'
+
+    - name: field_callout_text_value
+      label: 'field_callout_text_value'
+      selector: 'field_callout_text/field_callout_text_value'
+
+    - name: field_callout_text_format
+      label: 'field_callout_text_format'
+      selector: 'field_callout_text/field_callout_text_format'
+
+    - name: field_callout_title_title
+      label: 'field_callout_title_title'
+      selector: 'field_callout_title/field_callout_title_title'
+
+    - name: field_callout_title_url
+      label: 'field_callout_title_url'
+      selector: 'field_callout_title/field_callout_title_url'
+
+
+
+
+
+  ids:
+    id:
+      type: string
+process:
+
+
+  field_grid_layout_content_image/target_id:
+    plugin: migration_lookup
+    migration: express_media_images
+    source: field_callout_image_fid
+
+  'field_grid_layout_content_text/value': field_callout_text_value
+  'field_grid_layout_content_text/format': field_callout_text_format
+
+  'field_grid_layout_content_title': field_callout_title_title
+  'field_grid_layout_content_link': field_callout_title_url
+
+#  'field_article_text/value': body_value
+#  'field_article_text/format': body_format
+#
+#
+#
+#  pseudo_field_article_media_selection:
+#    plugin: migration_lookup
+#    migration: express_nodes_article_paragraph_media
+#    source: nid
+#
+#  field_article_media_selection:
+#    plugin: sub_process
+#    source:
+#      - '@pseudo_field_article_media_selection'
+#    process:
+#      target_id: '0'
+#      target_revision_id: '1'
+
+
+
+
+destination:
+  plugin: 'entity_reference_revisions:paragraph'
+  default_bundle: 'grid_layout_content'
+
+
+migration_dependencies:
+  required:
+    - express_media_images
+
+
+dependencies:
+  enforced:
+    module:
+      - migrate_express
