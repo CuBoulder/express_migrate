@@ -20,6 +20,11 @@ function ensure_array($arg1) {
   }
 }
 
+function unwrap_array($arg1)
+{
+  return $arg1[0];
+}
+
 function multifix($arg1) {
 
 

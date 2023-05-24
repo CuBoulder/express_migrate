@@ -1,5 +1,5 @@
-id: express_bean_feature_callout_field_callouts
-label: Express Beans Feature Callout Field Callouts Migration
+id: express_beans_feature_callout
+label: Express Beans Feature Callout Migration
 migration_tags:
   - express
 
@@ -9,92 +9,117 @@ source:
   data_parser_plugin: simple_xml
   urls:
     - modules/custom/migrate_express/data.xml
-  item_selector: /root/beans/feature_callout/item/fields/field_callouts/data/item/grid_layout_content
+  item_selector: /root/beans/feature_callout/item
   fields:
 
-    #
-    #    - name: title
-    #      label: 'Title'
-    #      selector: 'title'
-    #
-    #    - name: body_value
-    #      label: 'Body Value'
-    #      selector: 'fields/body/data/item/body_value'
 
-    #    - name: body_summary
-    #      label: 'Body Summary'
-    #      selector: 'fields/body/data/item/body_summary'
+    - name: bid
+      label: 'bid'
+      selector: 'bid'
 
-    #    - name: body_format
-    #      label: 'Body Format'
-    #      selector: 'fields/body/data/item/body_format'
+    - name: field_callout_columns
+      label: 'field_callout_columns'
+      selector: 'fields/field_callout_columns/data/item/field_callout_columns_value'
 
-    - name: id
-      label: 'id'
-      selector: 'id'
+    - name: field_callout_image_size
+      label: 'field_callout_image_size'
+      selector: 'fields/field_callout_image_size/data/item/field_callout_image_size_value'
 
-    - name: field_callout_image_fid
-      label: 'field_callout_image_fid'
-      selector: 'field_callout_image/field_callout_image_fid'
+    - name: field_callout_style
+      label: 'field_callout_style'
+      selector: 'fields/field_callout_style/data/item/field_callout_style_value'
 
-    - name: field_callout_image_alt
-      label: 'field_callout_image_alt'
-      selector: 'field_callout_image/field_callout_image_alt'
-
-    - name: field_callout_image_title
-      label: 'field_callout_image_title'
-      selector: 'field_callout_image/field_callout_image_title'
-
-    - name: field_callout_image_width
-      label: 'field_callout_image_width'
-      selector: 'field_callout_image/field_callout_image_width'
-
-    - name: field_callout_image_height
-      label: 'field_callout_image_height'
-      selector: 'field_callout_image/field_callout_image_height'
-
-    - name: field_callout_text_value
-      label: 'field_callout_text_value'
-      selector: 'field_callout_text/field_callout_text_value'
-
-    - name: field_callout_text_format
-      label: 'field_callout_text_format'
-      selector: 'field_callout_text/field_callout_text_format'
-
-    - name: field_callout_title_title
-      label: 'field_callout_title_title'
-      selector: 'field_callout_title/field_callout_title_title'
-
-    - name: field_callout_title_url
-      label: 'field_callout_title_url'
-      selector: 'field_callout_title/field_callout_title_url'
-
-
-
-
+    - name: field_callouts
+      label: 'field_callouts'
+      selector: 'fields/field_callouts/data/item/grid_layout_content/id'
 
   ids:
-    id:
-      type: string
+    bid:
+      type: integer
 process:
 
-
-  'field_grid_column_count': ''
-  'field_grid_image_style': ''
-  'field_grid_layout_content': ''
-  'field_grid_layout_section': ''
+  id: bid
 
 
+  'field_grid_column_count': field_callout_columns
+  'field_grid_image_style': field_callout_image_size
+  'field_grid_layout_selection': field_callout_style
+
+  dump:
+    - plugin: callback
+      callable: var_dump
+      source: 'field_callouts'
+
+  pseudo_field_grid_layout_content:
+    plugin: migration_lookup
+    migration: express_beans_feature_callout_field_callouts_grid_layout_content
+    source: field_callouts
+
+
+  dump2:
+    - plugin: callback
+      callable: var_dump
+      source: '@pseudo_field_grid_layout_content'
+
+  pseudo_field_glc_unwrapped:
+    plugin: callback
+    callable: unwrap_array
+    source: '@pseudo_field_grid_layout_content'
+
+  dump3:
+    - plugin: callback
+      callable: var_dump
+      source: '@pseudo_field_glc_unwrapped'
+
+
+#  field_grid_layout_content:
+#    plugin: sub_process
+#    source:
+#      - 'field_callouts'
+#    process:
+#      target_id:
+#        plugin: migration_lookup
+#        migration: express_beans_feature_callout_field_callouts_grid_layout_content
+#      target_revision_id:
+#        plugin: migration_lookup
+#        migration: express_beans_feature_callout_field_callouts_grid_layout_content
+
+
+  field_grid_layout_content:
+    plugin: sub_process
+    source:
+      - '@pseudo_field_glc_unwrapped'
+    process:
+      target_id: '0'
+      target_revision_id: '1'
+
+#  field_grid_layout_content:
+#    plugin: migration_lookup
+#    migration: express_beans_feature_callout_grid_layout_content
+#    source: field_callouts
+
+#  pseudo_field_ucb_article_content:
+#    plugin: migration_lookup
+#    migration: express_nodes_article_paragraph
+#    source: nid
+#
+#  field_ucb_article_content:
+#    plugin: sub_process
+#    source:
+#      - '@pseudo_field_ucb_article_content'
+#    process:
+#      target_id: '0'
+#      target_revision_id: '1'
 
 
 destination:
-  plugin: 'entity:block'
+  plugin: 'entity:block_content'
   default_bundle: 'content_grid'
 
 
 migration_dependencies:
   required:
-    - express_media_images
+    - express_beans_feature_callout_field_callouts_grid_layout_content
 
 
 dependencies:
