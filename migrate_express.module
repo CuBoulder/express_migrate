@@ -20,9 +20,32 @@ function ensure_array($arg1) {
   }
 }
 
+
+function array_depth($array) {
+  $max_indentation = 1;
+
+  $array_str = print_r($array, true);
+  $lines = explode("\n", $array_str);
+
+  foreach ($lines as $line) {
+    $indentation = (strlen($line) - strlen(ltrim($line))) / 4;
+
+    if ($indentation > $max_indentation) {
+      $max_indentation = $indentation;
+    }
+  }
+
+  return ceil(($max_indentation - 1) / 2) + 1;
+}
+
 function unwrap_array($arg1)
 {
-  return $arg1[0];
+  $ret = $arg1;
+  file_put_contents('/tmp/drupaldebug.txt', "---array start---\n", FILE_APPEND | LOCK_EX);
+  file_put_contents('/tmp/drupaldebug.txt', print_r($ret, true) . "\n", FILE_APPEND | LOCK_EX);
+  file_put_contents('/tmp/drupaldebug.txt', "---array end---\n", FILE_APPEND | LOCK_EX);
+
+  return $ret;
 }
 
 function multifix($arg1) {

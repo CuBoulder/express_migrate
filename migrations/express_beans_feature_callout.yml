@@ -33,6 +33,10 @@ source:
       label: 'field_callouts'
       selector: 'fields/field_callouts/data/item/grid_layout_content/id'
 
+    - name: delta
+      label: 'delta'
+      selector: 'fields/field_callouts/data/item/delta'
+
   ids:
     bid:
       type: integer
@@ -51,25 +55,36 @@ process:
       source: 'field_callouts'
 
   pseudo_field_grid_layout_content:
-    plugin: migration_lookup
-    migration: express_beans_feature_callout_field_callouts_grid_layout_content
-    source: field_callouts
+    - plugin: migration_lookup
+      migration: express_beans_feature_callout_field_callouts_grid_layout_content
+      source: field_callouts
+    - plugin: key_wrapper
+
+#  pseudo_test:
+#    - plugin: multiple_values
+#      source: field_callouts
+#
+#
+#  dumptest:
+#    - plugin: callback
+#      callable: var_dump
+#      source: '@pseudo_test'
 
 
-  dump2:
-    - plugin: callback
-      callable: var_dump
-      source: '@pseudo_field_grid_layout_content'
+#  dump2:
+#    - plugin: callback
+#      callable: var_dump
+#      source: '@pseudo_field_grid_layout_content'
 
-  pseudo_field_glc_unwrapped:
-    plugin: callback
-    callable: unwrap_array
-    source: '@pseudo_field_grid_layout_content'
+#  pseudo_field_glc_unwrapped:
+#    plugin: callback
+#    callable: unwrap_array
+#    source: '@pseudo_field_grid_layout_content'
 
-  dump3:
-    - plugin: callback
-      callable: var_dump
-      source: '@pseudo_field_glc_unwrapped'
+#  dump3:
+#    - plugin: callback
+#      callable: var_dump
+#      source: '@pseudo_field_glc_unwrapped'
 
 
 #  field_grid_layout_content:
@@ -80,36 +95,28 @@ process:
 #      target_id:
 #        plugin: migration_lookup
 #        migration: express_beans_feature_callout_field_callouts_grid_layout_content
+#        source: '0'
 #      target_revision_id:
 #        plugin: migration_lookup
 #        migration: express_beans_feature_callout_field_callouts_grid_layout_content
-
+#        source: '1'
 
   field_grid_layout_content:
     plugin: sub_process
     source:
-      - '@pseudo_field_glc_unwrapped'
+      - '@pseudo_field_grid_layout_content'
     process:
-      target_id: '0'
-      target_revision_id: '1'
+      target_id: 'key_wrapper/0'
+      target_revision_id: 'key_wrapper/1'
 
-#  field_grid_layout_content:
-#    plugin: migration_lookup
-#    migration: express_beans_feature_callout_grid_layout_content
-#    source: field_callouts
 
-#  pseudo_field_ucb_article_content:
-#    plugin: migration_lookup
-#    migration: express_nodes_article_paragraph
-#    source: nid
-#
-#  field_ucb_article_content:
-#    plugin: sub_process
-#    source:
-#      - '@pseudo_field_ucb_article_content'
-#    process:
-#      target_id: '0'
-#      target_revision_id: '1'
+  dumpfinal:
+    - plugin: callback
+      callable: var_dump
+      source: '@field_grid_layout_content'
+
+
+
 
 
 destination:
