@@ -87,11 +87,12 @@ process:
   'field_grid_layout_content_text/value': field_callout_text_value
   'field_grid_layout_content_text/format': field_callout_text_format
 
-#  'field_grid_layout_content_title': field_callout_title_title
-#  'field_grid_layout_content_link': field_callout_title_url
+  'field_grid_layout_content_title': field_callout_title_title
+  'field_grid_layout_content_link': field_callout_title_url
+#  'field_grid_layout_content_link':
+#    plugin: default_value
+#    default_value: 'https://www.colorado.edu'
 
-#  'field_article_text/value': body_value
-#  'field_article_text/format': body_format
 #
 #
 #

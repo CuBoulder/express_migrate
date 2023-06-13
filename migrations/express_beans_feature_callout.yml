@@ -46,8 +46,24 @@ process:
 
 
   'field_grid_column_count': field_callout_columns
-  'field_grid_image_style': field_callout_image_size
-  'field_grid_layout_selection': field_callout_style
+
+  'field_grid_image_style':
+    plugin: static_map
+    source: field_callout_image_size
+    map:
+      large_square_thumbnail: 0
+      large_wide_thumbnail: 1
+    default_value: 0
+
+  'field_grid_layout_selection':
+    plugin: static_map
+    source: field_callout_style
+    map:
+      columns: 0
+      cards: 1
+      teaser: 2
+      tiles_alt: 3
+    default_value: 0
 
   dump:
     - plugin: callback
@@ -102,7 +118,7 @@ process:
 #        source: '1'
 
   field_grid_layout_content:
-    plugin: sub_process
+    plugin: sub_process_managed
     source:
       - '@pseudo_field_grid_layout_content'
     process:
