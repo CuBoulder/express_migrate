@@ -191,16 +191,62 @@ class SubProcessManaged extends ProcessPluginBase {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
   }
 
+
+  function array_depth($array) {
+    $max_indentation = 1;
+
+    $array_str = print_r($array, true);
+    $lines = explode("\n", $array_str);
+
+    foreach ($lines as $line) {
+      $indentation = (strlen($line) - strlen(ltrim($line))) / 4;
+
+      if ($indentation > $max_indentation) {
+        $max_indentation = $indentation;
+      }
+    }
+
+    return ceil(($max_indentation - 1) / 2) + 1;
+  }
+
+
   /**
    * {@inheritdoc}
    */
   public function transform($value, MigrateExecutableInterface $migrate_executable, Row $row, $destination_property) {
 
-    $value = $value[0];
-
     file_put_contents('/tmp/drupaldebug.txt', "---subprocessmanaged start---\n" , FILE_APPEND | LOCK_EX);
+
+    file_put_contents('/tmp/drupaldebug.txt', array_depth($value), FILE_APPEND | LOCK_EX);
+    file_put_contents('/tmp/drupaldebug.txt', print_r($value, true), FILE_APPEND | LOCK_EX);
+
+
+    if(gettype($value) === 'string')
+    {
+      file_put_contents('/tmp/drupaldebug.txt', "Case A", FILE_APPEND | LOCK_EX);
+      $value = array(array($value));
+    }
+    elseif (array_depth($value) == 1)
+    {
+      file_put_contents('/tmp/drupaldebug.txt', "Case B", FILE_APPEND | LOCK_EX);
+      $newvalue = array();
+      foreach ($value as $x)
+      {
+        $newvalue[] = array($x);
+      }
+      $value = $newvalue;
+    }
+    elseif (array_depth($value) == 3)
+    {
+      file_put_contents('/tmp/drupaldebug.txt', "Case C", FILE_APPEND | LOCK_EX);
+      $value = $value[0];
+    }
+
+
     file_put_contents('/tmp/drupaldebug.txt', print_r($value, true), FILE_APPEND | LOCK_EX);
     file_put_contents('/tmp/drupaldebug.txt', "---subprocessmanaged end---\n" , FILE_APPEND | LOCK_EX);
+
+
 
 
     $return = $source = [];

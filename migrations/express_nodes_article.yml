@@ -107,7 +107,7 @@ process:
     source: nid
 
   field_ucb_article_content:
-    plugin: sub_process
+    plugin: sub_process_managed
     source:
       - '@pseudo_field_ucb_article_content'
     process:

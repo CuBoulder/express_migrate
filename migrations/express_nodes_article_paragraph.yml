@@ -48,7 +48,7 @@ process:
     source: nid
 
   field_article_media_selection:
-    plugin: sub_process
+    plugin: sub_process_managed
     source:
       - '@pseudo_field_article_media_selection'
     process:

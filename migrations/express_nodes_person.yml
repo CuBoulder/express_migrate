@@ -162,7 +162,7 @@ process:
     - plugin: callback
       callable: migrate_object_to_array
       source: field_person_website
-    - plugin: sub_process
+    - plugin: sub_process_managed
       process:
         uri: 'field_person_website_url'
         title: 'field_person_website_title'
@@ -247,16 +247,14 @@ process:
 #      callable: var_dump
 #      source: '@fixarray'
 
-#  field_ucb_person_department:
-#    - plugin: sub_process
-#      source: '@deptdump'
-#      process:
-#        target_id:
-#          - plugin: callback
-#            callable: var_dump
-#          - plugin: migration_lookup
-#            migration: express_taxonomy_terms_department
-#            source: 'field_person_department_tid'
+  field_ucb_person_department:
+    - plugin: sub_process_managed
+      source: department
+      process:
+        target_id:
+          - plugin: migration_lookup
+            migration: express_taxonomy_terms_department
+            source: '0'
 
 
   field_ucb_person_photo/target_id:
