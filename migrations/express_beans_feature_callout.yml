@@ -17,6 +17,10 @@ source:
       label: 'bid'
       selector: 'bid'
 
+    - name: title
+      label: title
+      selector: 'title'
+
     - name: field_callout_columns
       label: 'field_callout_columns'
       selector: 'fields/field_callout_columns/data/item/field_callout_columns_value'
@@ -43,6 +47,8 @@ source:
 process:
 
   id: bid
+
+  label: title
 
 
   'field_grid_column_count': field_callout_columns

@@ -1,0 +1,62 @@
+id: express_beans_block
+label: Express Beans Block Migration
+migration_tags:
+  - express
+
+source:
+  plugin: url
+  data_fetcher_plugin: file
+  data_parser_plugin: simple_xml
+  urls:
+    - modules/custom/migrate_express/data.xml
+  item_selector: /root/beans/block/item
+  fields:
+
+
+    - name: bid
+      label: 'bid'
+      selector: 'bid'
+
+    - name: title
+      label: title
+      selector: 'title'
+
+    - name: field_block_photo_fid
+      label: 'field_block_photo_fid'
+      selector: 'fields/field_block_photo/data/item/field_block_photo_fid'
+
+    - name: field_block_text_value
+      label: 'field_block_text_value'
+      selector: 'fields/field_block_text/data/item/field_block_text_value'
+
+    - name: field_block_text_format
+      label: 'field_block_text_format'
+      selector: 'fields/field_block_text/data/item/field_block_text_format'
+
+  ids:
+    bid:
+      type: integer
+process:
+
+  id: bid
+
+  label: title
+
+  'field_text_block_body/value': field_block_text_value
+  'field_text_block_body/format': field_block_text_format
+
+
+destination:
+  plugin: 'entity:block_content'
+  default_bundle: 'text_block'
+
+
+migration_dependencies:
+  required:
+    { }
+
+
+dependencies:
+  enforced:
+    module:
+      - migrate_express

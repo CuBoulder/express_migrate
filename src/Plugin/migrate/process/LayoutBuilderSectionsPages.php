@@ -24,7 +24,7 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
   public function transform($value, MigrateExecutableInterface $migrate_executable, Row $row, $destination_property) {
 
     file_put_contents('/tmp/drupaldebug.txt', "---LayoutBuilderSectionsPages---\n" , FILE_APPEND | LOCK_EX);
-    #file_put_contents('/tmp/drupaldebug.txt', print_r($value, true) , FILE_APPEND | LOCK_EX);
+    file_put_contents('/tmp/drupaldebug.txt', "value:" . print_r($value, true) . "\n" , FILE_APPEND | LOCK_EX);
 
 
     // Setup some variables we'll need:
@@ -47,7 +47,7 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
 
         $component_id = (integer)$bid->item;
 
-        if($component_id != 50)
+        if($component_id != 50 or $component_id != 290 or $component_id != 260 or $component_id != 188 or $component_id != 326)
         {
           continue;
         }
