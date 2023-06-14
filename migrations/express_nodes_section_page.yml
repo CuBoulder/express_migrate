@@ -61,6 +61,7 @@ destination:
 migration_dependencies:
   required:
     - express_beans_feature_callout
+    - express_beans_content_row
     - express_beans_block
 
 

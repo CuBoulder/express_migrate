@@ -30,34 +30,50 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
     // Setup some variables we'll need:
     // - components holds all the components to be written into our section
     // - generator connects to the uuid generator service
-    $components = [];
     $generator = \Drupal::service('uuid');
     $lookup = \Drupal::service('migrate.lookup');
+    $sections = array();
 
 
     foreach ($value as $section) {
+      $components = [];
 
-      foreach($section->beans as $bid)
-      file_put_contents('/tmp/drupaldebug.txt', print_r($bid, true) , FILE_APPEND | LOCK_EX);
+      file_put_contents('/tmp/drupaldebug.txt', "section:" . print_r($section, true) . "\n" , FILE_APPEND | LOCK_EX);
 
-      foreach ($section->beans as $bid) {
+      //foreach($section->beans as $bid)
+      //file_put_contents('/tmp/drupaldebug.txt', print_r($bid, true) , FILE_APPEND | LOCK_EX);
+
+      foreach ($section->beans->item as $bid) {
+
+
+        $component_id = (integer)$bid;
+
+        file_put_contents('/tmp/drupaldebug.txt', "bid:" . $component_id . "\n" , FILE_APPEND | LOCK_EX);
+
+        $allowedComponents = array();
+        $allowedComponents[] = 50;
+        $allowedComponents[] = 290;
+        $allowedComponents[] = 260;
+        $allowedComponents[] = 188;
+        $allowedComponents[] = 326;
 
 
 
-
-        $component_id = (integer)$bid->item;
-
-        if($component_id != 50 or $component_id != 290 or $component_id != 260 or $component_id != 188 or $component_id != 326)
+        if(!in_array($component_id, $allowedComponents))
         {
           continue;
         }
 
+        file_put_contents('/tmp/drupaldebug.txt', "reached" . "\n" , FILE_APPEND | LOCK_EX);
+
         $component_id_array = [$component_id];
-        file_put_contents('/tmp/drupaldebug.txt', print_r($component_id_array, true), FILE_APPEND | LOCK_EX);
+        #file_put_contents('/tmp/drupaldebug.txt', print_r($component_id_array, true), FILE_APPEND | LOCK_EX);
 
-        $destid = $lookup->lookup('express_beans_feature_callout', $component_id_array);
+        $destid = $lookup->lookup(['express_beans_feature_callout', 'express_beans_block', 'express_beans_content_row'], $component_id_array);
 
-        file_put_contents('/tmp/drupaldebug.txt', print_r($destid, true), FILE_APPEND | LOCK_EX);
+        file_put_contents('/tmp/drupaldebug.txt', "destid:" . print_r($destid, true) . "\n" , FILE_APPEND | LOCK_EX);
+
+        #file_put_contents('/tmp/drupaldebug.txt', print_r($destid, true), FILE_APPEND | LOCK_EX);
 
         $real_destid = 0;
 
@@ -70,6 +86,11 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
 
 
         $block_content = BlockContent::load($real_destid);
+
+
+        file_put_contents('/tmp/drupaldebug.txt', "bid:" . print_r($block_content->bundle(), true) . "\n" , FILE_APPEND | LOCK_EX);
+
+
         if (is_null($block_content)) {
           \Drupal::messenger()->addMessage("Could not load " . $real_destid . ' ???', 'status', TRUE);
           continue;
@@ -80,7 +101,7 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
         }
 
         $config = [
-          'id' => 'inline_block:content_grid',
+          'id' => 'inline_block:'. $block_content->bundle(),
           'label' => $block_content->label(),
           'provider' => 'layout_builder',
           'label_display' => FALSE,
@@ -96,15 +117,15 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
 
       }
 
-
+      // If you were doing multiple sections, you'd want this to be an array
+      // somehow. @TODO figure out how to do that ;)
+      // PARAMS: $layout_id, $layout_settings, $components
+      $sections[] = new Section('layout_onecol', [], $components);
 
 
     }
 
-    // If you were doing multiple sections, you'd want this to be an array
-    // somehow. @TODO figure out how to do that ;)
-    // PARAMS: $layout_id, $layout_settings, $components
-    $sections = new Section('layout_onecol', [], $components);
+
 
     file_put_contents('/tmp/drupaldebug.txt', "---\n" , FILE_APPEND | LOCK_EX);
 

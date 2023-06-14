@@ -1,5 +1,5 @@
-id: express_beans_feature_callout_field_callouts_grid_layout_content
-label: Express Beans Feature Callout Field Callouts Migration
+id: express_beans_row_field_callouts_row_layout_content
+label: Express Beans Row Field Callouts Row Layout Migration
 migration_tags:
   - express
 
@@ -9,25 +9,25 @@ source:
   data_parser_plugin: simple_xml
   urls:
     - modules/custom/migrate_express/data.xml
-  item_selector: /root/beans/feature_callout/item/fields/field_callouts/data/item/grid_layout_content
+  item_selector: /root/beans/row_content/item/fields/field_callouts/data/item/grid_layout_content
   fields:
 
-#
-#    - name: title
-#      label: 'Title'
-#      selector: 'title'
-#
-#    - name: body_value
-#      label: 'Body Value'
-#      selector: 'fields/body/data/item/body_value'
+    #
+    #    - name: title
+    #      label: 'Title'
+    #      selector: 'title'
+    #
+    #    - name: body_value
+    #      label: 'Body Value'
+    #      selector: 'fields/body/data/item/body_value'
 
     #    - name: body_summary
     #      label: 'Body Summary'
     #      selector: 'fields/body/data/item/body_summary'
 
-#    - name: body_format
-#      label: 'Body Format'
-#      selector: 'fields/body/data/item/body_format'
+    #    - name: body_format
+    #      label: 'Body Format'
+    #      selector: 'fields/body/data/item/body_format'
 
     - name: id
       label: 'id'
@@ -79,21 +79,21 @@ source:
 process:
 
 
-  field_grid_layout_content_image/target_id:
+  field_row_layout_content_image/target_id:
     plugin: migration_lookup
     migration: express_media_images
     source: field_callout_image_fid
 
-  'field_grid_layout_content_text/value': field_callout_text_value
-  'field_grid_layout_content_text/format': field_callout_text_format
+  'field_row_layout_content_text/value': field_callout_text_value
+  'field_row_layout_content_text/format': field_callout_text_format
 
-  'field_grid_layout_content_title': field_callout_title_title
-  'field_grid_layout_content_link': field_callout_title_url
+  'field_row_layout_content_title': field_callout_title_title
+  'field_row_layout_content_link': field_callout_title_url
 
 
 destination:
   plugin: 'entity_reference_revisions:paragraph'
-  default_bundle: 'grid_layout_content'
+  default_bundle: 'row_layout_content'
 
 
 migration_dependencies:

@@ -1,5 +1,5 @@
-id: express_beans_feature_callout
-label: Express Beans Feature Callout Migration
+id: express_beans_content_row
+label: Express Beans Content Row Migration
 migration_tags:
   - express
 
@@ -9,7 +9,7 @@ source:
   data_parser_plugin: simple_xml
   urls:
     - modules/custom/migrate_express/data.xml
-  item_selector: /root/beans/feature_callout/item
+  item_selector: /root/beans/content_row/item
   fields:
 
 
@@ -51,48 +51,43 @@ process:
   label: title
 
 
-  'field_grid_column_count': field_callout_columns
 
-  'field_grid_image_style':
-    plugin: static_map
-    source: field_callout_image_size
-    map:
-      large_square_thumbnail: 0
-      large_wide_thumbnail: 1
-    default_value: 0
 
-  'field_grid_layout_selection':
+  'field_row_layout_selection':
     plugin: static_map
     source: field_callout_style
     map:
-      columns: 0
-      cards: 1
-      overlay: 2
-      offset: 3
+      teaser: 0
+      large_teaser: 0
+      large_teaser_alt: 1
+      tiles: 2
+      tiles_large: 2
+      tiles_alt: 2
+      feature: 3
     default_value: 0
 
-  pseudo_field_grid_layout_content:
+  pseudo_field_row_layout_content:
     - plugin: migration_lookup
-      migration: express_beans_feature_callout_field_callouts_grid_layout_content
+      migration: express_beans_row_field_callouts_row_layout_content
       source: field_callouts
 
 
-  field_grid_layout_content:
+  field_row_layout_content:
     plugin: sub_process_managed
     source:
-      - '@pseudo_field_grid_layout_content'
+      - '@pseudo_field_row_layout_content'
     process:
       target_id: '0'
       target_revision_id: '1'
 
 destination:
   plugin: 'entity:block_content'
-  default_bundle: 'content_grid'
+  default_bundle: 'content_row'
 
 
 migration_dependencies:
   required:
-    - express_beans_feature_callout_field_callouts_grid_layout_content
+    - express_beans_content_row_field_callouts_row_layout_content
 
 
 dependencies:
