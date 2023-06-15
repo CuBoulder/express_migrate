@@ -56,6 +56,21 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
         $allowedComponents[] = 260;
         $allowedComponents[] = 188;
         $allowedComponents[] = 326;
+        $allowedComponents[] = 216;
+        $allowedComponents[] = 218;
+        $allowedComponents[] = 214;
+        $allowedComponents[] = 198;
+        $allowedComponents[] = 210;
+        $allowedComponents[] = 174;
+        $allowedComponents[] = 176;
+        $allowedComponents[] = 184;
+        $allowedComponents[] = 186;
+        $allowedComponents[] = 359;
+
+        $allowedComponents[] = 168;
+        $allowedComponents[] = 286;
+        $allowedComponents[] = 164;
+        $allowedComponents[] = 166;
 
 
 
@@ -104,7 +119,7 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
           'id' => 'inline_block:'. $block_content->bundle(),
           'label' => $block_content->label(),
           'provider' => 'layout_builder',
-          'label_display' => FALSE,
+          'label_display' => TRUE,
           'view_mode' => 'full',
           'block_revision_id' => $block_content->getRevisionId(),
           'block_serialized' => serialize($block_content),
@@ -117,9 +132,6 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
 
       }
 
-      // If you were doing multiple sections, you'd want this to be an array
-      // somehow. @TODO figure out how to do that ;)
-      // PARAMS: $layout_id, $layout_settings, $components
       $sections[] = new Section('layout_onecol', [], $components);
 
 

@@ -40,7 +40,7 @@ process:
 
   id: bid
 
-  label: title
+  info: title
 
   'field_text_block_body/value': field_block_text_value
   'field_text_block_body/format': field_block_text_format

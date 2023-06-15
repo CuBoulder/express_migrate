@@ -1,5 +1,5 @@
-id: express_beans_feature_callout
-label: Express Beans Feature Callout Migration
+id: express_beans_content_sequence
+label: Express Beans Content Sequence Migration
 migration_tags:
   - express
 
@@ -9,7 +9,7 @@ source:
   data_parser_plugin: simple_xml
   urls:
     - modules/custom/migrate_express/data.xml
-  item_selector: /root/beans/feature_callout/item
+  item_selector: /root/beans/content_sequence/item
   fields:
 
 
@@ -82,7 +82,7 @@ process:
 
   pseudo_field_grid_layout_content:
     - plugin: migration_lookup
-      migration: express_beans_feature_callout_field_callouts_grid_layout_content
+      migration: express_beans_content_sequence_field_cont_seq_content
       source: field_callouts
 
 
@@ -101,7 +101,7 @@ destination:
 
 migration_dependencies:
   required:
-    - express_beans_feature_callout_field_callouts_grid_layout_content
+    - express_beans_content_sequence_field_cont_seq_content
 
 
 dependencies:

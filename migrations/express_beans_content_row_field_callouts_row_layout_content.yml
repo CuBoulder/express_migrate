@@ -9,7 +9,7 @@ source:
   data_parser_plugin: simple_xml
   urls:
     - modules/custom/migrate_express/data.xml
-  item_selector: /root/beans/row_content/item/fields/field_callouts/data/item/grid_layout_content
+  item_selector: /root/beans/content_row/item/fields/field_callouts/data/item/grid_layout_content
   fields:
 
     #

@@ -1,0 +1,68 @@
+id: express_beans_content_sequence_field_cont_seq_content
+label: Express Beans Content Sequence Field Cont Seq Content Migration
+migration_tags:
+  - express
+
+source:
+  plugin: url
+  data_fetcher_plugin: file
+  data_parser_plugin: simple_xml
+  urls:
+    - modules/custom/migrate_express/data.xml
+  item_selector: /root/beans/content_sequence/item/fields/field_cont_seq_content/data/item/grid_layout_content
+  fields:
+
+
+    - name: id
+      label: 'id'
+      selector: 'id'
+
+    - name: body_value
+      label: body_value
+      selector: 'field_cont_seq_body/field_cont_seq_body_value'
+
+    - name: body_format
+      label: body_format
+      selector: 'field_cont_seq_body/field_cont_seq_body_format'
+
+    - name: title_title
+      label: title_title
+      selector: 'field_cont_seq_title/field_cont_seq_title_title'
+
+    - name: title_url
+      label: title_url
+      selector: 'field_cont_seq_title/field_cont_seq_title_url'
+
+  ids:
+    id:
+      type: string
+process:
+
+
+  dump:
+    - plugin: callback
+      callable: var_dump
+      source: body_value
+
+
+  'field_sequence_item_descr': body_value
+  'field_sequence_item_descr/format': body_format
+
+  'field_sequence_item_title': title_title
+  'field_sequence_item_url': title_url
+
+
+destination:
+  plugin: 'entity_reference_revisions:paragraph'
+  default_bundle: 'content_sequence_item'
+
+
+migration_dependencies:
+  required:
+    - express_media_images
+
+
+dependencies:
+  enforced:
+    module:
+      - migrate_express

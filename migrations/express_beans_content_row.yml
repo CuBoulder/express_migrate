@@ -48,7 +48,7 @@ process:
 
   id: bid
 
-  label: title
+  info: title
 
 
 
@@ -65,6 +65,10 @@ process:
       tiles_alt: 2
       feature: 3
     default_value: 0
+
+
+
+
 
   pseudo_field_row_layout_content:
     - plugin: migration_lookup
@@ -87,7 +91,7 @@ destination:
 
 migration_dependencies:
   required:
-    - express_beans_content_row_field_callouts_row_layout_content
+    - express_beans_row_field_callouts_row_layout_content
 
 
 dependencies:
