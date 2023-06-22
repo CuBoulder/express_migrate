@@ -38,14 +38,7 @@ source:
       type: string
 process:
 
-
-  dump:
-    - plugin: callback
-      callable: var_dump
-      source: body_value
-
-
-  'field_sequence_item_descr': body_value
+  'field_sequence_item_descr/value': body_value
   'field_sequence_item_descr/format': body_format
 
   'field_sequence_item_title': title_title

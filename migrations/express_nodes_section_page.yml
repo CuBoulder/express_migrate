@@ -28,9 +28,6 @@ source:
       label: 'Page Sections'
       selector: page_sections
 
-#    - name: body_value
-#      label: 'Body Value'
-#      selector: 'fields/item[field_name="body"]/data/item[column_name="body_value"]/value'
   ids:
     nid:
       type: integer
@@ -62,6 +59,7 @@ migration_dependencies:
   required:
     - express_beans_feature_callout
     - express_beans_content_row
+    - express_beans_content_sequence
     - express_beans_block
 
 

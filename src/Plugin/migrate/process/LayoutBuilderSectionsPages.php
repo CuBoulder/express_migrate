@@ -66,6 +66,7 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
         $allowedComponents[] = 184;
         $allowedComponents[] = 186;
         $allowedComponents[] = 359;
+        $allowedComponents[] = 355;
 
         $allowedComponents[] = 168;
         $allowedComponents[] = 286;
@@ -76,6 +77,7 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
 
         if(!in_array($component_id, $allowedComponents))
         {
+          file_put_contents('/tmp/drupaldebug.txt', "bid not in allowed list" . "\n" , FILE_APPEND | LOCK_EX);
           continue;
         }
 
@@ -84,7 +86,7 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
         $component_id_array = [$component_id];
         #file_put_contents('/tmp/drupaldebug.txt', print_r($component_id_array, true), FILE_APPEND | LOCK_EX);
 
-        $destid = $lookup->lookup(['express_beans_feature_callout', 'express_beans_block', 'express_beans_content_row'], $component_id_array);
+        $destid = $lookup->lookup(['express_beans_feature_callout', 'express_beans_block', 'express_beans_content_row', 'express_beans_content_sequence'], $component_id_array);
 
         file_put_contents('/tmp/drupaldebug.txt', "destid:" . print_r($destid, true) . "\n" , FILE_APPEND | LOCK_EX);
 
@@ -103,8 +105,6 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
         $block_content = BlockContent::load($real_destid);
 
 
-        file_put_contents('/tmp/drupaldebug.txt', "bid:" . print_r($block_content->bundle(), true) . "\n" , FILE_APPEND | LOCK_EX);
-
 
         if (is_null($block_content)) {
           \Drupal::messenger()->addMessage("Could not load " . $real_destid . ' ???', 'status', TRUE);
@@ -112,7 +112,9 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
         }
         else
         {
-          file_put_contents('/tmp/drupaldebug.txt', "Block loaded", FILE_APPEND | LOCK_EX);
+          file_put_contents('/tmp/drupaldebug.txt', "Block loaded" . "\n", FILE_APPEND | LOCK_EX);
+          file_put_contents('/tmp/drupaldebug.txt', "bundle:" . print_r($block_content->bundle(), true) . "\n" , FILE_APPEND | LOCK_EX);
+
         }
 
         $config = [

@@ -21,25 +21,23 @@ source:
       label: title
       selector: 'title'
 
-    - name: field_callout_columns
-      label: 'field_callout_columns'
-      selector: 'fields/field_callout_columns/data/item/field_callout_columns_value'
+    - name: label
+      label: label
+      selector: 'label'
 
-    - name: field_callout_image_size
-      label: 'field_callout_image_size'
-      selector: 'fields/field_callout_image_size/data/item/field_callout_image_size_value'
+    - name: field_cont_seq_content
+      label: 'field_cont_seq_content'
+      selector: 'fields/field_cont_seq_content/data/item/grid_layout_content/id'
 
-    - name: field_callout_style
-      label: 'field_callout_style'
-      selector: 'fields/field_callout_style/data/item/field_callout_style_value'
+    - name: field_cont_seq_display
+      label: 'field_cont_seq_display'
+      selector: 'fields/field_cont_seq_display/data/item/field_cont_seq_display_value'
 
-    - name: field_callouts
-      label: 'field_callouts'
-      selector: 'fields/field_callouts/data/item/grid_layout_content/id'
+    - name: field_cont_seq_scale
+      label: field_cont_seq_scale
+      selector: 'fields/field_cont_seq_scale/data/item/field_cont_seq_scale_value'
 
-    - name: delta
-      label: 'delta'
-      selector: 'fields/field_callouts/data/item/delta'
+
 
   ids:
     bid:
@@ -48,55 +46,50 @@ process:
 
   id: bid
 
-  info: title
+  info: label
 
-
-  'field_grid_column_count':
+  field_content_sequence_display:
     plugin: static_map
-    source: field_callout_columns
+    source: field_cont_seq_display
     map:
-      2: 0
-      3: 1
-      4: 2
-      5: 3
-      6: 4
-    default_value: 0
+      advanced: advanced
+      simple_horizontal: horizontal
+      simple_vertical: vertical
+    default_value: vertical
 
-  'field_grid_image_style':
+  field_content_sequence_scale:
     plugin: static_map
-    source: field_callout_image_size
+    source: field_cont_seq_scale
     map:
-      large_square_thumbnail: 0
-      large_wide_thumbnail: 1
-    default_value: 0
+      '.5': '0.5'
+      '1': '1'
+      '2': '2'
+    default_value: '1'
 
-  'field_grid_layout_selection':
-    plugin: static_map
-    source: field_callout_style
-    map:
-      columns: 0
-      cards: 1
-      overlay: 2
-      offset: 3
-    default_value: 0
 
-  pseudo_field_grid_layout_content:
+  pseudo_field_content_sequence_items:
     - plugin: migration_lookup
       migration: express_beans_content_sequence_field_cont_seq_content
-      source: field_callouts
+      source: field_cont_seq_content
 
 
-  field_grid_layout_content:
+  dump:
+    - plugin: callback
+      callable: var_dump
+      source: '@pseudo_field_content_sequence_items'
+
+
+  field_content_sequence_items:
     plugin: sub_process_managed
     source:
-      - '@pseudo_field_grid_layout_content'
+      - '@pseudo_field_content_sequence_items'
     process:
       target_id: '0'
       target_revision_id: '1'
 
 destination:
   plugin: 'entity:block_content'
-  default_bundle: 'content_grid'
+  default_bundle: 'content_sequence'
 
 
 migration_dependencies:
