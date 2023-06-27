@@ -59,6 +59,10 @@ source:
       label: 'Address'
       selector: 'fields/field_photo/data/item/field_photo_fid'
 
+    - name: page_sections
+      label: 'Page Sections'
+      selector: 'layout/page_sections/field_intro'
+
 
 
   ids:
@@ -96,12 +100,32 @@ process:
     migration: express_media_images
     source: photo_fid
 
+  dump:
+    plugin: callback
+    callable: var_dump
+    source: page_sections
+
+
+
+  layout_builder__layout:
+    source: page_sections
+    plugin: layout_builder_sections_pages
+
+
 destination:
   plugin: entity:node
 
 
 
-migration_dependencies: {}
+migration_dependencies:
+  required:
+    - express_beans_feature_callout
+    - express_beans_content_row
+    - express_beans_content_sequence
+    - express_beans_block
+    - express_beans_video_hero_unit
+
+
 dependencies:
   enforced:
     module:

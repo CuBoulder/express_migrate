@@ -1,0 +1,48 @@
+id: express_beans_video_hero_unit_field_background_media
+label: Express Video Hero Unit Field Background Media Migration
+migration_tags:
+  - express
+
+source:
+  plugin: url
+  data_fetcher_plugin: file
+  data_parser_plugin: simple_xml
+  urls:
+    - modules/custom/migrate_express/data.xml
+  item_selector: /root/beans/video_hero_unit/item/fields/field_video_hero_url/data/item
+  fields:
+    - name: id
+      label: 'id'
+      selector: 'id'
+
+    - name: field_video_hero_url_value
+      label: 'field_video_hero_url_value'
+      selector: 'field_video_hero_url_value'
+
+  constants:
+    vimeoprefix: 'https://player.vimeo.com/video/'
+
+
+  ids:
+    id:
+      type: string
+process:
+  name: field_video_hero_url_value
+  field_media_oembed_video:
+    plugin: concat
+    source:
+      - constants/vimeoprefix
+      - field_video_hero_url_value
+
+destination:
+  plugin: entity:media
+  default_bundle: video
+
+
+
+migration_dependencies: {}
+
+dependencies:
+  enforced:
+    module:
+      - migrate_express

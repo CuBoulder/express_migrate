@@ -39,14 +39,14 @@ process:
     plugin: default_value
     default_value: 'und'
   title: title
-#  'body/value': body_value
 
-  # This is the layout_builder__layout field, which stores everything!
-  layout_builder__layout:
-    # Where do we get them from? This `components` field comes from us.
-    # We use prepareRow to set it.
+  dump:
+    plugin: callback
+    callable: var_dump
     source: page_sections
-    # We need a custom plugin to correctly map this.
+
+  layout_builder__layout:
+    source: page_sections
     plugin: layout_builder_sections_pages
 
 

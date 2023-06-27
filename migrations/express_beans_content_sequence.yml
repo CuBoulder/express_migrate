@@ -73,10 +73,10 @@ process:
       source: field_cont_seq_content
 
 
-  dump:
-    - plugin: callback
-      callable: var_dump
-      source: '@pseudo_field_content_sequence_items'
+#  dump:
+#    - plugin: callback
+#      callable: var_dump
+#      source: '@pseudo_field_content_sequence_items'
 
 
   field_content_sequence_items:

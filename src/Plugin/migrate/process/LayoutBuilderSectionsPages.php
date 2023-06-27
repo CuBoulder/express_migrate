@@ -73,6 +73,10 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
         $allowedComponents[] = 164;
         $allowedComponents[] = 166;
 
+        $allowedComponents[] = 106;
+        $allowedComponents[] = 94;
+        $allowedComponents[] = 136;
+
 
 
         if(!in_array($component_id, $allowedComponents))
@@ -86,7 +90,7 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
         $component_id_array = [$component_id];
         #file_put_contents('/tmp/drupaldebug.txt', print_r($component_id_array, true), FILE_APPEND | LOCK_EX);
 
-        $destid = $lookup->lookup(['express_beans_feature_callout', 'express_beans_block', 'express_beans_content_row', 'express_beans_content_sequence'], $component_id_array);
+        $destid = $lookup->lookup(['express_beans_feature_callout', 'express_beans_block', 'express_beans_content_row', 'express_beans_content_sequence', 'express_beans_video_hero_unit'], $component_id_array);
 
         file_put_contents('/tmp/drupaldebug.txt', "destid:" . print_r($destid, true) . "\n" , FILE_APPEND | LOCK_EX);
 
@@ -128,13 +132,65 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
           'context_mapping' => [],
         ];
 
-        $components[] = new SectionComponent($generator->generate(), 'content', $config);
+        $components[] = new SectionComponent($generator->generate(), 'first', $config);
 
 
 
       }
 
-      $sections[] = new Section('layout_onecol', [], $components);
+//      (
+//      [background_color] => white
+//      [content_frame_color] => none
+//      [0] =>
+//            [1] =>
+//            [overlay_color] => none
+//      [background_effect] => fixed
+//      [class] =>
+//            [column_width] => 12
+//            [section_padding_top] => 0px
+//      [section_padding_right] => 0px
+//      [section_padding_bottom] => 0px
+//      [section_padding_left] => 0px
+//      [2] =>
+//            [3] =>
+//            [4] =>
+//            [5] =>
+//            [background_image] =>
+//            [background_image_styles] =>
+//            [context_mapping] => Array
+//      (
+//      )
+//
+//        )
+
+
+      /*
+       * field_block_section_bg_effect = background_effect
+       * field_block_section_bg_image = background_image
+       * field_block_section_content_bg = ???
+       * field_block_section_padding = section_padding_x
+       */
+
+
+
+      $layoutSettings = [];
+      $layoutSettings['background_color'] = 'white';
+      $layoutSettings['content_frame_color'] = 'none';
+      $layoutSettings['overlay_color'] = 'none';
+      $layoutSettings['background_effect'] = 'fixed';
+      $layoutSettings['column_width'] = 12;
+      $layoutSettings['section_padding_top'] = '0px';
+      $layoutSettings['section_padding_right'] = '0px';
+      $layoutSettings['section_padding_bottom'] = '0px';
+      $layoutSettings['section_padding_left'] = '0px';
+
+
+
+
+
+
+      //$sections[] = new Section('layout_onecol', [], $components);
+      $sections[] = new Section('ucb_bootstrap_layouts__one_column', $layoutSettings, $components);
 
 
     }
