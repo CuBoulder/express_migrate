@@ -103,6 +103,7 @@ migration_dependencies:
     - express_nodes_page
     - express_nodes_people_list_page
     - express_nodes_person
+    - express_nodes_section_page
 
 dependencies:
   enforced:

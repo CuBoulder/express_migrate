@@ -195,7 +195,7 @@ class SubProcessManaged extends ProcessPluginBase {
   function array_depth($array) {
     $max_indentation = 1;
 
-    $array_str = print_r($array, true);
+    //$array_str = print_r($array, true);
     $lines = explode("\n", $array_str);
 
     foreach ($lines as $line) {
@@ -215,20 +215,20 @@ class SubProcessManaged extends ProcessPluginBase {
    */
   public function transform($value, MigrateExecutableInterface $migrate_executable, Row $row, $destination_property) {
 
-    file_put_contents('/tmp/drupaldebug.txt', "---subprocessmanaged start---\n" , FILE_APPEND | LOCK_EX);
-
-    file_put_contents('/tmp/drupaldebug.txt', array_depth($value), FILE_APPEND | LOCK_EX);
-    file_put_contents('/tmp/drupaldebug.txt', print_r($value, true), FILE_APPEND | LOCK_EX);
+//    file_put_contents('/tmp/drupaldebug.txt', "---subprocessmanaged start---\n" , FILE_APPEND | LOCK_EX);
+//
+//    file_put_contents('/tmp/drupaldebug.txt', array_depth($value), FILE_APPEND | LOCK_EX);
+//    file_put_contents('/tmp/drupaldebug.txt', print_r($value, true), FILE_APPEND | LOCK_EX);
 
 
     if(gettype($value) === 'string')
     {
-      file_put_contents('/tmp/drupaldebug.txt', "Case A", FILE_APPEND | LOCK_EX);
+//      file_put_contents('/tmp/drupaldebug.txt', "Case A", FILE_APPEND | LOCK_EX);
       $value = array(array($value));
     }
     elseif (array_depth($value) == 1)
     {
-      file_put_contents('/tmp/drupaldebug.txt', "Case B", FILE_APPEND | LOCK_EX);
+//      file_put_contents('/tmp/drupaldebug.txt', "Case B", FILE_APPEND | LOCK_EX);
       $newvalue = array();
       foreach ($value as $x)
       {
@@ -238,13 +238,13 @@ class SubProcessManaged extends ProcessPluginBase {
     }
     elseif (array_depth($value) == 3)
     {
-      file_put_contents('/tmp/drupaldebug.txt', "Case C", FILE_APPEND | LOCK_EX);
+//      file_put_contents('/tmp/drupaldebug.txt', "Case C", FILE_APPEND | LOCK_EX);
       $value = $value[0];
     }
 
-
-    file_put_contents('/tmp/drupaldebug.txt', print_r($value, true), FILE_APPEND | LOCK_EX);
-    file_put_contents('/tmp/drupaldebug.txt', "---subprocessmanaged end---\n" , FILE_APPEND | LOCK_EX);
+//
+//    file_put_contents('/tmp/drupaldebug.txt', print_r($value, true), FILE_APPEND | LOCK_EX);
+//    file_put_contents('/tmp/drupaldebug.txt', "---subprocessmanaged end---\n" , FILE_APPEND | LOCK_EX);
 
 
 

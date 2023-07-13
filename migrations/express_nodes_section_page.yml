@@ -24,9 +24,25 @@ source:
       label: 'Title'
       selector: 'title'
 
+
+    - name: body_value
+      label: 'Body Value'
+      selector: 'fields/body/data/item/body_value'
+
+    - name: body_summary
+      label: 'Body Summary'
+      selector: 'fields/body/data/item/body_summary'
+
+    - name: body_format
+      label: 'Body Format'
+      selector: 'fields/body/data/item/body_format'
+
     - name: page_sections
       label: 'Page Sections'
       selector: page_sections
+
+
+
 
   ids:
     nid:
@@ -39,6 +55,11 @@ process:
     plugin: default_value
     default_value: 'und'
   title: title
+
+  'body/value': body_value
+  'body/summary': body_summary
+  'body/format': body_format
+
 
   dump:
     plugin: callback

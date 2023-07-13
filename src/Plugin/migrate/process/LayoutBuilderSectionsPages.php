@@ -2,12 +2,14 @@
 
 namespace Drupal\migrate_express\Plugin\migrate\process;
 
+use Drupal\file\Entity\File;
 use Drupal\migrate\ProcessPluginBase;
 use Drupal\migrate\Row;
 use Drupal\migrate\MigrateExecutableInterface;
 use Drupal\layout_builder\Section;
 use Drupal\layout_builder\SectionComponent;
 use Drupal\block_content\Entity\BlockContent;
+use Drupal\media\Entity\Media;
 
 /**
  * Process plugin to migrate a source field into a Layout Builder Section.
@@ -17,6 +19,7 @@ use Drupal\block_content\Entity\BlockContent;
  * )
  */
 class LayoutBuilderSectionsPages extends ProcessPluginBase {
+
 
   /**
    * {@inheritdoc}
@@ -184,6 +187,96 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
       $layoutSettings['section_padding_bottom'] = '0px';
       $layoutSettings['section_padding_left'] = '0px';
 
+
+      file_put_contents('/tmp/drupaldebug.txt', "Section again:" . print_r($section, true) . "\n" , FILE_APPEND | LOCK_EX);
+
+//      $nodeChildren = $section->getChildren();
+//      foreach($nodeChildren as $name => $data)
+//      {
+//        file_put_contents('/tmp/drupaldebug.txt', "XML child:" . "The $name is '$data' from the class " . get_class($data) . "\n" , FILE_APPEND | LOCK_EX);
+//      }
+//
+      if(property_exists($section, 'padding_top'))
+      {
+        $layoutSettings['section_padding_top'] = (string)$section->padding_top;
+      }
+      if(property_exists($section, 'padding_right'))
+      {
+        $layoutSettings['section_padding_right'] = (string)$section->padding_right;
+      }
+      if(property_exists($section, 'padding_bottom'))
+      {
+        $layoutSettings['section_padding_bottom'] = (string)$section->padding_bottom;
+      }
+      if(property_exists($section, 'padding_left'))
+      {
+        $layoutSettings['section_padding_left'] = (string)$section->padding_left;
+      }
+      if(property_exists($section, 'bg_effect'))
+      {
+        $layoutSettings['background_effect'] = (string)$section->bg_effect;
+      }
+      if(property_exists($section, 'bg_image'))
+      {
+        $bg_image_srcid = (string)$section->bg_image;
+        $bg_image_destid = $lookup->lookup(['express_media_images'], [$bg_image_srcid]);
+        file_put_contents('/tmp/drupaldebug.txt', "BG Image Source ID: " . $bg_image_srcid . "\n" , FILE_APPEND | LOCK_EX);
+        file_put_contents('/tmp/drupaldebug.txt', "BG Image Destination ID: " . print_r($bg_image_destid, true) . "\n" , FILE_APPEND | LOCK_EX);
+
+        foreach ($bg_image_destid as $destid_element) {
+          file_put_contents('/tmp/drupaldebug.txt', print_r($destid_element, true), FILE_APPEND | LOCK_EX);
+          $layoutSettings['background_image'] = $destid_element['mid'];
+
+
+
+          $overlay_styles = "";
+
+          if ($layoutSettings['overlay_color'] == "black"){
+            $overlay_styles = "linear-gradient(rgb(20, 20, 20, 0.5), rgb(20, 20, 20, 0.5))";
+          }
+          elseif ($layoutSettings['overlay_color'] == "white"){
+            $overlay_styles = "linear-gradient(rgb(200, 200, 200, 0.7), rgb(200, 200, 200, 0.7))";
+          }
+          else {
+            $overlay_styles = "none";
+          }
+
+
+
+          $media_entity = Media::load($layoutSettings['background_image']);
+          $fid = $media_entity->getSource()->getSourceFieldValue($media_entity);
+          $file = File::load($fid);
+          $url = $file->createFileUrl();
+
+          $media_image_styles = [
+            'background:  ' . $overlay_styles . ', url(' . $url . ');',
+            'background-position: center;',
+            'background-size: cover;',
+            'background-repeat: no-repeat;',
+            'padding:' . $layoutSettings['section_padding_top'] . ' ' . $layoutSettings['section_padding_right'] . ' ' . $layoutSettings['section_padding_bottom'] . ' ' . $layoutSettings['section_padding_left'],
+          ];
+          $background_image_styles = implode(' ', $media_image_styles);
+
+          $layoutSettings['background_image_styles'] = $background_image_styles;
+          $layoutSettings['content_frame_color'] = 'light-gray';
+
+
+        }
+
+
+//
+      }
+
+
+
+
+//      if(array_key_Exists('bg_image', $section))
+//      {
+//
+//        $source_image_id = (integer)$section['bg_image'];
+//        $destination_image_id = $lookup->lookup(['express_media_images'], [$source_image_id]);
+//        $layoutSettings['background_image'] = $destination_image_id;
+//      }
 
 
 
