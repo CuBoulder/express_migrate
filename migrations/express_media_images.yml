@@ -51,6 +51,10 @@ process:
     migration: express_files_images
     source: fid
 
+#  focal_point:
+#    source: fid
+#    plugin: focal_point_migration
+
 destination:
   plugin: entity:media
   default_bundle: image

@@ -75,10 +75,16 @@ process:
   status: status
   created: created
   changed: changed
+
+
   uid:
-    - plugin: migration_lookup
+    - plugin: migration_lookup_allow_empty_value
       migration: express_users
+      no_stub: true
       source: uid
+    - plugin: default_value
+      default_value: 0
+
 
   'body/value': body_value
   'body/summary': body_summary
@@ -90,7 +96,16 @@ destination:
 
 
 
-migration_dependencies: {}
+migration_dependencies:
+  required:
+    - express_beans_feature_callout
+    - express_beans_content_row
+    - express_beans_content_sequence
+    - express_beans_block
+    - express_beans_video_hero_unit
+    - express_users
+
+
 dependencies:
   enforced:
     module:

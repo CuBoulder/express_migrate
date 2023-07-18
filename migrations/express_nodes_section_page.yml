@@ -17,6 +17,11 @@ source:
     - name: vid
       label: 'vid'
       selector: 'vid'
+
+    - name: uid
+      label: 'uid'
+      selector: 'uid'
+
     - name: type
       label: 'Type'
       selector: 'type'
@@ -41,6 +46,10 @@ source:
       label: 'Page Sections'
       selector: page_sections
 
+    - name: path
+      label: 'Path'
+      selector: 'path'
+
 
 
 
@@ -56,9 +65,22 @@ process:
     default_value: 'und'
   title: title
 
+  uid:
+    - plugin: migration_lookup_allow_empty_value
+      migration: express_users
+      no_stub: true
+      source: uid
+    - plugin: default_value
+      default_value: 0
+
   'body/value': body_value
   'body/summary': body_summary
   'body/format': body_format
+
+  path/alias: path
+  path/pathauto:
+    plugin: default_value
+    default_value: 0
 
 
   dump:

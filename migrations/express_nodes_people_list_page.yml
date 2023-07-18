@@ -114,10 +114,14 @@ process:
   status: status
   created: created
   changed: changed
+
   uid:
-    - plugin: migration_lookup
+    - plugin: migration_lookup_allow_empty_value
       migration: express_users
+      no_stub: true
       source: uid
+    - plugin: default_value
+      default_value: 0
 
 
 
