@@ -1,0 +1,124 @@
+id: express_beans_people_list_block
+label: Express Beans People List Block Migration
+migration_tags:
+  - express
+
+source:
+  plugin: url
+  data_fetcher_plugin: file
+  data_parser_plugin: simple_xml
+  urls:
+    - data.xml
+  item_selector: /root/beans/people_list_block/item
+  fields:
+
+
+    - name: bid
+      label: 'bid'
+      selector: 'bid'
+
+    - name: title
+      label: title
+      selector: 'title'
+
+    - name: label
+      label: label
+      selector: 'label'
+
+    - name: field_hero_unit_headline
+      label: field_hero_unit_headline
+      selector: 'fields/field_hero_unit_headline/data/item/field_hero_unit_headline_value'
+
+
+
+  ids:
+    bid:
+      type: integer
+process:
+
+  id: bid
+
+  info: label
+#
+#  field_headline: field_hero_unit_headline
+#
+#  field_solid_colors:
+#    plugin: default_value
+#    default_value: none
+#
+#  field_link_color:
+#    plugin: static_map
+#    source: field_hero_unit_link_color
+#    map:
+#      'blue': 'button-blue'
+#      'white': 'button-white'
+#      'gray': 'button-gray-light'
+#      'black': 'button-black'
+#      'dark_gray': 'button-gray-dark'
+#      'gold': 'button-gold'
+#      'outline-white': 'button-white'
+#      'outline-black': 'button-black'
+#    default_value: 'button-blue'
+#
+#  field_text/value: field_hero_unit_text
+#  field_text/format:
+#    plugin: default_value
+#    default_value: 'wysiwyg'
+#
+#  field_text_align:
+#    plugin: static_map
+#    source: field_hero_unit_text_align
+#    map:
+#      'a': 'text-left'
+#      'b': 'text-end'
+#      'center': 'text-center'
+#      'c': 'text-lefthalf'
+#      'd': 'text-righthalf'
+#    default_value: 'text-left'
+#
+#
+#  field_text_color:
+#    plugin: static_map
+#    source: field_hero_unit_text_color
+#    map:
+#      'black': 'text-body'
+#      'white': 'text-white'
+#    default_value: 'text-body'
+#
+#  field_hero_overlay:
+#    plugin: static_map
+#    source: field_hero_video_overlay
+#    map:
+#      '0': 'Off'
+#      '1': 'On'
+#
+#  field_size:
+#    plugin: static_map
+#    source: field_hero_video_size
+#    map:
+#      'large': '0'
+#      'medium': '1'
+#      'small': '2'
+#    default_value: '0'
+#
+#  field_background_media:
+#    plugin: migration_lookup
+#    migration: express_beans_video_hero_unit_field_background_media
+#    source: field_video_hero_url_id
+
+
+destination:
+  plugin: 'entity:block_content'
+  default_bundle: 'content_list'
+
+
+migration_dependencies:
+  required:
+    {}
+
+
+
+dependencies:
+  enforced:
+    module:
+      - migrate_express

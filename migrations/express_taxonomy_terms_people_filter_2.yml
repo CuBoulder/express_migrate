@@ -8,7 +8,7 @@ source:
   data_fetcher_plugin: file
   data_parser_plugin: xml
   urls:
-    - modules/custom/migrate_express/data.xml
+    - data.xml
   item_selector: /root/vocabularies/people_filter_2/item
   fields:
 #    - name: tid

@@ -8,7 +8,7 @@ source:
   data_fetcher_plugin: file
   data_parser_plugin: simple_xml
   urls:
-    - modules/custom/migrate_express/data.xml
+    - data.xml
   item_selector: /root/beans/video_hero_unit/item/fields/field_video_hero_url/data/item
   fields:
     - name: id

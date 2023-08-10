@@ -8,7 +8,7 @@ source:
   data_fetcher_plugin: file
   data_parser_plugin: simple_xml
   urls:
-    - modules/custom/migrate_express/data.xml
+    - data.xml
   item_selector: /root/nodes/item/page/item
   fields:
     - name: nid
@@ -63,6 +63,10 @@ source:
       label: 'Page Sections'
       selector: 'layout/page_sections/field_intro'
 
+    - name: layout_footer_beans
+      label: 'Layout Footer Beans'
+      selector: 'layout/page_sections/field_footer'
+
 
 
   ids:
@@ -104,15 +108,20 @@ process:
     migration: express_media_images
     source: photo_fid
 
+
+
+#  layout_builder__layout:
+#    source: page_sections
+#    plugin: layout_builder_sections_pages
+
+
   dump:
     plugin: callback
     callable: var_dump
-    source: page_sections
-
-
+    source: layout_footer_beans
 
   layout_builder__layout:
-    source: page_sections
+    source: layout_footer_beans
     plugin: layout_builder_sections_pages
 
 

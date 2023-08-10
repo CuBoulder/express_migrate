@@ -10,7 +10,7 @@ source:
   data_fetcher_plugin: file
   data_parser_plugin: simple_xml
   urls:
-    - modules/custom/migrate_express/data.xml
+    - data.xml
   item_selector: /root/files/images/item
   fields:
     - name: fid
@@ -34,6 +34,9 @@ source:
     - name: filepath
       label: 'Filepath'
       selector: 'filepath'
+    - name: focal_point
+      label: 'Focal Point'
+      selector: 'focal_point'
 
   ids:
     fid:
@@ -51,9 +54,9 @@ process:
     migration: express_files_images
     source: fid
 
-#  focal_point:
-#    source: fid
-#    plugin: focal_point_migration
+  focal_point:
+    source: focal_point
+    plugin: focal_point_migration
 
 destination:
   plugin: entity:media

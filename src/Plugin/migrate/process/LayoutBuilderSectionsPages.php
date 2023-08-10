@@ -37,52 +37,53 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
     $lookup = \Drupal::service('migrate.lookup');
     $sections = array();
 
+    if (is_null($value))
+    {
+        return;
+    }
+
+
 
     foreach ($value as $section) {
       $components = [];
 
+      $config = [
+        'id' => 'field_block:node:basic_page:body',
+        'label_display' => FALSE,
+        'context_mapping' => [
+          'entity' => 'layout_builder.entity'
+        ],
+        'formatter' => [
+          'type' => 'text_default',
+          'label' => 'hidden',
+          'settings' => [],
+          'third_party_settings' => []
+        ]
+      ];
+
+      $components[] = new SectionComponent($generator->generate(), 'first', $config);
+
+
       file_put_contents('/tmp/drupaldebug.txt', "section:" . print_r($section, true) . "\n" , FILE_APPEND | LOCK_EX);
 
-      //foreach($section->beans as $bid)
-      //file_put_contents('/tmp/drupaldebug.txt', print_r($bid, true) , FILE_APPEND | LOCK_EX);
+      foreach ($section->beans->item as $bean) {
 
-      foreach ($section->beans->item as $bid) {
+        $bean_string = (string)$bean;
+        $component_id = (integer)explode(" ", $bean_string)[0];
+        $component_type = (string)explode(" ", $bean_string)[1];
 
-
-        $component_id = (integer)$bid;
 
         file_put_contents('/tmp/drupaldebug.txt', "bid:" . $component_id . "\n" , FILE_APPEND | LOCK_EX);
 
         $allowedComponents = array();
-        $allowedComponents[] = 50;
-        $allowedComponents[] = 290;
-        $allowedComponents[] = 260;
-        $allowedComponents[] = 188;
-        $allowedComponents[] = 326;
-        $allowedComponents[] = 216;
-        $allowedComponents[] = 218;
-        $allowedComponents[] = 214;
-        $allowedComponents[] = 198;
-        $allowedComponents[] = 210;
-        $allowedComponents[] = 174;
-        $allowedComponents[] = 176;
-        $allowedComponents[] = 184;
-        $allowedComponents[] = 186;
-        $allowedComponents[] = 359;
-        $allowedComponents[] = 355;
 
-        $allowedComponents[] = 168;
-        $allowedComponents[] = 286;
-        $allowedComponents[] = 164;
-        $allowedComponents[] = 166;
+        $allowedComponents[] = 'feature_callout';
+        $allowedComponents[] = 'block';
+        $allowedComponents[] = 'content_row';
+        $allowedComponents[] = 'content_sequence';
+        $allowedComponents[] = 'video_hero_unit';
 
-        $allowedComponents[] = 106;
-        $allowedComponents[] = 94;
-        $allowedComponents[] = 136;
-
-
-
-        if(!in_array($component_id, $allowedComponents))
+        if(!in_array($component_type, $allowedComponents))
         {
           file_put_contents('/tmp/drupaldebug.txt', "bid not in allowed list" . "\n" , FILE_APPEND | LOCK_EX);
           continue;

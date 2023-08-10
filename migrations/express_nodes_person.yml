@@ -9,7 +9,7 @@ source:
   data_fetcher_plugin: file
   data_parser_plugin: simple_xml
   urls:
-    - modules/custom/migrate_express/data.xml
+    - data.xml
   item_selector: /root/nodes/item/person/item
   fields:
     - name: nid

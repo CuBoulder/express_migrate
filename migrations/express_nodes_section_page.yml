@@ -8,7 +8,7 @@ source:
   data_fetcher_plugin: file
   data_parser_plugin: simple_xml
   urls:
-    - modules/custom/migrate_express/data.xml
+    - data.xml
   item_selector: /root/nodes/item/section_page/item
   fields:
     - name: nid
@@ -28,6 +28,18 @@ source:
     - name: title
       label: 'Title'
       selector: 'title'
+
+    - name: status
+      label: 'Status'
+      selector: 'status'
+
+    - name: created
+      label: 'Created'
+      selector: 'created'
+
+    - name: changed
+      label: 'Changed'
+      selector: 'changed'
 
 
     - name: body_value
@@ -64,6 +76,10 @@ process:
     plugin: default_value
     default_value: 'und'
   title: title
+
+  status: status
+  created: created
+  changed: changed
 
   uid:
     - plugin: migration_lookup_allow_empty_value
