@@ -31,7 +31,7 @@ class FocalPointMigration extends ProcessPluginBase {
       return;
     }
 
-    file_put_contents('/tmp/drupaldebug.txt', "focal_point:" . print_r(gettype($value), true) . "\n" , FILE_APPEND | LOCK_EX);
+//    file_put_contents('/tmp/drupaldebug.txt', "focal_point:" . print_r(gettype($value), true) . "\n" , FILE_APPEND | LOCK_EX);
 
 
     $fid_src = explode(',', $value)[0];
@@ -47,9 +47,9 @@ class FocalPointMigration extends ProcessPluginBase {
 
     $fid_dst = $fid_dst[0]['fid'];
 
-    file_put_contents('/tmp/drupaldebug.txt', "fid_dst:" . print_r($fid_dst, true) . "\n" , FILE_APPEND | LOCK_EX);
-
-
+//    file_put_contents('/tmp/drupaldebug.txt', "fid_dst:" . print_r($fid_dst, true) . "\n" , FILE_APPEND | LOCK_EX);
+//
+//
 
 
     $fp = \Drupal::service('focal_point.manager');

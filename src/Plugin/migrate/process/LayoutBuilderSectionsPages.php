@@ -47,21 +47,21 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
     foreach ($value as $section) {
       $components = [];
 
-      $config = [
-        'id' => 'field_block:node:basic_page:body',
-        'label_display' => FALSE,
-        'context_mapping' => [
-          'entity' => 'layout_builder.entity'
-        ],
-        'formatter' => [
-          'type' => 'text_default',
-          'label' => 'hidden',
-          'settings' => [],
-          'third_party_settings' => []
-        ]
-      ];
-
-      $components[] = new SectionComponent($generator->generate(), 'first', $config);
+//      $config = [
+//        'id' => 'field_block:node:basic_page:body',
+//        'label_display' => FALSE,
+//        'context_mapping' => [
+//          'entity' => 'layout_builder.entity'
+//        ],
+//        'formatter' => [
+//          'type' => 'text_default',
+//          'label' => 'hidden',
+//          'settings' => [],
+//          'third_party_settings' => []
+//        ]
+//      ];
+//
+//      $components[] = new SectionComponent($generator->generate(), 'first', $config);
 
 
       file_put_contents('/tmp/drupaldebug.txt', "section:" . print_r($section, true) . "\n" , FILE_APPEND | LOCK_EX);
@@ -82,6 +82,8 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
         $allowedComponents[] = 'content_row';
         $allowedComponents[] = 'content_sequence';
         $allowedComponents[] = 'video_hero_unit';
+        $allowedComponents[] = 'expandable';
+        $allowedComponents[] = 'body';
 
         if(!in_array($component_type, $allowedComponents))
         {
@@ -89,12 +91,34 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
           continue;
         }
 
+        if ($component_type == 'body')
+        {
+          file_put_contents('/tmp/drupaldebug.txt', "Body Bean" . "\n" , FILE_APPEND | LOCK_EX);
+          $config = [
+            'id' => 'field_block:node:basic_page:body',
+            'label_display' => FALSE,
+            'context_mapping' => [
+              'entity' => 'layout_builder.entity'
+            ],
+            'formatter' => [
+              'type' => 'text_default',
+              'label' => 'hidden',
+              'settings' => [],
+              'third_party_settings' => []
+            ]
+          ];
+
+          $components[] = new SectionComponent($generator->generate(), 'first', $config);
+          continue;
+
+        }
+
         file_put_contents('/tmp/drupaldebug.txt', "reached" . "\n" , FILE_APPEND | LOCK_EX);
 
         $component_id_array = [$component_id];
         #file_put_contents('/tmp/drupaldebug.txt', print_r($component_id_array, true), FILE_APPEND | LOCK_EX);
 
-        $destid = $lookup->lookup(['express_beans_feature_callout', 'express_beans_block', 'express_beans_content_row', 'express_beans_content_sequence', 'express_beans_video_hero_unit'], $component_id_array);
+        $destid = $lookup->lookup(['express_beans_feature_callout', 'express_beans_block', 'express_beans_content_row', 'express_beans_content_sequence', 'express_beans_video_hero_unit', 'express_beans_expandable'], $component_id_array);
 
         file_put_contents('/tmp/drupaldebug.txt', "destid:" . print_r($destid, true) . "\n" , FILE_APPEND | LOCK_EX);
 

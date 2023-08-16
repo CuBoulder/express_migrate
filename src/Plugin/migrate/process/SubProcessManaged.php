@@ -215,10 +215,10 @@ class SubProcessManaged extends ProcessPluginBase {
    */
   public function transform($value, MigrateExecutableInterface $migrate_executable, Row $row, $destination_property) {
 
-//    file_put_contents('/tmp/drupaldebug.txt', "---subprocessmanaged start---\n" , FILE_APPEND | LOCK_EX);
-//
-//    file_put_contents('/tmp/drupaldebug.txt', array_depth($value), FILE_APPEND | LOCK_EX);
-//    file_put_contents('/tmp/drupaldebug.txt', print_r($value, true), FILE_APPEND | LOCK_EX);
+    file_put_contents('/tmp/drupaldebug.txt', "---subprocessmanaged start---\n" , FILE_APPEND | LOCK_EX);
+
+    file_put_contents('/tmp/drupaldebug.txt', array_depth($value), FILE_APPEND | LOCK_EX);
+    file_put_contents('/tmp/drupaldebug.txt', print_r($value, true), FILE_APPEND | LOCK_EX);
 
 
     if(gettype($value) === 'string')
@@ -243,8 +243,8 @@ class SubProcessManaged extends ProcessPluginBase {
     }
 
 //
-//    file_put_contents('/tmp/drupaldebug.txt', print_r($value, true), FILE_APPEND | LOCK_EX);
-//    file_put_contents('/tmp/drupaldebug.txt', "---subprocessmanaged end---\n" , FILE_APPEND | LOCK_EX);
+    file_put_contents('/tmp/drupaldebug.txt', print_r($value, true), FILE_APPEND | LOCK_EX);
+    file_put_contents('/tmp/drupaldebug.txt', "---subprocessmanaged end---\n" , FILE_APPEND | LOCK_EX);
 
 
 

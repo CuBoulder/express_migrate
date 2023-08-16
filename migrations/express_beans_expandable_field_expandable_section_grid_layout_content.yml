@@ -1,0 +1,61 @@
+id: express_beans_expandable_field_expandable_section_grid_layout_content
+label: Express Beans Expandable Field Expandable Section Grid Layout Migration
+migration_tags:
+  - express
+
+source:
+  plugin: url
+  data_fetcher_plugin: file
+  data_parser_plugin: simple_xml
+  urls:
+    - data.xml
+  item_selector: /root/beans/expandable/item/fields/field_expandable_section/data/item/grid_layout_content
+  fields:
+
+    - name: id
+      label: 'id'
+      selector: 'id'
+
+    - name: field_expandable_text_value
+      label: 'field_expandable_text_value'
+      selector: 'field_expandable_text/field_expandable_text_value'
+
+    - name: field_expandable_text_format
+      label: 'field_expandable_text_format'
+      selector: 'field_expandable_text/field_expandable_text_format'
+
+    - name: field_expandable_title_value
+      label: 'field_expandable_title_value'
+      selector: 'field_expandable_title/field_expandable_title_value'
+
+
+
+
+
+  ids:
+    id:
+      type: string
+process:
+
+
+  'field_expandable_content_body/value': field_expandable_text_value
+  'field_expandable_content_body/format': field_expandable_text_format
+
+  'field_expandable_content_title': field_expandable_title_value
+
+
+
+destination:
+  plugin: 'entity_reference_revisions:paragraph'
+  default_bundle: 'expandable_content_text'
+
+
+migration_dependencies:
+  required:
+    - express_media_images
+
+
+dependencies:
+  enforced:
+    module:
+      - migrate_express

@@ -65,7 +65,7 @@ source:
 
     - name: layout_footer_beans
       label: 'Layout Footer Beans'
-      selector: 'layout/page_sections/field_footer'
+      selector: 'layout/page_sections'
 
 
 
@@ -115,10 +115,10 @@ process:
 #    plugin: layout_builder_sections_pages
 
 
-  dump:
-    plugin: callback
-    callable: var_dump
-    source: layout_footer_beans
+#  dump:
+#    plugin: callback
+#    callable: var_dump
+#    source: layout_footer_beans
 
   layout_builder__layout:
     source: layout_footer_beans
@@ -137,6 +137,7 @@ migration_dependencies:
     - express_beans_content_sequence
     - express_beans_block
     - express_beans_video_hero_unit
+    - express_beans_expandable
 
 
 dependencies:
