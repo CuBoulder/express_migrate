@@ -50,7 +50,7 @@ process:
   info: label
 
 
-  'field_grid_column_count':
+  'field_expandable_content_type':
     plugin: static_map
     source: field_expandable_display
     map:
@@ -66,10 +66,10 @@ process:
       migration: express_beans_expandable_field_expandable_section_grid_layout_content
       source: field_expandable_section
 
-  dump:
-    plugin: callback
-    callable: var_dump
-    source: '@pseudo_field_expandable_content_copy_items'
+#  dump:
+#    plugin: callback
+#    callable: var_dump
+#    source: '@pseudo_field_expandable_content_copy_items'
 
   field_expandable_content_copy:
     plugin: sub_process_managed

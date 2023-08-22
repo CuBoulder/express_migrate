@@ -84,6 +84,9 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
         $allowedComponents[] = 'video_hero_unit';
         $allowedComponents[] = 'expandable';
         $allowedComponents[] = 'body';
+        $allowedComponents[] = 'slider';
+        $allowedComponents[] = 'video_reveal';
+        $allowedComponents[] = 'people_list_block';
 
         if(!in_array($component_type, $allowedComponents))
         {
@@ -118,7 +121,7 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
         $component_id_array = [$component_id];
         #file_put_contents('/tmp/drupaldebug.txt', print_r($component_id_array, true), FILE_APPEND | LOCK_EX);
 
-        $destid = $lookup->lookup(['express_beans_feature_callout', 'express_beans_block', 'express_beans_content_row', 'express_beans_content_sequence', 'express_beans_video_hero_unit', 'express_beans_expandable'], $component_id_array);
+        $destid = $lookup->lookup(['express_beans_feature_callout', 'express_beans_block', 'express_beans_content_row', 'express_beans_content_sequence', 'express_beans_video_hero_unit', 'express_beans_expandable', 'express_beans_slider', 'express_beans_video_reveal', 'express_beans_people_list_block'], $component_id_array);
 
         file_put_contents('/tmp/drupaldebug.txt', "destid:" . print_r($destid, true) . "\n" , FILE_APPEND | LOCK_EX);
 

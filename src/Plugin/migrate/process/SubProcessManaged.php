@@ -243,8 +243,8 @@ class SubProcessManaged extends ProcessPluginBase {
     }
 
 //
-    file_put_contents('/tmp/drupaldebug.txt', print_r($value, true), FILE_APPEND | LOCK_EX);
-    file_put_contents('/tmp/drupaldebug.txt', "---subprocessmanaged end---\n" , FILE_APPEND | LOCK_EX);
+//    file_put_contents('/tmp/drupaldebug.txt', print_r($value, true), FILE_APPEND | LOCK_EX);
+//    file_put_contents('/tmp/drupaldebug.txt', "---subprocessmanaged end---\n" , FILE_APPEND | LOCK_EX);
 
 
 

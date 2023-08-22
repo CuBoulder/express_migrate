@@ -1,0 +1,81 @@
+id: express_beans_video_reveal
+label: Express Beans Video Reveal Migration
+migration_tags:
+  - express
+
+source:
+  plugin: url
+  data_fetcher_plugin: file
+  data_parser_plugin: simple_xml
+  urls:
+    - data.xml
+  item_selector: /root/beans/video_reveal/item
+  fields:
+
+
+    - name: bid
+      label: 'bid'
+      selector: 'bid'
+
+    - name: title
+      label: title
+      selector: 'title'
+
+    - name: label
+      label: label
+      selector: 'label'
+
+    - name: field_video_reveal_image_fid
+      label: field_video_reveal_image_fid
+      selector: 'fields/field_video_reveal_image/data/item/field_video_reveal_image_fid'
+
+
+    - name: field_video_reveal_text
+      label: field_video_reveal_text
+      selector: 'fields/field_video_reveal_text/data/item/field_video_reveal_text_value'
+
+    - name: field_video_reveal_url_id
+      label: field_video_reveal_url_id
+      selector: 'fields/field_video_reveal_url/data/item/id'
+
+
+
+  ids:
+    bid:
+      type: integer
+process:
+
+  id: bid
+
+  info: label
+
+  field_video_reveal_image/target_id:
+    plugin: migration_lookup
+    migration: express_media_images
+    source: field_video_reveal_image_fid
+
+  field_video_reveal_text/value:
+    plugin: migration_strip_tags
+    source: field_video_reveal_text
+
+  field_video_reveal_video:
+    plugin: migration_lookup
+    migration: express_beans_video_reveal_video
+    source: field_video_reveal_url_id
+
+
+destination:
+  plugin: 'entity:block_content'
+  default_bundle: 'video_reveal'
+
+
+migration_dependencies:
+  required:
+    - express_beans_video_reveal_video
+
+
+
+dependencies:
+  enforced:
+    module:
+      - migrate_express

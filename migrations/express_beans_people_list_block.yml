@@ -25,9 +25,29 @@ source:
       label: label
       selector: 'label'
 
-    - name: field_hero_unit_headline
-      label: field_hero_unit_headline
-      selector: 'fields/field_hero_unit_headline/data/item/field_hero_unit_headline_value'
+    - name: field_people_block_thumbnail
+      label: field_people_block_thumbnail
+      selector: 'fields/field_people_block_thumbnail/data/item/field_people_block_thumbnail_value'
+
+    - name: field_people_filter_1
+      label: field_people_filter_1
+      selector: 'fields/field_people_filter_1/data/item/field_people_filter_1_tid'
+
+    - name: field_people_filter_2
+      label: field_people_filter_2
+      selector: 'fields/field_people_filter_2/data/item/field_people_filter_2_tid'
+
+    - name: field_people_filter_3
+      label: field_people_filter_3
+      selector: 'fields/field_people_filter_3/data/item/field_people_filter_3_tid'
+
+    - name: field_people_list_department
+      label: field_people_list_department
+      selector: 'fields/field_people_list_department/data/item/field_people_list_department_tid'
+
+    - name: field_people_list_person_type
+      label: field_people_list_person_type
+      selector: 'fields/field_people_list_person_type/data/item/field_people_list_person_type_tid'
 
 
 
@@ -39,82 +59,68 @@ process:
   id: bid
 
   info: label
-#
-#  field_headline: field_hero_unit_headline
-#
-#  field_solid_colors:
-#    plugin: default_value
-#    default_value: none
-#
-#  field_link_color:
-#    plugin: static_map
-#    source: field_hero_unit_link_color
-#    map:
-#      'blue': 'button-blue'
-#      'white': 'button-white'
-#      'gray': 'button-gray-light'
-#      'black': 'button-black'
-#      'dark_gray': 'button-gray-dark'
-#      'gold': 'button-gold'
-#      'outline-white': 'button-white'
-#      'outline-black': 'button-black'
-#    default_value: 'button-blue'
-#
-#  field_text/value: field_hero_unit_text
-#  field_text/format:
-#    plugin: default_value
-#    default_value: 'wysiwyg'
-#
-#  field_text_align:
-#    plugin: static_map
-#    source: field_hero_unit_text_align
-#    map:
-#      'a': 'text-left'
-#      'b': 'text-end'
-#      'center': 'text-center'
-#      'c': 'text-lefthalf'
-#      'd': 'text-righthalf'
-#    default_value: 'text-left'
-#
-#
-#  field_text_color:
-#    plugin: static_map
-#    source: field_hero_unit_text_color
-#    map:
-#      'black': 'text-body'
-#      'white': 'text-white'
-#    default_value: 'text-body'
-#
-#  field_hero_overlay:
-#    plugin: static_map
-#    source: field_hero_video_overlay
-#    map:
-#      '0': 'Off'
-#      '1': 'On'
-#
-#  field_size:
-#    plugin: static_map
-#    source: field_hero_video_size
-#    map:
-#      'large': '0'
-#      'medium': '1'
-#      'small': '2'
-#    default_value: '0'
-#
-#  field_background_media:
-#    plugin: migration_lookup
-#    migration: express_beans_video_hero_unit_field_background_media
-#    source: field_video_hero_url_id
+
+
+  field_people_block_display:
+    plugin: static_map
+    source: field_people_block_thumbnail
+    map:
+      'teaser': 'teaser'
+      'grid': 'grid'
+      'sidebar': 'name-thumbnail'
+      'title': 'name-only'
+    default_value: 'grid'
+
+
+
+
+  field_people_block_filter_1:
+    - plugin: migration_lookup
+      migration: express_taxonomy_terms_people_filter_1
+      source: field_people_filter_1
+
+  field_people_block_filter_2:
+    - plugin: migration_lookup
+      migration: express_taxonomy_terms_people_filter_2
+      source: field_people_filter_2
+
+  field_people_block_filter_3:
+    - plugin: migration_lookup
+      migration: express_taxonomy_terms_people_filter_3
+      source: field_people_filter_3
+
+
+
+
+
+  field_people_block_department:
+    - plugin: migration_lookup
+      migration: express_taxonomy_terms_department
+      source: field_people_list_department
+
+  field_people_block_job_type:
+    - plugin: migration_lookup
+      migration: express_taxonomy_terms_person_type
+      source: field_people_list_person_type
+
+
+
+
 
 
 destination:
   plugin: 'entity:block_content'
-  default_bundle: 'content_list'
+  default_bundle: 'ucb_people_list_block'
 
 
 migration_dependencies:
   required:
-    {}
+    - express_nodes_person
+    - express_taxonomy_terms_department
+    - express_taxonomy_terms_person_type
+    - express_taxonomy_terms_people_filter_1
+    - express_taxonomy_terms_people_filter_2
+    - express_taxonomy_terms_people_filter_3
 
 
 

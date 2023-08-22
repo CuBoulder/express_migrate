@@ -1,0 +1,84 @@
+id: express_beans_slider_slide
+label: Express Beans Slider Slide Migration
+migration_tags:
+  - express
+
+source:
+  plugin: url
+  data_fetcher_plugin: file
+  data_parser_plugin: simple_xml
+  urls:
+    - data.xml
+  item_selector: /root/beans/slider/item/fields/field_slider_slide/data/item/grid_layout_content
+  fields:
+
+
+    - name: id
+      label: 'id'
+      selector: 'id'
+
+    - name: field_slider_image_fid
+      label: 'field_slider_image_fid'
+      selector: 'field_slider_image/field_slider_image_fid'
+
+    - name: field_slider_image_alt
+      label: 'field_slider_image_alt'
+      selector: 'field_slider_image/field_slider_image_alt'
+
+    - name: field_slider_image_title
+      label: 'field_slider_image_title'
+      selector: 'field_slider_image/field_slider_image_title'
+
+    - name: field_slider_image_width
+      label: 'field_slider_image_width'
+      selector: 'field_slider_image/field_slider_image_width'
+
+    - name: field_slider_image_height
+      label: 'field_slider_image_height'
+      selector: 'field_slider_image/field_slider_image_height'
+
+
+
+
+
+
+  ids:
+    id:
+      type: string
+process:
+
+
+  dump:
+    plugin: callback
+    callable: var_dump
+    source: 'field_slider_image_fid'
+
+
+  field_slide_image/target_id:
+    plugin: migration_lookup
+    migration: express_media_images
+    source: field_slider_image_fid
+
+
+
+#  'field_row_layout_content_text/value': field_callout_text_value
+#  'field_row_layout_content_text/format': field_callout_text_format
+#
+#  'field_row_layout_content_title': field_callout_title_title
+#  'field_row_layout_content_link': field_callout_title_url
+
+
+destination:
+  plugin: 'entity_reference_revisions:paragraph'
+  default_bundle: 'slider_image'
+
+
+migration_dependencies:
+  required:
+    - express_media_images
+
+
+dependencies:
+  enforced:
+    module:
+      - migrate_express

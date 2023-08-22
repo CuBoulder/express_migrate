@@ -1,0 +1,108 @@
+id: express_beans_slider
+label: Express Beans Slider Migration
+migration_tags:
+  - express
+
+source:
+  plugin: url
+  data_fetcher_plugin: file
+  data_parser_plugin: simple_xml
+  urls:
+    - data.xml
+  item_selector: /root/beans/slider/item
+  fields:
+
+
+    - name: bid
+      label: 'bid'
+      selector: 'bid'
+
+    - name: title
+      label: title
+      selector: 'title'
+
+    - name: label
+      label: label
+      selector: 'label'
+
+    - name: field_slider_design_style
+      label: field_slider_design_style
+      selector: 'fields/field_slider_design_style/data/item/field_slider_design_style_value'
+
+
+    - name: field_slider_size
+      label: field_slider_size
+      selector: 'fields/field_slider_size/data/item/field_slider_size_value'
+
+    - name: field_slider_slide
+      label: field_slider_slide
+      selector: 'fields/field_slider_slide/data/item/grid_layout_content/id'
+
+
+
+  ids:
+    bid:
+      type: integer
+process:
+
+  id: bid
+
+  info: label
+
+  field_slider_size:
+    plugin: static_map
+    source: field_slider_size
+    map:
+      'slider': 0
+      'widescreen': 1
+      'slider-large': 2
+      'large': 3
+    default_value: 0
+
+  field_slider_text_style:
+    plugin: static_map
+    source: field_slider_design_style
+    map:
+      '1': 'bottom-overlay'
+      '2': 'right-overlay'
+      '3': 'center-overlay'
+      '4': 'right-content'
+      '5': 'bottom-content'
+      '6': 'bottom-overlay'
+      '7': 'bottom-overlay'
+      '8': 'bottom-overlay'
+
+    default_value: 'bottom-overlay'
+
+
+  pseudo_field_slider_slide_items:
+    - plugin: migration_lookup
+      migration: express_beans_slider_slide
+      source: field_slider_slide
+
+
+  field_slider_slide:
+    plugin: sub_process_managed
+    source:
+      - '@pseudo_field_slider_slide_items'
+    process:
+      target_id: '0'
+      target_revision_id: '1'
+
+
+
+destination:
+  plugin: 'entity:block_content'
+  default_bundle: 'slider'
+
+
+migration_dependencies:
+  required:
+    - express_beans_slider_slide
+
+
+
+dependencies:
+  enforced:
+    module:
+      - migrate_express

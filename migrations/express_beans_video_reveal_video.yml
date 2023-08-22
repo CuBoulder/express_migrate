@@ -1,0 +1,42 @@
+id: express_beans_video_reveal_video
+label: Express Video Reveal Video Migration
+migration_tags:
+  - express
+
+source:
+  plugin: url
+  data_fetcher_plugin: file
+  data_parser_plugin: simple_xml
+  urls:
+    - data.xml
+  item_selector: /root/beans/video_reveal/item/fields/field_video_reveal_url/data/item
+  fields:
+    - name: id
+      label: 'id'
+      selector: 'id'
+
+    - name: field_video_reveal_url_video_url
+      label: 'field_video_reveal_url_video_url'
+      selector: 'field_video_reveal_url_video_url'
+
+
+  ids:
+    id:
+      type: string
+process:
+  name: field_video_reveal_url_video_url
+  field_media_oembed_video: field_video_reveal_url_video_url
+
+
+destination:
+  plugin: entity:media
+  default_bundle: video
+
+
+
+migration_dependencies: {}
+
+dependencies:
+  enforced:
+    module:
+      - migrate_express

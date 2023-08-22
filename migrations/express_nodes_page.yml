@@ -99,7 +99,12 @@ process:
       default_value: 0
 
 
-  'body/value': body_value
+  'body/value':
+    plugin: migrate_inline_images
+    source: body_value
+
+
+
   'body/summary': body_summary
   'body/format': body_format
 
@@ -138,6 +143,9 @@ migration_dependencies:
     - express_beans_block
     - express_beans_video_hero_unit
     - express_beans_expandable
+    - express_beans_slider
+    - express_beans_people_list_block
+    - express_beans_video_reveal
 
 
 dependencies:
