@@ -83,6 +83,7 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
         $allowedComponents[] = 'content_sequence';
         $allowedComponents[] = 'video_hero_unit';
         $allowedComponents[] = 'expandable';
+        $allowedComponents[] = 'title';
         $allowedComponents[] = 'body';
         $allowedComponents[] = 'slider';
         $allowedComponents[] = 'video_reveal';
@@ -115,6 +116,51 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
           continue;
 
         }
+
+        if ($component_type == 'title')
+        {
+          file_put_contents('/tmp/drupaldebug.txt', "Title Bean" . "\n" , FILE_APPEND | LOCK_EX);
+          $config = [
+            'id' => 'field_block:node:basic_page:title',
+            'label_display' => FALSE,
+            'context_mapping' => [
+              'entity' => 'layout_builder.entity',
+              'view_mode' => 'view_mode'
+            ],
+            'formatter' => [
+              'type' => 'text_default',
+              'label' => 'hidden',
+              'settings' => [],
+              'third_party_settings' => []
+            ]
+          ];
+
+          $components[] = new SectionComponent($generator->generate(), 'first', $config);
+          continue;
+
+        }
+
+//        if ($component_type == 'title')
+//        {
+//          file_put_contents('/tmp/drupaldebug.txt', "Title Bean" . "\n" , FILE_APPEND | LOCK_EX);
+//          $config = [
+//            'id' => 'field_block:node:basic_page:body',
+//            'label_display' => FALSE,
+//            'context_mapping' => [
+//              'entity' => 'layout_builder.entity'
+//            ],
+//            'formatter' => [
+//              'type' => 'text_default',
+//              'label' => 'hidden',
+//              'settings' => [],
+//              'third_party_settings' => []
+//            ]
+//          ];
+//
+//          $components[] = new SectionComponent($generator->generate(), 'first', $config);
+//          continue;
+//
+//        }
 
         file_put_contents('/tmp/drupaldebug.txt', "reached" . "\n" , FILE_APPEND | LOCK_EX);
 
@@ -206,6 +252,7 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
 
       $layoutSettings = [];
       $layoutSettings['background_color'] = 'white';
+      $layoutSettings['container_width'] = 'contained';
       $layoutSettings['content_frame_color'] = 'none';
       $layoutSettings['overlay_color'] = 'none';
       $layoutSettings['background_effect'] = 'fixed';
@@ -224,6 +271,10 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
 //        file_put_contents('/tmp/drupaldebug.txt', "XML child:" . "The $name is '$data' from the class " . get_class($data) . "\n" , FILE_APPEND | LOCK_EX);
 //      }
 //
+      if(property_exists($section, 'container_width'))
+      {
+        $layoutSettings['container_width'] = (string)$section->container_width;
+      }
       if(property_exists($section, 'padding_top'))
       {
         $layoutSettings['section_padding_top'] = (string)$section->padding_top;

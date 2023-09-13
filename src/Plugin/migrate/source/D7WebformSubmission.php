@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\webform_migrate\Plugin\migrate\source\d7;
+namespace Drupal\migrate_express\Plugin\migrate\source;
 
 use Drupal\migrate\Row;
 use Drupal\migrate_drupal\Plugin\migrate\source\DrupalSqlBase;

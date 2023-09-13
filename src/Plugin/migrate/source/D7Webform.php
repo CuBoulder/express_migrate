@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\webform_migrate\Plugin\migrate\source\d7;
+namespace Drupal\migrate_express\Plugin\migrate\source;
 
 use Drupal\migrate\Event\ImportAwareInterface;
 use Drupal\migrate\Event\RollbackAwareInterface;
@@ -478,7 +478,7 @@ class D7Webform extends DrupalSqlBase implements ImportAwareInterface, RollbackA
             $size = $extra['filtering']['size'];
 
             // Convert the string into an integer in bytes.
-            $file_size_bytes = Bytes::toInt($size);
+            $file_size_bytes = Bytes::toNumber($size);
 
             // Convert that to MB.
             $file_size = floor($file_size_bytes / 1024 / 1024);
@@ -904,66 +904,66 @@ class D7Webform extends DrupalSqlBase implements ImportAwareInterface, RollbackA
    * {@inheritdoc}
    */
   public function postImport(MigrateImportEvent $event) {
-    // Add the Webform field to the webform content type
-    // if it doesn't already exist.
-    $field_storage = FieldStorageConfig::loadByName('node', 'webform');
-    $field = FieldConfig::loadByName('node', 'webform', 'webform');
-    if (empty($field)) {
-      $field = \Drupal::service('entity_type.manager')->getStorage('field_config')->create([
-        'field_storage' => $field_storage,
-        'bundle' => 'webform',
-        'label' => 'Webform',
-        'settings' => [],
-      ]);
-      $field->save();
-      // Assign widget settings for the 'default' form mode.
-      $display = \Drupal::service('entity_display.repository')->getFormDisplay('node', 'webform', 'default')->getComponent('webform');
-      \Drupal::service('entity_display.repository')->getFormDisplay('node', 'webform', 'default')
-        ->setComponent('webform', [
-          'type' => $display['type'],
-        ])
-        ->save();
-      // Assign display settings for the 'default' and 'teaser' view modes.
-      $display = \Drupal::service('entity_display.repository')->getViewDisplay('node', 'webform', 'default')->getComponent('webform');
-      \Drupal::service('entity_display.repository')->getViewDisplay('node', 'webform', 'default')
-        ->setComponent('webform', [
-          'label' => $display['label'],
-          'type' => $display['type'],
-        ])
-        ->save();
-      // The teaser view mode is created by the Standard profile and therefore
-      // might not exist.
-      $view_modes = \Drupal::service('entity_display.repository')->getViewModes('node');
-      if (isset($view_modes['teaser'])) {
-        $display = \Drupal::service('entity_display.repository')->getViewDisplay('node', 'webform', 'teaser')->getComponent('webform');
-        \Drupal::service('entity_display.repository')->getViewDisplay('node', 'webform', 'teaser')
-          ->setComponent('webform', [
-            'label' => $display['label'],
-            'type' => $display['type'],
-          ])
-          ->save();
-      }
-    }
-
-    // Attach any Webform created to the relevant webforms if
-    // Webform exists and Webform exists and Webform field is empty.
-    $webforms = $this->query()->execute();
-    foreach ($webforms as $webformInfo) {
-      $webform_nid = $webformInfo['nid'];
-      $webform_id = 'webform_' . $webform_nid;
-      $webform = Webform::load($webform_id);
-      if (!empty($webform)) {
-        /** @var \Drupal\node\NodeInterface $node */
-        $node = Node::load($webform_nid);
-        if (!empty($node) && $node->getType() == 'webform') {
-          if (empty($node->webform->target_id)) {
-            $node->webform->target_id = $webform_id;
-            $node->webform->status = $webformInfo['status'] ? 'open' : 'closed';
-            $node->save();
-          }
-        }
-      }
-    }
+//    // Add the Webform field to the webform content type
+//    // if it doesn't already exist.
+//    $field_storage = FieldStorageConfig::loadByName('node', 'webform');
+//    $field = FieldConfig::loadByName('node', 'webform', 'webform');
+//    if (empty($field)) {
+//      $field = \Drupal::service('entity_type.manager')->getStorage('field_config')->create([
+//        'field_storage' => $field_storage,
+//        'bundle' => 'webform',
+//        'label' => 'Webform',
+//        'settings' => [],
+//      ]);
+//      $field->save();
+//      // Assign widget settings for the 'default' form mode.
+//      $display = \Drupal::service('entity_display.repository')->getFormDisplay('node', 'webform', 'default')->getComponent('webform');
+//      \Drupal::service('entity_display.repository')->getFormDisplay('node', 'webform', 'default')
+//        ->setComponent('webform', [
+//          'type' => $display['type'],
+//        ])
+//        ->save();
+//      // Assign display settings for the 'default' and 'teaser' view modes.
+//      $display = \Drupal::service('entity_display.repository')->getViewDisplay('node', 'webform', 'default')->getComponent('webform');
+//      \Drupal::service('entity_display.repository')->getViewDisplay('node', 'webform', 'default')
+//        ->setComponent('webform', [
+//          'label' => $display['label'],
+//          'type' => $display['type'],
+//        ])
+//        ->save();
+//      // The teaser view mode is created by the Standard profile and therefore
+//      // might not exist.
+//      $view_modes = \Drupal::service('entity_display.repository')->getViewModes('node');
+//      if (isset($view_modes['teaser'])) {
+//        $display = \Drupal::service('entity_display.repository')->getViewDisplay('node', 'webform', 'teaser')->getComponent('webform');
+//        \Drupal::service('entity_display.repository')->getViewDisplay('node', 'webform', 'teaser')
+//          ->setComponent('webform', [
+//            'label' => $display['label'],
+//            'type' => $display['type'],
+//          ])
+//          ->save();
+//      }
+//    }
+//
+//    // Attach any Webform created to the relevant webforms if
+//    // Webform exists and Webform exists and Webform field is empty.
+//    $webforms = $this->query()->execute();
+//    foreach ($webforms as $webformInfo) {
+//      $webform_nid = $webformInfo['nid'];
+//      $webform_id = 'webform_' . $webform_nid;
+//      $webform = Webform::load($webform_id);
+//      if (!empty($webform)) {
+//        /** @var \Drupal\node\NodeInterface $node */
+//        $node = Node::load($webform_nid);
+//        if (!empty($node) && $node->getType() == 'webform') {
+//          if (empty($node->webform->target_id)) {
+//            $node->webform->target_id = $webform_id;
+//            $node->webform->status = $webformInfo['status'] ? 'open' : 'closed';
+//            $node->save();
+//          }
+//        }
+//      }
+//    }
   }
 
   /**

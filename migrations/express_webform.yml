@@ -1,4 +1,4 @@
-id: d7_webform
+id: express_webform
 label: 'Webform'
 migration_tags:
   - express
@@ -53,6 +53,7 @@ destination:
   plugin: 'entity:webform'
 migration_dependencies:
   required:
-    - d7_user_role
-  optional:
-    - d7_node:webform
+    {}
+#    - d7_user_role
+#  optional:
+#    - d7_node:webform
