@@ -88,6 +88,7 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
         $allowedComponents[] = 'slider';
         $allowedComponents[] = 'video_reveal';
         $allowedComponents[] = 'people_list_block';
+        $allowedComponents[] = 'block_wrapper';
 
         if(!in_array($component_type, $allowedComponents))
         {
@@ -140,34 +141,13 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
 
         }
 
-//        if ($component_type == 'title')
-//        {
-//          file_put_contents('/tmp/drupaldebug.txt', "Title Bean" . "\n" , FILE_APPEND | LOCK_EX);
-//          $config = [
-//            'id' => 'field_block:node:basic_page:body',
-//            'label_display' => FALSE,
-//            'context_mapping' => [
-//              'entity' => 'layout_builder.entity'
-//            ],
-//            'formatter' => [
-//              'type' => 'text_default',
-//              'label' => 'hidden',
-//              'settings' => [],
-//              'third_party_settings' => []
-//            ]
-//          ];
-//
-//          $components[] = new SectionComponent($generator->generate(), 'first', $config);
-//          continue;
-//
-//        }
 
         file_put_contents('/tmp/drupaldebug.txt', "reached" . "\n" , FILE_APPEND | LOCK_EX);
 
         $component_id_array = [$component_id];
         #file_put_contents('/tmp/drupaldebug.txt', print_r($component_id_array, true), FILE_APPEND | LOCK_EX);
 
-        $destid = $lookup->lookup(['express_beans_feature_callout', 'express_beans_block', 'express_beans_content_row', 'express_beans_content_sequence', 'express_beans_video_hero_unit', 'express_beans_expandable', 'express_beans_slider', 'express_beans_video_reveal', 'express_beans_people_list_block'], $component_id_array);
+        $destid = $lookup->lookup(['express_beans_feature_callout', 'express_beans_block', 'express_beans_content_row', 'express_beans_content_sequence', 'express_beans_video_hero_unit', 'express_beans_expandable', 'express_beans_slider', 'express_beans_video_reveal', 'express_beans_people_list_block', 'express_beans_block_wrapper'], $component_id_array);
 
         file_put_contents('/tmp/drupaldebug.txt', "destid:" . print_r($destid, true) . "\n" , FILE_APPEND | LOCK_EX);
 
@@ -214,33 +194,6 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
 
 
       }
-
-//      (
-//      [background_color] => white
-//      [content_frame_color] => none
-//      [0] =>
-//            [1] =>
-//            [overlay_color] => none
-//      [background_effect] => fixed
-//      [class] =>
-//            [column_width] => 12
-//            [section_padding_top] => 0px
-//      [section_padding_right] => 0px
-//      [section_padding_bottom] => 0px
-//      [section_padding_left] => 0px
-//      [2] =>
-//            [3] =>
-//            [4] =>
-//            [5] =>
-//            [background_image] =>
-//            [background_image_styles] =>
-//            [context_mapping] => Array
-//      (
-//      )
-//
-//        )
-
-
       /*
        * field_block_section_bg_effect = background_effect
        * field_block_section_bg_image = background_image

@@ -1,0 +1,59 @@
+id: express_beans_block_wrapper
+label: Express Beans Block Wrapper Migration
+migration_tags:
+  - express
+
+source:
+  plugin: url
+  data_fetcher_plugin: file
+  data_parser_plugin: simple_xml
+  urls:
+    - data.xml
+  item_selector: /root/beans/block_wrapper/item
+  fields:
+
+
+    - name: bid
+      label: 'bid'
+      selector: 'bid'
+
+    - name: title
+      label: title
+      selector: 'title'
+
+    - name: field_block_wrapper_reference
+      label: 'field_block_wrapper_reference'
+      selector: 'fields/field_block_wrapper_reference/data/item/field_block_wrapper_reference_value'
+
+
+  ids:
+    bid:
+      type: integer
+process:
+
+  id: bid
+
+  info: title
+
+  'field_ucb_form_block/target_id':
+    - plugin: migration_lookup
+      migration: express_webform
+      source: field_block_wrapper_reference
+
+
+
+
+
+destination:
+  plugin: 'entity:block_content'
+  default_bundle: 'ucb_form'
+
+
+migration_dependencies:
+  required:
+    - express_webform
+
+dependencies:
+  enforced:
+    module:
+      - migrate_express

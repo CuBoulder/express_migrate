@@ -39,27 +39,29 @@ class MigrateInlineImages extends ProcessPluginBase {
       $query = \Drupal::entityQuery('media')->condition('bundle', 'image')->condition('name', $filename)->accessCheck(FALSE);
       $result = $query->execute();
       $value = reset($result);
-      $uuid = \Drupal::entityTypeManager()->getStorage('media')->load($value)->uuid();
+
+      $mediaobject = \Drupal::entityTypeManager()->getStorage('media')->load($value);
+
+      $uuid = '';
+
+      if(!is_null($mediaobject))
+      {
+        $uuid = $mediaobject->uuid();
+      }
+
 
 
       $newelement->outertext = '<drupal-media data-entity-type="media" data-entity-uuid="' . $uuid . '"></drupal-media>';
 
     }
-//
-//    $img = $html->find('drupal-media', 0);
-//    if(!is_null($img))
-//    {
-//      $img->setAttribute('data-entity-type', 'media');
-//      $img->setAttribute('data-entity-uuid', 'uuid-to-be-looked-up');
-//      //$img->alt = "Magic method test";
-//
-//      file_put_contents('/tmp/drupaldebug.txt', "src attribute" . $img->src ."\n" , FILE_APPEND | LOCK_EX);
-//    }
 
     $value = (string)$html;
 
     file_put_contents('/tmp/drupaldebug.txt', $value . "\n" , FILE_APPEND | LOCK_EX);
 
+
+// * text-align:center - text-align-center
+// drupal-media float:right - align-right
 
 
 

@@ -63,8 +63,8 @@ source:
       label: 'Page Sections'
       selector: 'layout/page_sections/field_intro'
 
-    - name: layout_footer_beans
-      label: 'Layout Footer Beans'
+    - name: layout_beans
+      label: 'Layout Beans'
       selector: 'layout/page_sections'
 
 
@@ -126,7 +126,7 @@ process:
 #    source: layout_footer_beans
 
   layout_builder__layout:
-    source: layout_footer_beans
+    source: layout_beans
     plugin: layout_builder_sections_pages
 
 
@@ -146,6 +146,7 @@ migration_dependencies:
     - express_beans_slider
     - express_beans_people_list_block
     - express_beans_video_reveal
+    - express_beans_block_wrapper
 
 
 dependencies:

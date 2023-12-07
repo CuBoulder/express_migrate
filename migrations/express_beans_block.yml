@@ -42,7 +42,12 @@ process:
 
   info: title
 
-  'field_text_block_body/value': field_block_text_value
+  'field_text_block_body/value':
+    plugin: migrate_inline_images
+    source: field_block_text_value
+
+
+
   'field_text_block_body/format': field_block_text_format
 
 
@@ -53,7 +58,8 @@ destination:
 
 migration_dependencies:
   required:
-    { }
+    - express_media_images
+
 
 
 dependencies:
