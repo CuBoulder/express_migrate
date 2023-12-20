@@ -104,6 +104,9 @@ migration_dependencies:
     - express_nodes_people_list_page
     - express_nodes_person
     - express_nodes_section_page
+    - express_webform
+    - express_webform_submission
+    - express_nodes_webform
 
 dependencies:
   enforced:

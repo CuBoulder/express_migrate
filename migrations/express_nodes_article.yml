@@ -63,7 +63,7 @@ source:
 
     - name: external_url
       label: 'External URL'
-      selector: 'fields/field_article_external_url/data/item/field_article_external_url_value'
+      selector: 'fields/field_article_external_url/data/item/field_article_external_url_url'
 
     - name: thumbnail_fid
       label: 'Thumbnail'
@@ -122,6 +122,8 @@ process:
     plugin: migration_lookup
     migration: express_media_images
     source: thumbnail_fid
+
+  field_ucb_article_external_url/uri: external_url
 
 
 

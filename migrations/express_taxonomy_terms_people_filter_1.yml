@@ -11,12 +11,12 @@ source:
     - data.xml
   item_selector: /root/vocabularies/people_filter_1/item
   fields:
-#    - name: tid
-#      label: 'tid'
-#      selector: tid
-#    - name: vid
-#      label: 'vid'
-#      selector: vid
+    - name: tid
+      label: 'tid'
+      selector: tid
+    - name: parent
+      label: 'parent'
+      selector: parent
     - name: name
       label: 'Name'
       selector: name
@@ -33,14 +33,12 @@ source:
     name:
       type: string
 process:
-#  tid: tid
-#  vid: vid
+  tid: tid
+  parent: parent
   name: name
   description: description
   weight: weight
-  parent:
-    plugin: default_value
-    default_value: 0
+
 destination:
   plugin: entity:taxonomy_term
   default_bundle: filter_1

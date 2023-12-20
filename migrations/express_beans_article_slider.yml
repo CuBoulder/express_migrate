@@ -1,0 +1,102 @@
+id: express_beans_article_slider
+label: Express Beans Article Slider Migration
+migration_tags:
+  - express
+
+source:
+  plugin: url
+  data_fetcher_plugin: file
+  data_parser_plugin: simple_xml
+  urls:
+    - data.xml
+  item_selector: /root/beans/article_slider/item
+  fields:
+
+
+    - name: bid
+      label: 'bid'
+      selector: 'bid'
+
+    - name: title
+      label: title
+      selector: 'title'
+
+    - name: label
+      label: label
+      selector: 'label'
+
+    - name: field_article_exclude_category
+      label: field_article_exclude_category
+      selector: 'fields/field_article_exclude_category/data/item/field_article_exclude_category_tid'
+
+    - name: field_article_exclude_tag
+      label: field_article_exclude_tag
+      selector: 'fields/field_article_exclude_tag/data/item/field_article_exclude_tag_tid'
+
+    - name: field_article_slider_category
+      label: field_article_slider_category
+      selector: 'fields/field_article_slider_category/data/item/field_article_slider_category_tid'
+
+    - name: field_article_slider_filter
+      label: field_article_slider_filter
+      selector: 'fields/field_article_slider_filter/data/item/field_article_slider_filter_tid'
+
+
+  ids:
+    bid:
+      type: integer
+process:
+
+  id: bid
+
+  info: title
+
+
+
+
+
+  field_article_slider_cat_exclude:
+    - plugin: migration_lookup
+      migration: express_taxonomy_terms_category
+      source: field_article_exclude_category
+
+  field_article_slider_tag_exclude:
+    - plugin: migration_lookup
+      migration: express_taxonomy_terms_tags
+      source: field_article_exclude_tag
+
+  field_article_slider_cat_include:
+    - plugin: migration_lookup
+      migration: express_taxonomy_terms_category
+      source: field_article_slider_category
+
+  field_article_slider_tag_include:
+    - plugin: migration_lookup
+      migration: express_taxonomy_terms_tags
+      source: field_article_slider_filter
+
+
+
+
+
+
+
+
+
+destination:
+  plugin: 'entity:block_content'
+  default_bundle: 'ucb_article_slider'
+
+
+migration_dependencies:
+  required:
+    - express_taxonomy_terms_category
+    - express_taxonomy_terms_tags
+
+
+
+
+dependencies:
+  enforced:
+    module:
+      - migrate_express

@@ -15,6 +15,9 @@ source:
     - name: tid
       label: 'tid'
       selector: tid
+    - name: parent
+      label: 'parent'
+      selector: parent
     - name: name
       label: 'Name'
       selector: name
@@ -31,14 +34,12 @@ source:
     tid:
       type: integer
 process:
-#  tid: tid
-#  vid: vid
+  tid: tid
+  parent: parent
   name: name
   description: description
   weight: weight
-  parent:
-    plugin: default_value
-    default_value: 0
+
 destination:
   plugin: entity:taxonomy_term
   default_bundle: department

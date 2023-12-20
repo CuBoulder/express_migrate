@@ -71,6 +71,7 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
         $bean_string = (string)$bean;
         $component_id = (integer)explode(" ", $bean_string)[0];
         $component_type = (string)explode(" ", $bean_string)[1];
+        $component_display_title = (string)explode(" ", $bean_string)[2];
 
 
         file_put_contents('/tmp/drupaldebug.txt', "bid:" . $component_id . "\n" , FILE_APPEND | LOCK_EX);
@@ -89,6 +90,7 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
         $allowedComponents[] = 'video_reveal';
         $allowedComponents[] = 'people_list_block';
         $allowedComponents[] = 'block_wrapper';
+        $allowedComponents[] = 'article_slider';
 
         if(!in_array($component_type, $allowedComponents))
         {
@@ -147,7 +149,7 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
         $component_id_array = [$component_id];
         #file_put_contents('/tmp/drupaldebug.txt', print_r($component_id_array, true), FILE_APPEND | LOCK_EX);
 
-        $destid = $lookup->lookup(['express_beans_feature_callout', 'express_beans_block', 'express_beans_content_row', 'express_beans_content_sequence', 'express_beans_video_hero_unit', 'express_beans_expandable', 'express_beans_slider', 'express_beans_video_reveal', 'express_beans_people_list_block', 'express_beans_block_wrapper'], $component_id_array);
+        $destid = $lookup->lookup(['express_beans_feature_callout', 'express_beans_block', 'express_beans_content_row', 'express_beans_content_sequence', 'express_beans_video_hero_unit', 'express_beans_expandable', 'express_beans_slider', 'express_beans_video_reveal', 'express_beans_people_list_block', 'express_beans_block_wrapper', 'express_beans_article_slider'], $component_id_array);
 
         file_put_contents('/tmp/drupaldebug.txt', "destid:" . print_r($destid, true) . "\n" , FILE_APPEND | LOCK_EX);
 
@@ -178,11 +180,17 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
 
         }
 
+        $label_display = TRUE;
+        if($component_display_title == 'false')
+        {
+          $label_display = FALSE;
+        }
+
         $config = [
           'id' => 'inline_block:'. $block_content->bundle(),
           'label' => $block_content->label(),
           'provider' => 'layout_builder',
-          'label_display' => TRUE,
+          'label_display' => $label_display,
           'view_mode' => 'full',
           'block_revision_id' => $block_content->getRevisionId(),
           'block_serialized' => serialize($block_content),
@@ -248,6 +256,59 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
       {
         $layoutSettings['background_effect'] = (string)$section->bg_effect;
       }
+
+      if(property_exists($section, 'overlay'))
+      {
+        if((string)$section->overlay == '1')
+        {
+          if(property_exists($section, 'text_color'))
+          {
+            if((string)$section->text_color == 'white')
+            {
+              $layoutSettings['overlay_color'] = 'black';
+            }
+            else
+            {
+              $layoutSettings['overlay_color'] = 'white';
+            }
+          }
+        }
+      }
+
+      if(property_exists($section, 'bg_color'))
+      {
+        $bg_color = (string)$section->bg_effect;
+        if($bg_color == 'white')
+        {
+          $layoutSettings['background_color'] = 'white';
+        }
+        if($bg_color == 'gray')
+        {
+          $layoutSettings['background_color'] = 'light-gray';
+        }
+        if($bg_color == 'black')
+        {
+          $layoutSettings['background_color'] = 'black';
+        }
+        if($bg_color == 'dark_gray')
+        {
+          $layoutSettings['background_color'] = 'dark-gray';
+        }
+        if($bg_color == 'gold')
+        {
+          $layoutSettings['background_color'] = 'gold';
+        }
+        if($bg_color == 'tan')
+        {
+          $layoutSettings['background_color'] = 'gold';
+        }
+        if($bg_color == 'light_blue')
+        {
+          $layoutSettings['background_color'] = 'white';
+        }
+      }
+
+
       if(property_exists($section, 'bg_image'))
       {
         $bg_image_srcid = (string)$section->bg_image;
