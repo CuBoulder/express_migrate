@@ -275,6 +275,30 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
         }
       }
 
+      if(property_exists($section, 'text_color'))
+      {
+        if((string)$section->text_color == 'white')
+        {
+          $layoutSettings['background_color'] = 'black';
+        }
+        else
+        {
+          $layoutSettings['background_color'] = 'white';
+        }
+      }
+
+      if(property_exists($section, 'text_color'))
+      {
+        if((string)$section->text_color == 'white')
+        {
+          $layoutSettings['background_color'] = 'black';
+        }
+        else
+        {
+          $layoutSettings['background_color'] = 'white';
+        }
+      }
+
       if(property_exists($section, 'bg_color'))
       {
         $bg_color = (string)$section->bg_effect;
@@ -305,6 +329,60 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
         if($bg_color == 'light_blue')
         {
           $layoutSettings['background_color'] = 'white';
+        }
+
+        if($bg_color == 'medium_blue')
+        {
+          $layoutSettings['background_color'] = 'dark-gray';
+        }
+
+        if($bg_color == 'dark_blue')
+        {
+          $layoutSettings['background_color'] = 'dark-gray';
+        }
+
+        if($bg_color == 'light_green')
+        {
+          $layoutSettings['background_color'] = 'white';
+        }
+
+        if($bg_color == 'brick')
+        {
+          $layoutSettings['background_color'] = 'gold';
+        }
+
+
+      }
+
+      if(property_exists($section, 'content_frame_color'))
+      {
+        $content_frame_color = (string)$section->content_frame_color;
+        if($content_frame_color == 'none')
+        {
+          $layoutSettings['content_frame_color'] = 'none';
+        }
+      }
+
+      if(property_exists($section, 'frame_bg'))
+      {
+        $frame_bg = (string)$section->frame_bg;
+        if($frame_bg == 'hidden')
+        {
+          $layoutSettings['content_frame_color'] = 'none';
+        }
+        else
+        {
+          if(property_exists($section, 'text_color'))
+          {
+            if((string)$section->text_color == 'white')
+            {
+              $layoutSettings['content_frame_color'] = 'dark-gray';
+            }
+            else
+            {
+              $layoutSettings['content_frame_color'] = 'light-gray';
+            }
+          }
         }
       }
 
@@ -351,7 +429,6 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
           $background_image_styles = implode(' ', $media_image_styles);
 
           $layoutSettings['background_image_styles'] = $background_image_styles;
-          $layoutSettings['content_frame_color'] = 'light-gray';
 
 
         }

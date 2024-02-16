@@ -35,6 +35,10 @@ source:
       label: 'options'
       selector: 'options'
 
+    - name: external
+      label: 'external'
+      selector: 'external'
+
     - name: expanded
       label: 'expanded'
       selector: 'expanded'
@@ -83,6 +87,7 @@ process:
   weight: weight
   expanded: expanded
   enabled: enabled
+  external: external
   parent:
     plugin: menu_link_parent
     source:

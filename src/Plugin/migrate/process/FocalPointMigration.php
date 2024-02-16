@@ -61,8 +61,11 @@ class FocalPointMigration extends ProcessPluginBase {
 
     $crop = $fp->getCropEntity($file, 'focal_point');
 
-    $fp->saveCropEntity($x, $y, $width, $height, $crop);
 
+    if(!(is_null($width) or is_null($height)))
+    {
+      $fp->saveCropEntity($x, $y, $width, $height, $crop);
+    }
 
     return null;
   }
