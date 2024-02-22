@@ -70,6 +70,11 @@ source:
       selector: 'fields/field_article_thumbnail/data/item/field_article_thumbnail_fid'
 
 
+    - name: categories
+      label: 'Categories'
+      selector: 'fields/field_article_categories/data/item/field_article_categories_tid'
+
+
 
 
 
@@ -125,6 +130,23 @@ process:
 
   field_ucb_article_external_url/uri: external_url
 
+  field_ucb_article_categories:
+    - plugin: skip_on_empty
+      source: categories
+      method: process
+      message: 'Row does not contain categories.'
+    - plugin: sub_process_managed
+      source: categories
+      process:
+        target_id:
+          - plugin: migration_lookup
+            migration: express_taxonomy_terms_category
+            source: '0'
+            no_stub: true
+
+#  field_ucb_article_categories/target_id:
+#    - plugin: default_value
+#      default_value: "177"
 
 
 destination:
@@ -134,6 +156,9 @@ migration_dependencies:
   required:
     - express_nodes_article_paragraph
     - express_media_images
+    - express_taxonomy_terms_category
+    - express_taxonomy_terms_tags
+    - express_taxonomy_terms_byline
 
 dependencies:
   enforced:

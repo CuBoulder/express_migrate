@@ -184,6 +184,7 @@ process:
           - plugin: migration_lookup
             migration: express_taxonomy_terms_department
             source: '0'
+            no_stub: true
 
 
   field_ucb_person_photo/target_id:

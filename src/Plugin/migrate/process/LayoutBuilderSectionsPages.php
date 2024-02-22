@@ -287,17 +287,6 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
         }
       }
 
-      if(property_exists($section, 'text_color'))
-      {
-        if((string)$section->text_color == 'white')
-        {
-          $layoutSettings['background_color'] = 'black';
-        }
-        else
-        {
-          $layoutSettings['background_color'] = 'white';
-        }
-      }
 
       if(property_exists($section, 'bg_color'))
       {

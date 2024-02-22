@@ -31,8 +31,8 @@ source:
       selector: weight
 
   ids:
-    name:
-      type: string
+    tid:
+      type: integer
 process:
   tid: tid
   parent: parent

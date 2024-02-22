@@ -217,18 +217,18 @@ class SubProcessManaged extends ProcessPluginBase {
 
     file_put_contents('/tmp/drupaldebug.txt', "---subprocessmanaged start---\n" , FILE_APPEND | LOCK_EX);
 
-    file_put_contents('/tmp/drupaldebug.txt', array_depth($value), FILE_APPEND | LOCK_EX);
-    file_put_contents('/tmp/drupaldebug.txt', print_r($value, true), FILE_APPEND | LOCK_EX);
+    file_put_contents('/tmp/drupaldebug.txt', "Array Depth: " . array_depth($value) . "\n", FILE_APPEND | LOCK_EX);
+    file_put_contents('/tmp/drupaldebug.txt', "Input Value: " . print_r($value, true) . "\n", FILE_APPEND | LOCK_EX);
 
 
     if(gettype($value) === 'string')
     {
-//      file_put_contents('/tmp/drupaldebug.txt', "Case A", FILE_APPEND | LOCK_EX);
+      file_put_contents('/tmp/drupaldebug.txt', "Case A\n", FILE_APPEND | LOCK_EX);
       $value = array(array($value));
     }
     elseif (array_depth($value) == 1)
     {
-//      file_put_contents('/tmp/drupaldebug.txt', "Case B", FILE_APPEND | LOCK_EX);
+      file_put_contents('/tmp/drupaldebug.txt', "Case B\n", FILE_APPEND | LOCK_EX);
       $newvalue = array();
       foreach ($value as $x)
       {
@@ -244,7 +244,10 @@ class SubProcessManaged extends ProcessPluginBase {
 
 //
 //    file_put_contents('/tmp/drupaldebug.txt', print_r($value, true), FILE_APPEND | LOCK_EX);
-//    file_put_contents('/tmp/drupaldebug.txt', "---subprocessmanaged end---\n" , FILE_APPEND | LOCK_EX);
+
+    file_put_contents('/tmp/drupaldebug.txt', "Output Value: " . print_r($value, true) . "\n", FILE_APPEND | LOCK_EX);
+
+    file_put_contents('/tmp/drupaldebug.txt', "---subprocessmanaged end---\n" , FILE_APPEND | LOCK_EX);
 
 
 
@@ -261,6 +264,9 @@ class SubProcessManaged extends ProcessPluginBase {
         if (!is_array($new_value)) {
           throw new MigrateException(sprintf("Input array should hold elements of type array, instead element was of type '%s'", gettype($new_value)));
         }
+
+        file_put_contents('/tmp/drupaldebug.txt', "New Value: " . print_r($new_value, true) . "\n", FILE_APPEND | LOCK_EX);
+
         $new_row = new Row($new_value + $source);
         $migrate_executable->processRow($new_row, $this->configuration['process']);
         $destination = $new_row->getDestination();
