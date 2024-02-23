@@ -1,0 +1,54 @@
+id: express_taxonomy_terms_collection_type
+label: Express Taxonomy Term Collection Type Migration
+migration_tags:
+  - express
+
+source:
+  plugin: url
+  data_fetcher_plugin: file
+  data_parser_plugin: xml
+  urls:
+    - data.xml
+  item_selector: /root/vocabularies/collection_type/item
+  fields:
+    - name: tid
+      label: 'tid'
+      selector: tid
+    - name: parent
+      label: 'parent'
+      selector: parent
+    - name: name
+      label: 'Name'
+      selector: name
+    - name: description
+      label: 'Description'
+      selector: description
+    - name: format
+      label: 'Format'
+      selector: format
+    - name: weight
+      label: 'Weight'
+      selector: weight
+  ids:
+    tid:
+      type: integer
+process:
+  tid: tid
+  parent: parent
+  name: name
+  description: description
+  weight: weight
+
+destination:
+  plugin: entity:taxonomy_term
+  default_bundle: collection_type
+
+
+
+migration_dependencies:
+  required:
+    - express_vocabularies
+dependencies:
+  enforced:
+    module:
+      - migrate_express

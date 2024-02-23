@@ -55,6 +55,26 @@ source:
     - name: body_format
       label: 'Body Format'
       selector: 'fields/body/data/item/body_format'
+
+    - name: category_include
+      label: 'Category Include'
+      selector: 'fields/field_article_page_category/data/item/field_article_page_category_tid'
+
+    - name: category_exclude
+      label: 'Category Exclude'
+      selector: 'fields/field_article_exclude_category/data/item/field_article_exclude_category_tid'
+
+    - name: tags_include
+      label: 'Tags Include'
+      selector: 'fields/field_article_page_filter/data/item/field_article_page_filter_tid'
+
+    - name: tags_exclude
+      label: 'Tags Exclude'
+      selector: 'fields/field_article_exclude_tag/data/item/field_article_exclude_tag_tid'
+
+
+
+
   ids:
     nid:
       type: integer
@@ -91,6 +111,63 @@ process:
   'body/format': body_format
 
 
+  field_ucb_filter_by_category:
+    - plugin: skip_on_empty
+      source: category_include
+      method: process
+      message: 'Row does not contain categories.'
+    - plugin: sub_process_managed
+      source: category_include
+      process:
+        target_id:
+          - plugin: migration_lookup
+            migration: express_taxonomy_terms_category
+            source: '0'
+            no_stub: true
+
+  field_ucb_filter_by_tag:
+    - plugin: skip_on_empty
+      source: tags_include
+      method: process
+      message: 'Row does not contain categories.'
+    - plugin: sub_process_managed
+      source: tags_include
+      process:
+        target_id:
+          - plugin: migration_lookup
+            migration: express_taxonomy_terms_tags
+            source: '0'
+            no_stub: true
+
+  field_ucb_exclude_category:
+    - plugin: skip_on_empty
+      source: category_exclude
+      method: process
+      message: 'Row does not contain categories.'
+    - plugin: sub_process_managed
+      source: category_exclude
+      process:
+        target_id:
+          - plugin: migration_lookup
+            migration: express_taxonomy_terms_category
+            source: '0'
+            no_stub: true
+
+  field_ucb_exclude_tag:
+    - plugin: skip_on_empty
+      source: tags_exclude
+      method: process
+      message: 'Row does not contain categories.'
+    - plugin: sub_process_managed
+      source: tags_exclude
+      process:
+        target_id:
+          - plugin: migration_lookup
+            migration: express_taxonomy_terms_tags
+            source: '0'
+            no_stub: true
+
+
 destination:
   plugin: entity:node
 
@@ -104,8 +181,9 @@ migration_dependencies:
     - express_beans_block
     - express_beans_video_hero_unit
     - express_users
-
-
+    - express_nodes_article
+    - express_taxonomy_terms_category
+    - express_taxonomy_terms_tags
 dependencies:
   enforced:
     module:

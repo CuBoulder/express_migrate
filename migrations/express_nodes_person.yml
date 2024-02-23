@@ -112,6 +112,19 @@ source:
       label: 'Job Type'
       selector: 'fields/field_person_job_type/data/item/field_person_job_type_tid'
 
+    - name: filter_1
+      label: 'Filter 1'
+      selector: 'fields/field_person_filter_1/data/item/field_person_filter_1_tid'
+
+    - name: filter_2
+      label: 'Filter 2'
+      selector: 'fields/field_person_filter_2/data/item/field_person_filter_2_tid'
+
+    - name: filter_3
+      label: 'Filter 3'
+      selector: 'fields/field_person_filter_3/data/item/field_person_filter_3_tid'
+
+
     - name: photo_fid
       label: 'Photo'
       selector: 'fields/field_person_photo/data/item/field_person_photo_fid'
@@ -187,6 +200,63 @@ process:
             no_stub: true
 
 
+  field_ucb_person_job_type:
+    - plugin: skip_on_empty
+      source: job_type
+      method: process
+      message: 'Row does not contain categories.'
+    - plugin: sub_process_managed
+      source: job_type
+      process:
+        target_id:
+          - plugin: migration_lookup
+            migration: express_taxonomy_terms_person_type
+            source: '0'
+            no_stub: true
+
+  field_ucb_person_filter_1:
+    - plugin: skip_on_empty
+      source: filter_1
+      method: process
+      message: 'Row does not contain categories.'
+    - plugin: sub_process_managed
+      source: filter_1
+      process:
+        target_id:
+          - plugin: migration_lookup
+            migration: express_taxonomy_terms_people_filter_1
+            source: '0'
+            no_stub: true
+
+  field_ucb_person_filter_2:
+    - plugin: skip_on_empty
+      source: filter_2
+      method: process
+      message: 'Row does not contain categories.'
+    - plugin: sub_process_managed
+      source: filter_2
+      process:
+        target_id:
+          - plugin: migration_lookup
+            migration: express_taxonomy_terms_people_filter_2
+            source: '0'
+            no_stub: true
+
+  field_ucb_person_filter_3:
+    - plugin: skip_on_empty
+      source: filter_3
+      method: process
+      message: 'Row does not contain categories.'
+    - plugin: sub_process_managed
+      source: filter_3
+      process:
+        target_id:
+          - plugin: migration_lookup
+            migration: express_taxonomy_terms_people_filter_3
+            source: '0'
+            no_stub: true
+
+
   field_ucb_person_photo/target_id:
     plugin: migration_lookup
     migration: express_media_images
@@ -200,6 +270,10 @@ destination:
 migration_dependencies:
   required:
     - express_taxonomy_terms_department
+    - express_taxonomy_terms_person_type
+    - express_taxonomy_terms_people_filter_1
+    - express_taxonomy_terms_people_filter_2
+    - express_taxonomy_terms_people_filter_3
     - express_media_images
 dependencies:
   enforced:

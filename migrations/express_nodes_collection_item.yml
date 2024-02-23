@@ -1,0 +1,111 @@
+id: express_nodes_collection_item
+label: Express Nodes Collection Item Migration
+migration_tags:
+  - express
+
+source:
+  plugin: url
+  data_fetcher_plugin: file
+  data_parser_plugin: simple_xml
+  urls:
+    - data.xml
+  item_selector: /root/nodes/item/collection_item/item
+  fields:
+    - name: nid
+      label: 'nid'
+      selector: 'nid'
+    - name: vid
+      label: 'vid'
+      selector: 'vid'
+    - name: type
+      label: 'Type'
+      selector: 'type'
+    - name: title
+      label: 'Title'
+      selector: 'title'
+
+    - name: body_value
+      label: 'Body Value'
+      selector: 'fields/field_collection_body/data/item/field_collection_body_value'
+    - name: body_format
+      label: 'Body Format'
+      selector: 'fields/field_collection_body/data/item/field_collection_body_format'
+
+
+    - name: category
+      label: 'Category'
+      selector: 'fields/field_collection_category/data/item/field_collection_category_tid'
+
+    - name: type
+      label: 'Type'
+      selector: 'fields/field_collection_type/data/item/field_collection_type_tid'
+
+    - name: preview
+      label: 'Preview'
+      selector: 'fields/field_collection_preview/data/item/field_collection_preview_value'
+
+
+
+  ids:
+    nid:
+      type: integer
+process:
+  type:
+    plugin: default_value
+    default_value: 'collection_item_page'
+  langcode:
+    plugin: default_value
+    default_value: 'und'
+  title: title
+  'body/value':
+    plugin: migrate_inline_images
+    source: body_value
+
+  'body/format': body_format
+
+  field_collection_preview: preview
+
+
+  field_collection_item_category:
+    - plugin: skip_on_empty
+      source: category
+      method: process
+      message: 'Row does not contain categories.'
+    - plugin: sub_process_managed
+      source: category
+      process:
+        target_id:
+          - plugin: migration_lookup
+            migration: express_taxonomy_terms_collection_categories
+            source: '0'
+            no_stub: true
+
+  field_collection_item_type:
+    - plugin: skip_on_empty
+      source: type
+      method: process
+      message: 'Row does not contain categories.'
+    - plugin: sub_process_managed
+      source: type
+      process:
+        target_id:
+          - plugin: migration_lookup
+            migration: express_taxonomy_terms_collection_type
+            source: '0'
+            no_stub: true
+
+
+destination:
+  plugin: entity:node
+
+
+
+migration_dependencies:
+  required:
+    - express_taxonomy_terms_collection_categories
+    - express_taxonomy_terms_collection_type
+    - express_media_images
+dependencies:
+  enforced:
+    module:
+      - migrate_express

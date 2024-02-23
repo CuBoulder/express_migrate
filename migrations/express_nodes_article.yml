@@ -44,18 +44,10 @@ source:
       label: 'Changed'
       selector: 'changed'
 
-#    - name: body_value
-#      label: 'Body Value'
-#      selector: 'fields/body/data/item/body_value'
-
     - name: body_summary
       label: 'Body Summary'
       selector: 'fields/body/data/item/body_summary'
 
-
-#    - name: body_format
-#      label: 'Body Format'
-#      selector: 'fields/body/data/item/body_format'
 
     - name: date_display
       label: 'Date Display'
@@ -73,6 +65,14 @@ source:
     - name: categories
       label: 'Categories'
       selector: 'fields/field_article_categories/data/item/field_article_categories_tid'
+
+    - name: byline
+      label: 'Byline'
+      selector: 'fields/field_article_byline/data/item/field_article_byline_tid'
+
+    - name: tags
+      label: 'Tags'
+      selector: 'fields/field_tags/data/item/field_tags_tid'
 
 
 
@@ -144,9 +144,33 @@ process:
             source: '0'
             no_stub: true
 
-#  field_ucb_article_categories/target_id:
-#    - plugin: default_value
-#      default_value: "177"
+  field_ucb_article_byline:
+    - plugin: skip_on_empty
+      source: byline
+      method: process
+      message: 'Row does not contain categories.'
+    - plugin: sub_process_managed
+      source: byline
+      process:
+        target_id:
+          - plugin: migration_lookup
+            migration: express_taxonomy_terms_byline
+            source: '0'
+            no_stub: true
+
+  field_ucb_article_tags:
+    - plugin: skip_on_empty
+      source: tags
+      method: process
+      message: 'Row does not contain categories.'
+    - plugin: sub_process_managed
+      source: tags
+      process:
+        target_id:
+          - plugin: migration_lookup
+            migration: express_taxonomy_terms_tags
+            source: '0'
+            no_stub: true
 
 
 destination:
