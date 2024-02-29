@@ -1,0 +1,151 @@
+id: express_beans_articles
+label: Express Beans Articles Migration
+migration_tags:
+  - express
+
+source:
+  plugin: url
+  data_fetcher_plugin: file
+  data_parser_plugin: simple_xml
+  urls:
+    - data.xml
+  item_selector: /root/beans/articles/item
+  fields:
+
+
+    - name: bid
+      label: 'bid'
+      selector: 'bid'
+
+    - name: title
+      label: title
+      selector: 'title'
+
+    - name: label
+      label: label
+      selector: 'label'
+
+    - name: field_article_display
+      label: field_article_display
+      selector: 'fields/field_article_display/data/item/field_article_display_value'
+
+    - name: field_article_exclude_category
+      label: field_article_exclude_category
+      selector: 'fields/field_article_exclude_category/data/item/field_article_exclude_category_tid'
+
+    - name: field_article_exclude_tag
+      label: field_article_exclude_tag
+      selector: 'fields/field_article_exclude_tag/data/item/field_article_exclude_tag_tid'
+
+
+    - name: field_article_items_display
+      label: field_article_items_display
+      selector: 'fields/field_article_items_display/data/item/field_article_items_display_value'
+
+    - name: field_article_link
+      label: field_article_link
+      selector: 'fields/field_article_link/data/item/field_article_link_url'
+
+    - name: field_article_list_category
+      label: field_article_list_category
+      selector: 'fields/field_article_list_category/data/item/field_article_list_category_tid'
+
+    - name: field_article_term
+      label: field_article_term
+      selector: 'fields/field_article_term/data/item/field_article_term_tid'
+
+
+
+
+  ids:
+    bid:
+      type: integer
+process:
+
+  id: bid
+
+  info: title
+
+  field_art_list_block_item_count: field_article_items_display
+
+  field_art_list_block_display: field_article_display
+
+
+  field_art_list_block_filter_cat:
+    - plugin: skip_on_empty
+      source: field_article_list_category
+      method: process
+      message: 'Row does not contain categories.'
+    - plugin: sub_process_managed
+      source: field_article_list_category
+      process:
+        target_id:
+          - plugin: migration_lookup
+            migration: express_taxonomy_terms_category
+            source: '0'
+            no_stub: true
+
+  field_art_list_block_filter_tag:
+    - plugin: skip_on_empty
+      source: field_article_term
+      method: process
+      message: 'Row does not contain categories.'
+    - plugin: sub_process_managed
+      source: field_article_term
+      process:
+        target_id:
+          - plugin: migration_lookup
+            migration: express_taxonomy_terms_tags
+            source: '0'
+            no_stub: true
+
+
+  field_art_list_block_cat_exclude:
+    - plugin: skip_on_empty
+      source: field_article_exclude_category
+      method: process
+      message: 'Row does not contain categories.'
+    - plugin: sub_process_managed
+      source: field_article_exclude_category
+      process:
+        target_id:
+          - plugin: migration_lookup
+            migration: express_taxonomy_terms_category
+            source: '0'
+            no_stub: true
+
+  field_art_list_block_tag_exclude:
+    - plugin: skip_on_empty
+      source: field_article_exclude_tag
+      method: process
+      message: 'Row does not contain categories.'
+    - plugin: sub_process_managed
+      source: field_article_exclude_tag
+      process:
+        target_id:
+          - plugin: migration_lookup
+            migration: express_taxonomy_terms_tags
+            source: '0'
+            no_stub: true
+
+
+
+
+
+destination:
+  plugin: 'entity:block_content'
+  default_bundle: 'article_list_block'
+
+
+migration_dependencies:
+  required:
+    - express_taxonomy_terms_category
+    - express_taxonomy_terms_tags
+
+
+
+
+dependencies:
+  enforced:
+    module:
+      - migrate_express

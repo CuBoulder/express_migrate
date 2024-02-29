@@ -112,6 +112,7 @@ migration_dependencies:
     - express_webform
     - express_webform_submission
     - express_nodes_webform
+    - express_nodes_collection_item
 
 dependencies:
   enforced:

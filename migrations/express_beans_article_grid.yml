@@ -1,0 +1,154 @@
+id: express_beans_article_grid
+label: Express Beans Article Grid Migration
+migration_tags:
+  - express
+
+source:
+  plugin: url
+  data_fetcher_plugin: file
+  data_parser_plugin: simple_xml
+  urls:
+    - data.xml
+  item_selector: /root/beans/article_grid/item
+  fields:
+
+
+    - name: bid
+      label: 'bid'
+      selector: 'bid'
+
+    - name: title
+      label: title
+      selector: 'title'
+
+    - name: label
+      label: label
+      selector: 'label'
+
+    - name: field_article_exclude_category
+      label: field_article_exclude_category
+      selector: 'fields/field_article_exclude_category/data/item/field_article_exclude_category_tid'
+
+    - name: field_article_exclude_tag
+      label: field_article_exclude_tag
+      selector: 'fields/field_article_exclude_tag/data/item/field_article_exclude_tag_tid'
+
+    - name: field_article_grid_category
+      label: field_article_grid_category
+      selector: 'fields/field_article_grid_category/data/item/field_article_grid_category_tid'
+
+    - name: field_article_grid_filter
+      label: field_article_grid_filter
+      selector: 'fields/field_article_grid_filter/data/item/field_article_grid_filter_tid'
+
+    - name: field_article_grid_items
+      label: field_article_grid_items
+      selector: 'fields/field_article_grid_items/data/item/field_article_grid_items_value'
+
+    - name: field_article_grid_more_link_url
+      label: field_article_grid_more_link_url
+      selector: 'fields/field_article_grid_more_link/data/item/field_article_grid_more_link_url'
+
+    - name: field_article_grid_more_link_title
+      label: field_article_grid_more_link_title
+      selector: 'fields/field_article_grid_more_link/data/item/field_article_grid_more_link_title'
+
+    - name: field_article_grid_more_link_attributes
+      label: field_article_grid_more_link_attributes
+      selector: 'fields/field_article_grid_more_link/data/item/field_article_grid_more_link_attributes'
+
+    - name: field_article_grid_summary
+      label: field_article_grid_summary
+      selector: 'fields/field_article_grid_summary/data/item/field_article_grid_summary_value'
+
+
+  ids:
+    bid:
+      type: integer
+process:
+
+  id: bid
+
+  info: title
+
+  field_ucb_article_grid_count: field_article_grid_items
+
+
+  field_ucb_article_grid_cat_inc:
+    - plugin: skip_on_empty
+      source: field_article_grid_category
+      method: process
+      message: 'Row does not contain categories.'
+    - plugin: sub_process_managed
+      source: field_article_grid_category
+      process:
+        target_id:
+          - plugin: migration_lookup
+            migration: express_taxonomy_terms_category
+            source: '0'
+            no_stub: true
+
+  field_ucb_article_grid_tag_inclu:
+    - plugin: skip_on_empty
+      source: field_article_grid_filter
+      method: process
+      message: 'Row does not contain categories.'
+    - plugin: sub_process_managed
+      source: field_article_grid_filter
+      process:
+        target_id:
+          - plugin: migration_lookup
+            migration: express_taxonomy_terms_tags
+            source: '0'
+            no_stub: true
+
+
+  field_ucb_article_grid_cat_exc:
+    - plugin: skip_on_empty
+      source: field_article_exclude_category
+      method: process
+      message: 'Row does not contain categories.'
+    - plugin: sub_process_managed
+      source: field_article_exclude_category
+      process:
+        target_id:
+          - plugin: migration_lookup
+            migration: express_taxonomy_terms_category
+            source: '0'
+            no_stub: true
+
+  field_ucb_article_grid_tag_exclu:
+    - plugin: skip_on_empty
+      source: field_article_exclude_tag
+      method: process
+      message: 'Row does not contain categories.'
+    - plugin: sub_process_managed
+      source: field_article_exclude_tag
+      process:
+        target_id:
+          - plugin: migration_lookup
+            migration: express_taxonomy_terms_tags
+            source: '0'
+            no_stub: true
+
+
+
+
+
+destination:
+  plugin: 'entity:block_content'
+  default_bundle: 'ucb_article_grid'
+
+
+migration_dependencies:
+  required:
+    - express_taxonomy_terms_category
+    - express_taxonomy_terms_tags
+
+
+
+
+dependencies:
+  enforced:
+    module:
+      - migrate_express

@@ -40,9 +40,13 @@ source:
       label: 'Type'
       selector: 'fields/field_collection_type/data/item/field_collection_type_tid'
 
-    - name: preview
-      label: 'Preview'
+    - name: summary_value
+      label: 'Summary Value'
       selector: 'fields/field_collection_preview/data/item/field_collection_preview_value'
+
+    - name: summary_format
+      label: 'Summary Value'
+      selector: 'fields/field_collection_preview/data/item/field_collection_preview_format'
 
 
 
@@ -63,7 +67,11 @@ process:
 
   'body/format': body_format
 
-  field_collection_preview: preview
+  'field_collection_item_summary/value':
+    plugin: migrate_inline_images
+    source: summary_value
+
+  'field_collection_item_summary/format': summary_format
 
 
   field_collection_item_category:
@@ -80,7 +88,7 @@ process:
             source: '0'
             no_stub: true
 
-  field_collection_item_type:
+  field_collection_item_page_type:
     - plugin: skip_on_empty
       source: type
       method: process

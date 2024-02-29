@@ -55,6 +55,12 @@ class FocalPointMigration extends ProcessPluginBase {
     $fp = \Drupal::service('focal_point.manager');
     $image_factory = \Drupal::service('image.factory');
     $file = \Drupal::entityTypeManager()->getStorage('file')->load($fid_dst);
+
+    if(is_null($file))
+    {
+      return null;
+    }
+
     $image = $image_factory->get($file->getFileUri());
     $width = $image->getWidth();
     $height = $image->getHeight();

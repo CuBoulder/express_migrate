@@ -147,6 +147,10 @@ migration_dependencies:
     - express_beans_people_list_block
     - express_beans_video_reveal
     - express_beans_block_wrapper
+    - express_beans_article_grid
+    - express_beans_article_feature
+    - express_beans_article_slider
+    - express_beans_articles
 
 
 dependencies:

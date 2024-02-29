@@ -1,0 +1,150 @@
+id: express_beans_article_feature
+label: Express Beans Article Feature Migration
+migration_tags:
+  - express
+
+source:
+  plugin: url
+  data_fetcher_plugin: file
+  data_parser_plugin: simple_xml
+  urls:
+    - data.xml
+  item_selector: /root/beans/article_feature/item
+  fields:
+
+
+    - name: bid
+      label: 'bid'
+      selector: 'bid'
+
+    - name: title
+      label: title
+      selector: 'title'
+
+    - name: label
+      label: label
+      selector: 'label'
+
+    - name: field_article_exclude_category
+      label: field_article_exclude_category
+      selector: 'fields/field_article_exclude_category/data/item/field_article_exclude_category_tid'
+
+    - name: field_article_exclude_tag
+      label: field_article_exclude_tag
+      selector: 'fields/field_article_exclude_tag/data/item/field_article_exclude_tag_tid'
+
+    - name: field_article_feature_category
+      label: field_article_feature_category
+      selector: 'fields/field_article_feature_category/data/item/field_article_feature_category_tid'
+
+    - name: field_article_feature_display
+      label: field_article_feature_display
+      selector: 'fields/field_article_feature_display/data/item/field_article_feature_display_value'
+
+    - name: field_article_feature_filter
+      label: field_article_feature_filter
+      selector: 'fields/field_article_feature_filter/data/item/field_article_feature_filter_tid'
+
+    - name: field_article_feature_image_size
+      label: field_article_feature_image_size
+      selector: 'fields/field_article_feature_image_size/data/item/field_article_feature_image_size_value'
+
+    - name: field_article_feature_show_cat
+      label: field_article_feature_show_cat
+      selector: 'fields/field_article_feature_show_cat/data/item/field_article_feature_show_cat_value'
+
+    - name: field_article_link
+      label: field_article_link
+      selector: 'fields/field_article_link/data/item/field_article_link_url'
+
+
+  ids:
+    bid:
+      type: integer
+process:
+
+  id: bid
+
+  info: title
+
+
+
+
+  field_ucb_article_feature_cat_inc:
+    - plugin: skip_on_empty
+      source: field_article_feature_category
+      method: process
+      message: 'Row does not contain categories.'
+    - plugin: sub_process_managed
+      source: field_article_feature_category
+      process:
+        target_id:
+          - plugin: migration_lookup
+            migration: express_taxonomy_terms_category
+            source: '0'
+            no_stub: true
+
+  field_ucb_article_feature_tag_inc:
+    - plugin: skip_on_empty
+      source: field_article_feature_filter
+      method: process
+      message: 'Row does not contain categories.'
+    - plugin: sub_process_managed
+      source: field_article_feature_filter
+      process:
+        target_id:
+          - plugin: migration_lookup
+            migration: express_taxonomy_terms_tags
+            source: '0'
+            no_stub: true
+
+
+  field_ucb_article_feature_cat_excl:
+    - plugin: skip_on_empty
+      source: field_article_exclude_category
+      method: process
+      message: 'Row does not contain categories.'
+    - plugin: sub_process_managed
+      source: field_article_exclude_category
+      process:
+        target_id:
+          - plugin: migration_lookup
+            migration: express_taxonomy_terms_category
+            source: '0'
+            no_stub: true
+
+  field_ucb_article_feature_tag_excl:
+    - plugin: skip_on_empty
+      source: field_article_exclude_tag
+      method: process
+      message: 'Row does not contain categories.'
+    - plugin: sub_process_managed
+      source: field_article_exclude_tag
+      process:
+        target_id:
+          - plugin: migration_lookup
+            migration: express_taxonomy_terms_tags
+            source: '0'
+            no_stub: true
+
+
+
+
+
+destination:
+  plugin: 'entity:block_content'
+  default_bundle: 'ucb_article_feature'
+
+
+migration_dependencies:
+  required:
+    - express_taxonomy_terms_category
+    - express_taxonomy_terms_tags
+
+
+
+
+dependencies:
+  enforced:
+    module:
+      - migrate_express
