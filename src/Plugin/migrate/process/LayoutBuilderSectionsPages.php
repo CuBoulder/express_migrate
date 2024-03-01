@@ -90,9 +90,9 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
         $allowedComponents[] = 'video_reveal';
         $allowedComponents[] = 'people_list_block';
         $allowedComponents[] = 'block_wrapper';
+        $allowedComponents[] = 'article_feature';
+        $allowedComponents[] = 'article_grid';
         $allowedComponents[] = 'article_slider';
-        $allowedComponents[] = 'ucb_article_grid';
-        $allowedComponents[] = 'ucb_article_feature';
         $allowedComponents[] = 'articles';
 
 

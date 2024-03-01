@@ -53,9 +53,13 @@ source:
       label: field_article_feature_show_cat
       selector: 'fields/field_article_feature_show_cat/data/item/field_article_feature_show_cat_value'
 
-    - name: field_article_link
-      label: field_article_link
+    - name: field_article_link_url
+      label: field_article_link_url
       selector: 'fields/field_article_link/data/item/field_article_link_url'
+
+    - name: field_article_link_title
+      label: field_article_link_title
+      selector: 'fields/field_article_link/data/item/field_article_link_title'
 
 
   ids:
@@ -68,9 +72,29 @@ process:
   info: title
 
 
+  field_article_feature_more_link/uri: field_article_link_url
+  field_article_feature_more_link/title: field_article_link_title
 
 
-  field_ucb_article_feature_cat_inc:
+  field_article_feature_display:
+    plugin: static_map
+    source: field_article_feature_display
+    map:
+      'article-feature-inline-2': 'inline-half'
+      'article-feature-inline-3': 'inline-large'
+      'article-feature-stacked': 'stacked'
+    default_value: 'inline-half'
+
+  field_article_feature_image_size:
+    plugin: static_map
+    source: field_article_feature_display
+    map:
+      'slider-large': 'regular'
+      'slider': 'wide'
+    default_value: 'regular'
+
+
+  field_article_feature_cat_inc:
     - plugin: skip_on_empty
       source: field_article_feature_category
       method: process
@@ -84,7 +108,7 @@ process:
             source: '0'
             no_stub: true
 
-  field_ucb_article_feature_tag_inc:
+  field_article_feature_tag_inc:
     - plugin: skip_on_empty
       source: field_article_feature_filter
       method: process
@@ -99,7 +123,7 @@ process:
             no_stub: true
 
 
-  field_ucb_article_feature_cat_excl:
+  field_article_feature_cat_excl:
     - plugin: skip_on_empty
       source: field_article_exclude_category
       method: process
@@ -113,7 +137,7 @@ process:
             source: '0'
             no_stub: true
 
-  field_ucb_article_feature_tag_excl:
+  field_article_feature_tag_excl:
     - plugin: skip_on_empty
       source: field_article_exclude_tag
       method: process

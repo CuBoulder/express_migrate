@@ -73,6 +73,19 @@ process:
 
   field_ucb_article_grid_count: field_article_grid_items
 
+  field_ucb_article_grid_summary:
+    plugin: static_map
+    source: field_article_grid_summary
+    map:
+      'summary-display': 1
+      'summary-hide': 0
+    default_value: 1
+
+
+  field_ucb_article_grid_more_link/uri: field_article_grid_more_link_url
+  field_ucb_article_grid_more_link/title: field_article_grid_more_link_title
+
+
 
   field_ucb_article_grid_cat_inc:
     - plugin: skip_on_empty

@@ -68,7 +68,25 @@ process:
 
   field_art_list_block_item_count: field_article_items_display
 
-  field_art_list_block_display: field_article_display
+  field_art_list_block_display:
+    plugin: static_map
+    source: field_article_display
+    map:
+      'teaser': 'teaser'
+      'feature': 'feature-wide'
+      'feature_large': 'feature-large'
+      'sidebar': 'title-thumbnail'
+      'title': 'title-only'
+    default_value: 'teaser'
+
+  field_art_list_block_more_url:
+    - plugin: callback
+      callable: migrate_object_to_array
+      source: field_article_link
+    - plugin: sub_process_managed
+      process:
+        uri: 'field_article_link_url'
+        title: 'field_article_link_title'
 
 
   field_art_list_block_filter_cat:
