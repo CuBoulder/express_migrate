@@ -33,6 +33,11 @@ source:
       label: 'field_block_text_format'
       selector: 'fields/field_block_text/data/item/field_block_text_format'
 
+    - name: style_icon
+      label: 'style_icon'
+      selector: 'style/icon'
+
+
   ids:
     bid:
       type: integer
@@ -49,6 +54,11 @@ process:
 
 
   'field_text_block_body/format': field_block_text_format
+
+  'field_bs_icon/value': style_icon
+  'field_bs_icon/format':
+    plugin: default_value
+    default_value: 'icon_picker'
 
 
 destination:

@@ -47,6 +47,8 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
     foreach ($value as $section) {
       $components = [];
 
+      $num_columns = 1;
+
 //      $config = [
 //        'id' => 'field_block:node:basic_page:body',
 //        'label_display' => FALSE,
@@ -66,12 +68,22 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
 
       file_put_contents('/tmp/drupaldebug.txt', "section:" . print_r($section, true) . "\n" , FILE_APPEND | LOCK_EX);
 
+      $sectionColumnMap = [];
+      $sectionColumnMap[1] = 'first';
+      $sectionColumnMap[2] = 'second';
+      $sectionColumnMap[3] = 'third';
+      $sectionColumnMap[4] = 'fourth';
+
+      $current_column = 0;
+
       foreach ($section->beans->item as $bean) {
 
         $bean_string = (string)$bean;
         $component_id = (integer)explode(" ", $bean_string)[0];
         $component_type = (string)explode(" ", $bean_string)[1];
         $component_display_title = (string)explode(" ", $bean_string)[2];
+
+        $current_column++;
 
 
         file_put_contents('/tmp/drupaldebug.txt', "bid:" . $component_id . "\n" , FILE_APPEND | LOCK_EX);
@@ -120,7 +132,9 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
             ]
           ];
 
-          $components[] = new SectionComponent($generator->generate(), 'first', $config);
+          file_put_contents('/tmp/drupaldebug.txt', "Body column name: " . $sectionColumnMap[$current_column] . "\n" , FILE_APPEND | LOCK_EX);
+
+          $components[] = new SectionComponent($generator->generate(), $sectionColumnMap[$current_column], $config);
           continue;
 
         }
@@ -143,7 +157,9 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
             ]
           ];
 
-          $components[] = new SectionComponent($generator->generate(), 'first', $config);
+          file_put_contents('/tmp/drupaldebug.txt', "Title column name: " . $sectionColumnMap[$current_column] . "\n" , FILE_APPEND | LOCK_EX);
+
+          $components[] = new SectionComponent($generator->generate(), $sectionColumnMap[$current_column], $config);
           continue;
 
         }
@@ -185,10 +201,10 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
 
         }
 
-        $label_display = TRUE;
+        $label_display = 'visible';
         if($component_display_title == 'false')
         {
-          $label_display = FALSE;
+          $label_display = 0;
         }
 
         $config = [
@@ -202,7 +218,9 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
           'context_mapping' => [],
         ];
 
-        $components[] = new SectionComponent($generator->generate(), 'first', $config);
+        file_put_contents('/tmp/drupaldebug.txt', "Component column name: " . $sectionColumnMap[$current_column] . "\n" , FILE_APPEND | LOCK_EX);
+
+        $components[] = new SectionComponent($generator->generate(), $sectionColumnMap[$current_column], $config);
 
 
 
@@ -227,6 +245,36 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
       $layoutSettings['section_padding_right'] = '0px';
       $layoutSettings['section_padding_bottom'] = '0px';
       $layoutSettings['section_padding_left'] = '0px';
+
+      if($current_column == 0)
+      {
+        file_put_contents('/tmp/drupaldebug.txt', "Number of columns: " . $current_column . "\n" , FILE_APPEND | LOCK_EX);
+        $layoutSettings['column_width'] = '12';
+      }
+
+      if($current_column == 1)
+      {
+        file_put_contents('/tmp/drupaldebug.txt', "Number of columns: " . $current_column . "\n" , FILE_APPEND | LOCK_EX);
+        $layoutSettings['column_width'] = '12';
+      }
+
+      if($current_column == 2)
+      {
+        file_put_contents('/tmp/drupaldebug.txt', "Number of columns: " . $current_column . "\n" , FILE_APPEND | LOCK_EX);
+        $layoutSettings['column_width'] = '6-6';
+      }
+
+      if($current_column == 3)
+      {
+        file_put_contents('/tmp/drupaldebug.txt', "Number of columns: " . $current_column . "\n" , FILE_APPEND | LOCK_EX);
+        $layoutSettings['column_width'] = '4-4-4';
+      }
+
+      if($current_column == 4)
+      {
+        file_put_contents('/tmp/drupaldebug.txt', "Number of columns: " . $current_column . "\n" , FILE_APPEND | LOCK_EX);
+        $layoutSettings['column_width'] = '3-3-3-3';
+      }
 
 
       file_put_contents('/tmp/drupaldebug.txt', "Section again:" . print_r($section, true) . "\n" , FILE_APPEND | LOCK_EX);
@@ -445,9 +493,16 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
 
 
 
+      $columnMap = [];
+      $columnMap[0] = 'ucb_bootstrap_layouts__one_column';
+      $columnMap[1] = 'ucb_bootstrap_layouts__one_column';
+      $columnMap[2] = 'ucb_bootstrap_layouts__two_column';
+      $columnMap[3] = 'ucb_bootstrap_layouts__three_column';
+      $columnMap[4] = 'ucb_bootstrap_layouts__four_column';
+
 
       //$sections[] = new Section('layout_onecol', [], $components);
-      $sections[] = new Section('ucb_bootstrap_layouts__one_column', $layoutSettings, $components);
+      $sections[] = new Section($columnMap[$current_column], $layoutSettings, $components);
 
 
     }
