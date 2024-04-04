@@ -1,0 +1,52 @@
+id: express_nodes_photo_gallery
+label: Express Nodes Photo Gallery Migration
+migration_tags:
+  - express
+
+source:
+  plugin: url
+  data_fetcher_plugin: file
+  data_parser_plugin: simple_xml
+  urls:
+    - data.xml
+  item_selector: /root/nodes/item/photo_gallery/item
+  fields:
+    - name: nid
+      label: 'nid'
+      selector: 'nid'
+
+  ids:
+    nid:
+      type: integer
+process:
+
+  field_image_gallery_photo:
+
+
+destination:
+  plugin: 'entity:block_content'
+  default_bundle: 'image_gallery'
+
+
+
+migration_dependencies:
+  required:
+    - express_beans_feature_callout
+    - express_beans_content_row
+    - express_beans_content_sequence
+    - express_beans_block
+    - express_beans_video_hero_unit
+    - express_beans_expandable
+    - express_beans_slider
+    - express_beans_people_list_block
+    - express_beans_video_reveal
+    - express_beans_block_wrapper
+    - express_beans_article_grid
+    - express_beans_article_feature
+    - express_beans_article_slider
+    - express_beans_articles
+
+dependencies:
+  enforced:
+    module:
+      - migrate_express

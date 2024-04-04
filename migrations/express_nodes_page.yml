@@ -151,6 +151,7 @@ migration_dependencies:
     - express_beans_article_feature
     - express_beans_article_slider
     - express_beans_articles
+    - express_beans_hero_unit
 
 
 dependencies:

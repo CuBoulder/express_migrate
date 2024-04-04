@@ -42,12 +42,32 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
         return;
     }
 
+    $allowedComponents = array();
+
+    $allowedComponents[] = 'feature_callout';
+    $allowedComponents[] = 'block';
+    $allowedComponents[] = 'content_row';
+    $allowedComponents[] = 'content_sequence';
+    $allowedComponents[] = 'video_hero_unit';
+    $allowedComponents[] = 'hero_unit';
+    $allowedComponents[] = 'expandable';
+    $allowedComponents[] = 'title';
+    $allowedComponents[] = 'body';
+    $allowedComponents[] = 'slider';
+    $allowedComponents[] = 'video_reveal';
+    $allowedComponents[] = 'people_list_block';
+    $allowedComponents[] = 'block_wrapper';
+    $allowedComponents[] = 'article_feature';
+    $allowedComponents[] = 'article_grid';
+    $allowedComponents[] = 'article_slider';
+    $allowedComponents[] = 'articles';
+
 
 
     foreach ($value as $section) {
       $components = [];
 
-      $num_columns = 1;
+
 
 //      $config = [
 //        'id' => 'field_block:node:basic_page:body',
@@ -76,36 +96,27 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
 
       $current_column = 0;
 
-      foreach ($section->beans->item as $bean) {
+      $num_columns = count($section->beans);
+
+      file_put_contents('/tmp/drupaldebug.txt', "Number of columns:" . $num_columns . "\n" , FILE_APPEND | LOCK_EX);
+
+      foreach ($section->beans->item as $column)
+      {
+        $current_column++;
+        foreach ($column->item as $bean)
+        {
 
         $bean_string = (string)$bean;
         $component_id = (integer)explode(" ", $bean_string)[0];
         $component_type = (string)explode(" ", $bean_string)[1];
         $component_display_title = (string)explode(" ", $bean_string)[2];
 
-        $current_column++;
+
 
 
         file_put_contents('/tmp/drupaldebug.txt', "bid:" . $component_id . "\n" , FILE_APPEND | LOCK_EX);
 
-        $allowedComponents = array();
 
-        $allowedComponents[] = 'feature_callout';
-        $allowedComponents[] = 'block';
-        $allowedComponents[] = 'content_row';
-        $allowedComponents[] = 'content_sequence';
-        $allowedComponents[] = 'video_hero_unit';
-        $allowedComponents[] = 'expandable';
-        $allowedComponents[] = 'title';
-        $allowedComponents[] = 'body';
-        $allowedComponents[] = 'slider';
-        $allowedComponents[] = 'video_reveal';
-        $allowedComponents[] = 'people_list_block';
-        $allowedComponents[] = 'block_wrapper';
-        $allowedComponents[] = 'article_feature';
-        $allowedComponents[] = 'article_grid';
-        $allowedComponents[] = 'article_slider';
-        $allowedComponents[] = 'articles';
 
 
 
@@ -162,7 +173,9 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
           $components[] = new SectionComponent($generator->generate(), $sectionColumnMap[$current_column], $config);
           continue;
 
+
         }
+
 
 
         file_put_contents('/tmp/drupaldebug.txt', "reached" . "\n" , FILE_APPEND | LOCK_EX);
@@ -170,7 +183,7 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
         $component_id_array = [$component_id];
         #file_put_contents('/tmp/drupaldebug.txt', print_r($component_id_array, true), FILE_APPEND | LOCK_EX);
 
-        $destid = $lookup->lookup(['express_beans_feature_callout', 'express_beans_block', 'express_beans_content_row', 'express_beans_content_sequence', 'express_beans_video_hero_unit', 'express_beans_expandable', 'express_beans_slider', 'express_beans_video_reveal', 'express_beans_people_list_block', 'express_beans_block_wrapper', 'express_beans_article_slider', 'express_beans_article_grid', 'express_beans_article_feature', 'express_beans_articles'], $component_id_array);
+        $destid = $lookup->lookup(['express_beans_feature_callout', 'express_beans_block', 'express_beans_content_row', 'express_beans_content_sequence', 'express_beans_video_hero_unit', 'express_beans_expandable', 'express_beans_slider', 'express_beans_video_reveal', 'express_beans_people_list_block', 'express_beans_block_wrapper', 'express_beans_article_slider', 'express_beans_article_grid', 'express_beans_article_feature', 'express_beans_articles', 'express_beans_hero_unit'], $component_id_array);
 
         file_put_contents('/tmp/drupaldebug.txt', "destid:" . print_r($destid, true) . "\n" , FILE_APPEND | LOCK_EX);
 
@@ -222,7 +235,7 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
 
         $components[] = new SectionComponent($generator->generate(), $sectionColumnMap[$current_column], $config);
 
-
+      }
 
       }
       /*
@@ -261,13 +274,42 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
       if($current_column == 2)
       {
         file_put_contents('/tmp/drupaldebug.txt', "Number of columns: " . $current_column . "\n" , FILE_APPEND | LOCK_EX);
+
         $layoutSettings['column_width'] = '6-6';
+
+        if(property_exists($section, 'distribution'))
+        {
+          $distribution = (string)$section->distribution;
+          if($distribution == 'left')
+          {
+            $layoutSettings['column_width'] = '8-4';
+          }
+          elseif($distribution == 'right')
+          {
+            $layoutSettings['column_width'] = '4-8';
+          }
+        }
+
       }
 
       if($current_column == 3)
       {
         file_put_contents('/tmp/drupaldebug.txt', "Number of columns: " . $current_column . "\n" , FILE_APPEND | LOCK_EX);
         $layoutSettings['column_width'] = '4-4-4';
+
+        if(property_exists($section, 'distribution'))
+        {
+          $distribution = (string)$section->distribution;
+          if($distribution == 'left')
+          {
+            $layoutSettings['column_width'] = '6-3-3';
+          }
+          elseif($distribution == 'right')
+          {
+            $layoutSettings['column_width'] = '3-3-6';
+          }
+        }
+
       }
 
       if($current_column == 4)
@@ -328,18 +370,6 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
         }
       }
 
-      if(property_exists($section, 'text_color'))
-      {
-        if((string)$section->text_color == 'white')
-        {
-          $layoutSettings['background_color'] = 'black';
-        }
-        else
-        {
-          $layoutSettings['background_color'] = 'white';
-        }
-      }
-
 
       if(property_exists($section, 'bg_color'))
       {
@@ -366,31 +396,31 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
         }
         if($bg_color == 'tan')
         {
-          $layoutSettings['background_color'] = 'gold';
+          $layoutSettings['background_color'] = 'tan';
         }
         if($bg_color == 'light_blue')
         {
-          $layoutSettings['background_color'] = 'white';
+          $layoutSettings['background_color'] = 'light-blue';
         }
 
         if($bg_color == 'medium_blue')
         {
-          $layoutSettings['background_color'] = 'dark-gray';
+          $layoutSettings['background_color'] = 'medium-blue';
         }
 
         if($bg_color == 'dark_blue')
         {
-          $layoutSettings['background_color'] = 'dark-gray';
+          $layoutSettings['background_color'] = 'dark-blue';
         }
 
         if($bg_color == 'light_green')
         {
-          $layoutSettings['background_color'] = 'white';
+          $layoutSettings['background_color'] = 'light-green';
         }
 
         if($bg_color == 'brick')
         {
-          $layoutSettings['background_color'] = 'gold';
+          $layoutSettings['background_color'] = 'brick';
         }
 
 

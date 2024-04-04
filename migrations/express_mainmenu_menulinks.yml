@@ -105,14 +105,19 @@ migration_dependencies:
   required:
     - express_nodes_article
     - express_nodes_article_list_page
+    - express_nodes_collection_item
     - express_nodes_page
     - express_nodes_people_list_page
     - express_nodes_person
     - express_nodes_section_page
+    - express_nodes_photo_gallery
     - express_webform
     - express_webform_submission
     - express_nodes_webform
     - express_nodes_collection_item
+    - express_nodes_class_note
+    - express_nodes_faqs
+    - express_nodes_issue
 
 dependencies:
   enforced:

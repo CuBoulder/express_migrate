@@ -1,0 +1,240 @@
+id: express_beans_hero_unit
+label: Express Beans Hero Unit Migration
+migration_tags:
+  - express
+
+source:
+  plugin: url
+  data_fetcher_plugin: file
+  data_parser_plugin: simple_xml
+  urls:
+    - data.xml
+  item_selector: /root/beans/hero_unit/item
+  fields:
+
+
+    - name: bid
+      label: 'bid'
+      selector: 'bid'
+
+    - name: title
+      label: title
+      selector: 'title'
+
+    - name: label
+      label: label
+      selector: 'label'
+
+    - name: field_hero_unit_bg_color
+      label: field_hero_unit_bg_color
+      selector: 'fields/field_hero_unit_bg_color/data/item/field_hero_unit_bg_color_value'
+
+    - name: field_hero_unit_headline
+      label: field_hero_unit_headline
+      selector: 'fields/field_hero_unit_headline/data/item/field_hero_unit_headline_value'
+
+    - name: field_hero_unit_image
+      label: field_hero_unit_image
+      selector: 'fields/field_hero_unit_image/data/item/field_hero_unit_image_fid'
+
+
+
+    - name: field_hero_unit_link
+      label: field_hero_unit_link
+      selector: 'fields/field_hero_unit_link/data/item'
+
+    - name: field_hero_unit_link_color
+      label: field_hero_unit_link_color
+      selector: 'fields/field_hero_unit_link_color/data/item/field_hero_unit_link_color_value'
+
+    - name: field_hero_unit_overlay
+      label: field_hero_unit_overlay
+      selector: 'fields/field_hero_unit_overlay/data/item/field_hero_unit_overlay_value'
+
+    - name: field_hero_unit_size
+      label: field_hero_unit_size
+      selector: 'fields/field_hero_unit_size/data/item/field_hero_unit_size_value'
+
+    - name: field_hero_unit_size_priority
+      label: field_hero_unit_size_priority
+      selector: 'fields/field_hero_unit_size_priority/data/item/field_hero_unit_size_priority_value'
+
+    - name: field_hero_unit_text
+      label: field_hero_unit_text
+      selector: 'fields/field_hero_unit_text/data/item/field_hero_unit_text_value'
+
+    - name: field_hero_unit_text_align
+      label: field_hero_unit_text_align
+      selector: 'fields/field_hero_unit_text_align/data/item/field_hero_unit_text_align_value'
+
+    - name: field_hero_unit_text_color
+      label: field_hero_unit_text_color
+      selector: 'fields/field_hero_unit_text_color/data/item/field_hero_unit_text_color_value'
+
+    - name: bs_icon
+      label: 'bs_icon'
+      selector: 'style/icon'
+
+    - name: bs_background_style
+      label: 'bs_background_style'
+      selector: 'style/background_style'
+
+    - name: bs_content_font_scale
+      label: 'bs_content_font_scale'
+      selector: 'style/content_font_scale'
+
+    - name: bs_heading
+      label: 'bs_heading'
+      selector: 'style/heading'
+
+    - name: bs_heading_alignment
+      label: 'bs_heading_alignment'
+      selector: 'style/heading_alignment'
+
+    - name: bs_heading_style
+      label: 'bs_heading_style'
+      selector: 'style/heading_style'
+
+    - name: bs_icon_color
+      label: 'bs_icon_color'
+      selector: 'style/icon_color'
+
+    - name: bs_icon_position
+      label: 'bs_icon_position'
+      selector: 'style/icon_position'
+
+    - name: bs_icon_size
+      label: 'bs_icon_size'
+      selector: 'style/icon_size'
+
+    - name: bs_title_font_scale
+      label: 'bs_title_font_scale'
+      selector: 'style/title_font_scale'
+
+
+
+  ids:
+    bid:
+      type: integer
+process:
+
+  id: bid
+
+  info: label
+
+  field_solid_colors:
+    plugin: static_map
+    source: field_hero_unit_bg_color
+    map:
+      'white': '--ucb-white'
+      'gray': '--ucb-light-gray'
+      'black': '--ucb-black'
+      'dark_gray': '--ucb-dark-gray'
+      'gold': '--ucb-light-gray'
+      'tan': '--ucb-light-gray'
+      'light_blue': '--ucb-light-blue'
+      'blue-medium': '--ucb-light-blue'
+      'blue-dark': '--ucb-light-blue'
+      'green-light': '--ucb-light-blue'
+      'brick': '--ucb-light-gray'
+    default_value: '--ucb-light-blue'
+
+  field_headline: field_hero_unit_headline
+
+  field_hero_background_image:
+    plugin: migration_lookup
+    migration: express_media_images
+    source: field_hero_unit_image
+
+
+
+
+  field_links:
+    - plugin: skip_on_empty
+      source: field_article_feature_category
+      method: process
+      message: 'Row does not contain categories.'
+    - plugin: sub_process_managed
+      source: field_hero_unit_link
+      process:
+        uri: 'field_hero_unit_link_url'
+        title: 'field_hero_unit_link_title'
+
+
+
+  field_link_color:
+    plugin: static_map
+    source: field_hero_unit_link_color
+    map:
+      'blue': 'button-blue'
+      'white': 'button-white'
+      'gray': 'button-gray-light'
+      'black': 'button-black'
+      'dark_gray': 'button-gray-dark'
+      'gold': 'button-gold'
+      'outline-white': 'button-white'
+      'outline-black': 'button-black'
+    default_value: 'button-blue'
+
+  field_hero_overlay: field_hero_unit_overlay
+
+
+  field_size:
+    plugin: static_map
+    source: field_hero_unit_size
+    map:
+      'large': '0'
+      'small': '1'
+    default_value: '0'
+
+  field_text: field_hero_unit_text
+
+  field_text_align:
+    plugin: static_map
+    source: field_hero_unit_text_align
+    map:
+      'left': 'text-left'
+      'right': 'text-end'
+      'center': 'text-center'
+      'left-half': 'text-lefthalf'
+      'right-half': 'text-righthalf'
+    default_value: 'text-left'
+
+  field_text_color:
+    plugin: static_map
+    source: field_hero_unit_text_color
+    map:
+      'black': 'text-body'
+      'white': 'text-white'
+
+
+  'field_bs_icon/value': bs_icon
+  'field_bs_icon/format':
+    plugin: default_value
+    default_value: 'icon_picker'
+
+  'field_bs_background_style/value': bs_background_style
+  'field_bs_content_font_scale/value': bs_content_font_scale
+  'field_bs_heading/value': bs_heading
+  'field_bs_heading_alignment/value': bs_heading_alignment
+  'field_bs_heading_style/value': bs_heading_style
+  'field_bs_icon_color/value': bs_icon_color
+  'field_bs_icon_position/value': bs_icon_position
+  'field_bs_icon_size/value': bs_icon_size
+  'field_bs_title_font_scale/value': bs_title_font_scale
+
+
+destination:
+  plugin: 'entity:block_content'
+  default_bundle: 'hero_unit'
+
+
+migration_dependencies:
+  required:
+    - express_media_images
+
+
+dependencies:
+  enforced:
+    module:
+      - migrate_express

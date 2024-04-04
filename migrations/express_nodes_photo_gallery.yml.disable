@@ -23,9 +23,18 @@ source:
     - name: title
       label: 'Title'
       selector: 'title'
-#    - name: body_value
-#      label: 'Body Value'
-#      selector: 'fields/item[field_name="body"]/data/item[column_name="body_value"]/value'
+
+    - name: body_value
+      label: 'Body Value'
+      selector: 'fields/body/data/item/body_value'
+
+    - name: body_summary
+      label: 'Body Summary'
+      selector: 'fields/body/data/item/body_summary'
+
+    - name: body_format
+      label: 'Body Format'
+      selector: 'fields/body/data/item/body_format'
   ids:
     nid:
       type: integer
@@ -37,14 +46,35 @@ process:
     plugin: default_value
     default_value: 'und'
   title: title
-#  'body/value': body_value
+  'body/value':
+    plugin: migrate_inline_images
+    source: body_value
+
+  'body/summary': body_summary
+  'body/format': body_format
 
 destination:
   plugin: entity:node
 
 
 
-migration_dependencies: {}
+migration_dependencies:
+  required:
+    - express_beans_feature_callout
+    - express_beans_content_row
+    - express_beans_content_sequence
+    - express_beans_block
+    - express_beans_video_hero_unit
+    - express_beans_expandable
+    - express_beans_slider
+    - express_beans_people_list_block
+    - express_beans_video_reveal
+    - express_beans_block_wrapper
+    - express_beans_article_grid
+    - express_beans_article_feature
+    - express_beans_article_slider
+    - express_beans_articles
+
 dependencies:
   enforced:
     module:

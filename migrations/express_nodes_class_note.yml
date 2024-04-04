@@ -1,5 +1,5 @@
-id: express_nodes_faqs
-label: Express Nodes Faqs Migration
+id: express_nodes_class_note
+label: Express Nodes Class Note Migration
 migration_tags:
   - express
   - article
@@ -10,7 +10,7 @@ source:
   data_parser_plugin: simple_xml
   urls:
     - data.xml
-  item_selector: /root/nodes/item/faqs/item
+  item_selector: /root/nodes/item/class_note/item
   fields:
     - name: nid
       label: 'nid'
@@ -64,7 +64,7 @@ source:
 process:
   type:
     plugin: default_value
-    default_value: 'ucb_faq_page'
+    default_value: 'ucb_class_notes'
   langcode:
     plugin: default_value
     default_value: 'und'

@@ -1,0 +1,118 @@
+id: express_nodes_issue
+label: Express Nodes Issue Migration
+migration_tags:
+  - express
+  - article
+
+source:
+  plugin: url
+  data_fetcher_plugin: file
+  data_parser_plugin: simple_xml
+  urls:
+    - data.xml
+  item_selector: /root/nodes/item/issue/item
+  fields:
+    - name: nid
+      label: 'nid'
+      selector: 'nid'
+    - name: vid
+      label: 'vid'
+      selector: 'vid'
+    - name: uid
+      label: 'uid'
+      selector: 'uid'
+    - name: type
+      label: 'Type'
+      selector: 'type'
+    - name: title
+      label: 'Title'
+      selector: 'title'
+
+    - name: path
+      label: 'Path'
+      selector: 'path'
+
+    - name: status
+      label: 'Status'
+      selector: 'status'
+
+    - name: created
+      label: 'Created'
+      selector: 'created'
+
+    - name: changed
+      label: 'Changed'
+      selector: 'changed'
+
+    - name: body_value
+      label: 'Body Value'
+      selector: 'fields/body/data/item/body_value'
+
+    - name: body_summary
+      label: 'Body Summary'
+      selector: 'fields/body/data/item/body_summary'
+
+    - name: body_format
+      label: 'Body Format'
+      selector: 'fields/body/data/item/body_format'
+
+    - name: field_issue_image
+      label: field_issue_image
+      selector: 'fields/field_issue_image/data/item/field_issue_image_fid'
+
+
+
+  ids:
+    nid:
+      type: integer
+process:
+  type:
+    plugin: default_value
+    default_value: 'ucb_issue'
+  langcode:
+    plugin: default_value
+    default_value: 'und'
+  title: title
+
+  path/alias: path
+  path/pathauto:
+    plugin: default_value
+    default_value: 0
+
+  status: status
+  created: created
+  changed: changed
+
+  uid:
+    - plugin: migration_lookup_allow_empty_value
+      migration: express_users
+      no_stub: true
+      source: uid
+    - plugin: default_value
+      default_value: 0
+
+  'body/value':
+    plugin: migrate_inline_images
+    source: body_value
+  'body/summary': body_summary
+  'body/format': body_format
+
+  field_ucb_issue_cover_image:
+    plugin: migration_lookup
+    migration: express_media_images
+    source: field_issue_image
+
+
+
+destination:
+  plugin: entity:node
+
+migration_dependencies:
+  required:
+    - express_media_images
+    - express_nodes_issue_paragraph
+
+dependencies:
+  enforced:
+    module:
+      - migrate_express
