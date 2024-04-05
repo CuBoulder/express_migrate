@@ -35,7 +35,7 @@ source:
 
     - name: field_callouts
       label: 'field_callouts'
-      selector: 'fields/field_callouts/data/item/grid_layout_content/id'
+      selector: 'fields/field_callouts/data/item/collection/item/id'
 
     - name: delta
       label: 'delta'
@@ -82,7 +82,7 @@ process:
 
   pseudo_field_grid_layout_content:
     - plugin: migration_lookup
-      migration: express_beans_feature_callout_field_callouts_grid_layout_content
+      migration: express_beans_feature_callout_field_callouts
       source: field_callouts
 
 
@@ -101,7 +101,7 @@ destination:
 
 migration_dependencies:
   required:
-    - express_beans_feature_callout_field_callouts_grid_layout_content
+    - express_beans_feature_callout_field_callouts
 
 
 dependencies:
