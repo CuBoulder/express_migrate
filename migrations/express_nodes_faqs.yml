@@ -56,6 +56,10 @@ source:
       label: 'Body Format'
       selector: 'fields/body/data/item/body_format'
 
+    - name: field_qa_collection
+      label: 'field_qa_collection'
+      selector: 'fields/field_qa_collection/data/item/id'
+
 
 
   ids:
@@ -94,6 +98,21 @@ process:
   'body/format': body_format
 
 
+  pseudo_field_ucb_faq_page_section:
+    - plugin: migration_lookup
+      migration: express_nodes_faqs_collection
+      source: field_qa_collection
+
+
+  field_ucb_faq_page_section:
+    plugin: sub_process_managed
+    source:
+      - '@pseudo_field_ucb_faq_page_section'
+    process:
+      target_id: '0'
+      target_revision_id: '1'
+
+
 
 destination:
   plugin: entity:node
@@ -105,6 +124,7 @@ migration_dependencies:
     - express_taxonomy_terms_category
     - express_taxonomy_terms_tags
     - express_taxonomy_terms_byline
+    - express_nodes_faqs_collection
 
 dependencies:
   enforced:

@@ -1,0 +1,77 @@
+id: express_nodes_issue_section
+label: Express Nodes Issue Section Migration
+migration_tags:
+  - express
+
+source:
+  plugin: url
+  data_fetcher_plugin: file
+  data_parser_plugin: simple_xml
+  urls:
+    - data.xml
+  item_selector: /root/nodes/item/issue/item/fields2/field_issue_section/data/item
+  fields:
+
+#      field_issue_section_articles
+#    - field_issue_section_display
+#    - field_issue_section_title
+#    -
+#    - name: field_issue_section_title
+#      label: 'field_issue_section_title'
+#      selector: 'collection/field_qa_answer/data/item/field_qa_answer_value'
+
+    - name: id
+      label: 'id'
+      selector: 'id'
+
+    - name: field_issue_section_articles
+      label: 'field_issue_section_articles'
+      selector: 'collection/item/field_issue_section_articles/field_issue_section_articles_target_id'
+
+    - name: field_issue_section_display
+      label: 'field_issue_section_articles'
+      selector: 'collection/item/field_issue_section_display/field_issue_section_display_value'
+
+  ids:
+    id:
+      type: string
+process:
+
+  field_ucb_issue_section_style:
+    plugin: static_map
+    source: field_issue_section_display
+    map:
+      'teaser_category': '0'
+      'feature_category': '1'
+      'sidebar': '2'
+      'title': '3'
+    default_value: '0'
+
+
+  pseudo_field_ucb_issue_article_select:
+    plugin: migration_lookup
+    migration: express_nodes_article
+    source: field_issue_section_articles
+
+  field_ucb_issue_article_select:
+    plugin: sub_process_managed
+    source:
+      - '@pseudo_field_ucb_issue_article_select'
+    process:
+      target_id: '0'
+      target_revision_id: '0'
+
+destination:
+  plugin: 'entity_reference_revisions:paragraph'
+  default_bundle: 'ucb_issue_section'
+
+
+migration_dependencies:
+  required:
+    - express_media_images
+    - express_nodes_article
+
+dependencies:
+  enforced:
+    module:
+      - migrate_express

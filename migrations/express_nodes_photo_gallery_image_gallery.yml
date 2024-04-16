@@ -1,0 +1,66 @@
+id: express_nodes_photo_gallery_image_gallery
+label: Express Nodes Photo Gallery Image Gallery Migration
+migration_tags:
+  - express
+
+source:
+  plugin: url
+  data_fetcher_plugin: file
+  data_parser_plugin: simple_xml
+  urls:
+    - data.xml
+  item_selector: /root/nodes/item/photo_gallery/item
+  fields:
+    - name: nid
+      label: 'nid'
+      selector: 'nid'
+
+    - name: photo_fid
+      label: 'Photo'
+      selector: 'fields2/field_photo/data/item/field_photo_fid'
+
+
+  ids:
+    nid:
+      type: integer
+process:
+
+
+#  field_image_gallery_photo/target_id:
+#    plugin: migration_lookup
+#    migration: express_media_images
+#    source: photo_fid
+
+
+  pseudo_field_image_gallery_photo:
+    - plugin: migration_lookup
+      migration: express_media_images
+      source: photo_fid
+
+
+  field_image_gallery_photo:
+    plugin: sub_process_managed
+    source:
+      - '@pseudo_field_image_gallery_photo'
+    process:
+      target_id: '0'
+      target_revision_id: '1'
+
+
+
+
+destination:
+  plugin: 'entity:block_content'
+  default_bundle: 'image_gallery'
+
+
+
+migration_dependencies:
+  required:
+    - express_media_images
+
+
+dependencies:
+  enforced:
+    module:
+      - migrate_express

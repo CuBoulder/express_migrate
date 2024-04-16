@@ -1,0 +1,74 @@
+id: express_nodes_faqs_collection
+label: Express Nodes FAQs Collection Migration
+migration_tags:
+  - express
+
+source:
+  plugin: url
+  data_fetcher_plugin: file
+  data_parser_plugin: simple_xml
+  urls:
+    - data.xml
+  item_selector: /root/nodes/item/faqs/item/fields2/field_qa_collection/data/item
+  fields:
+
+
+    - name: id
+      label: 'id'
+      selector: 'id'
+
+    - name: field_qa_collection_title
+      label: 'field_qa_collection_title'
+      selector: 'collection/item/field_qa_collection_title/field_qa_collection_title_value'
+
+    - name: field_qa
+      label: 'field_qa'
+      selector: 'collection/item/field_qa/id'
+
+
+
+  ids:
+    id:
+      type: string
+process:
+
+  dump_sourcevar:
+    plugin: callback
+    callable: var_dump
+    source: field_qa_collection_title
+
+
+  field_ucb_faq_section_title: field_qa_collection_title
+
+  pseudo_field_ucb_faq_question_ans_para:
+    - plugin: migration_lookup
+      migration: express_nodes_faqs_qa
+      source: field_qa
+
+
+  field_ucb_faq_question_ans_para:
+    plugin: sub_process_managed
+    source:
+      - '@pseudo_field_ucb_faq_question_ans_para'
+    process:
+      target_id: '0'
+      target_revision_id: '1'
+
+
+
+
+
+destination:
+  plugin: 'entity_reference_revisions:paragraph'
+  default_bundle: 'ucb_faq_section'
+
+
+migration_dependencies:
+  required:
+    - express_nodes_faqs_qa
+
+
+dependencies:
+  enforced:
+    module:
+      - migrate_express

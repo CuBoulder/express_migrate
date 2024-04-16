@@ -56,6 +56,9 @@ source:
       label: 'Body Format'
       selector: 'fields/body/data/item/body_format'
 
+    - name: field_class_note_class_year
+      label: 'field_class_note_class_year'
+      selector: 'fields/field_class_note_class_year/data/item/field_class_note_class_year_value'
 
 
   ids:
@@ -92,6 +95,8 @@ process:
     source: body_value
   'body/summary': body_summary
   'body/format': body_format
+
+  field_ucb_class_year: field_class_note_class_year
 
 
 

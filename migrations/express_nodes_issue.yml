@@ -60,6 +60,10 @@ source:
       label: field_issue_image
       selector: 'fields/field_issue_image/data/item/field_issue_image_fid'
 
+    - name: field_issue_section
+      label: field_issue_section
+      selector: 'fields/field_issue_section/data/item/id'
+
 
 
   ids:
@@ -103,6 +107,20 @@ process:
     source: field_issue_image
 
 
+  pseudo_field_ucb_issue_section:
+    plugin: migration_lookup
+    migration: express_nodes_issue_section
+    source: field_issue_section
+
+  field_ucb_issue_section:
+    plugin: sub_process_managed
+    source:
+      - '@pseudo_field_ucb_issue_section'
+    process:
+      target_id: '0'
+      target_revision_id: '1'
+
+
 
 destination:
   plugin: entity:node
@@ -110,7 +128,7 @@ destination:
 migration_dependencies:
   required:
     - express_media_images
-    - express_nodes_issue_paragraph
+    - express_nodes_issue_section
 
 dependencies:
   enforced:
