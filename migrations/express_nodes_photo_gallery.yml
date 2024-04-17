@@ -35,6 +35,11 @@ source:
     - name: body_format
       label: 'Body Format'
       selector: 'fields/body/data/item/body_format'
+
+    - name: layout_beans
+      label: 'Layout Beans'
+      selector: 'layout/page_sections'
+
   ids:
     nid:
       type: integer
@@ -52,6 +57,10 @@ process:
 
   'body/summary': body_summary
   'body/format': body_format
+
+  layout_builder__layout:
+    source: layout_beans
+    plugin: layout_builder_sections_pages
 
 destination:
   plugin: entity:node

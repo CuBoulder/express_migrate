@@ -1,0 +1,66 @@
+id: express_nodes_newsletter_section_content
+label: Express Nodes Newsletter Section Content Migration
+migration_tags:
+  - express
+  - newsletter
+
+source:
+  plugin: url
+  data_fetcher_plugin: file
+  data_parser_plugin: simple_xml
+  urls:
+    - data.xml
+  item_selector: /root/nodes/item/newsletter/item/fields2/field_newsletter_section/data/item/collection/item/field_newsletter_section_content
+  fields:
+
+
+    - name: id
+      label: 'id'
+      selector: 'id'
+
+    - name: field_nl_section_content_body_value
+      label: 'field_nl_section_content_body'
+      selector: 'collection/field_nl_section_content_body/data/item/field_nl_section_content_body_value'
+
+    - name: field_nl_section_content_body_format
+      label: 'field_nl_section_content_body'
+      selector: 'collection/field_nl_section_content_body/data/item/field_nl_section_content_body_format'
+
+    - name: field_nl_section_content_image
+      label: 'field_nl_section_content_image'
+      selector: 'collection/field_qa_question/data/item/field_qa_question_value'
+
+    - name: field_nl_section_content_title
+      label: 'field_nl_section_content_title'
+      selector: 'collection/field_qa_question/data/item/field_qa_question_value'
+
+
+  ids:
+    id:
+      type: string
+process:
+
+
+  field_newsletter_content_text/value: field_nl_section_content_body_value
+  field_newsletter_content_text/format: field_nl_section_content_body_format
+
+  field_newsletter_content_title: field_nl_section_content_title
+
+
+
+
+destination:
+  plugin: 'entity_reference_revisions:paragraph'
+  default_bundle: 'newsletter_section_content'
+
+
+migration_dependencies:
+  required:
+    - express_media_images
+    - express_nodes_article
+
+
+dependencies:
+  enforced:
+    module:
+      - migrate_express

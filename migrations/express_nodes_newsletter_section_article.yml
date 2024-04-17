@@ -1,0 +1,51 @@
+id: express_nodes_newsletter_section_article
+label: Express Nodes Newsletter Section Article Migration
+migration_tags:
+  - express
+  - newsletter
+
+source:
+  plugin: url
+  data_fetcher_plugin: file
+  data_parser_plugin: simple_xml
+  urls:
+    - data.xml
+  item_selector: /root/nodes/item/newsletter/item/fields2/field_newsletter_section/data/item/collection/item/field_newsletter_section_article
+  fields:
+
+
+    - name: id
+      label: 'id'
+      selector: 'id'
+
+    - name: field_newsletter_articles
+      label: 'field_newsletter_articles'
+      selector: 'collection/field_newsletter_articles/data/item/field_newsletter_articles_target_id'
+
+
+  ids:
+    id:
+      type: string
+process:
+
+  field_newsletter_article_select:
+    - plugin: migration_lookup
+      migration: express_nodes_article
+      source: field_newsletter_articles
+
+
+destination:
+  plugin: 'entity_reference_revisions:paragraph'
+  default_bundle: 'newsletter_section_article'
+
+
+migration_dependencies:
+  required:
+    - express_media_images
+    - express_nodes_article
+
+
+dependencies:
+  enforced:
+    module:
+      - migrate_express

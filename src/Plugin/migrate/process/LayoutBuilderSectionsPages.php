@@ -53,6 +53,7 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
     $allowedComponents[] = 'expandable';
     $allowedComponents[] = 'title';
     $allowedComponents[] = 'body';
+    $allowedComponents[] = 'photogallery';
     $allowedComponents[] = 'slider';
     $allowedComponents[] = 'video_reveal';
     $allowedComponents[] = 'people_list_block';
@@ -175,6 +176,67 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
 
 
         }
+
+       if ($component_type == 'photogallery')
+       {
+         file_put_contents('/tmp/drupaldebug.txt', "Photogallery 'Bean'" . "\n" , FILE_APPEND | LOCK_EX);
+
+         $component_id_array = [$component_id];
+         #file_put_contents('/tmp/drupaldebug.txt', print_r($component_id_array, true), FILE_APPEND | LOCK_EX);
+
+         $destid = $lookup->lookup(['express_nodes_photo_gallery_image_gallery'], $component_id_array);
+
+         file_put_contents('/tmp/drupaldebug.txt', "destid:" . print_r($destid, true) . "\n" , FILE_APPEND | LOCK_EX);
+
+         #file_put_contents('/tmp/drupaldebug.txt', print_r($destid, true), FILE_APPEND | LOCK_EX);
+
+         $real_destid = 0;
+
+         foreach ($destid as $destid_element) {
+           file_put_contents('/tmp/drupaldebug.txt', print_r($destid_element, true), FILE_APPEND | LOCK_EX);
+           $real_destid = $destid_element['id'];
+         }
+
+         $block_content = BlockContent::load($real_destid);
+
+         if (is_null($block_content)) {
+           \Drupal::messenger()->addMessage("Could not load " . $real_destid . ' ???', 'status', TRUE);
+           continue;
+         }
+         else
+         {
+           file_put_contents('/tmp/drupaldebug.txt', "Block loaded" . "\n", FILE_APPEND | LOCK_EX);
+           file_put_contents('/tmp/drupaldebug.txt', "bundle:" . print_r($block_content->bundle(), true) . "\n" , FILE_APPEND | LOCK_EX);
+
+         }
+
+         $label_display = 'visible';
+         if($component_display_title == 'false')
+         {
+           $label_display = 0;
+         }
+
+
+         $config = [
+           'id' => 'inline_block:'. $block_content->bundle(),
+           'label' => $block_content->label(),
+           'provider' => 'layout_builder',
+           'label_display' => $label_display,
+           'view_mode' => 'full',
+           'block_revision_id' => $block_content->getRevisionId(),
+           'block_serialized' => serialize($block_content),
+           'context_mapping' => [],
+         ];
+
+         file_put_contents('/tmp/drupaldebug.txt', "Photogallery column name: " . $sectionColumnMap[$current_column] . "\n" , FILE_APPEND | LOCK_EX);
+
+         $components[] = new SectionComponent($generator->generate(), $sectionColumnMap[$current_column], $config);
+         continue;
+
+
+       }
+
+
 
 
 

@@ -1,0 +1,85 @@
+id: express_nodes_newsletter_section
+label: Express Nodes Newsletter Section
+migration_tags:
+  - express
+  - newsletter
+
+source:
+  plugin: url
+  data_fetcher_plugin: file
+  data_parser_plugin: simple_xml
+  urls:
+    - data.xml
+  item_selector: /root/nodes/item/newsletter/item/fields2/field_newsletter_section/data/item
+  fields:
+
+
+    - name: id
+      label: 'id'
+      selector: 'id'
+
+    - name: field_newsletter_display
+      label: 'field_newsletter_display'
+      selector: 'collection/item/field_newsletter_display/field_newsletter_display_value'
+
+    - name: field_newsletter_more_link
+      label: 'field_newsletter_more_link'
+      selector: 'collection/item/field_newsletter_more_link'
+
+    - name: field_newsletter_section_title
+      label: 'field_newsletter_section_title'
+      selector: 'collection/item/field_newsletter_section_title/field_newsletter_section_title_value'
+
+    - name: field_newsletter_section_content
+      label: 'field_newsletter_section_content'
+      selector: 'collection/item/field_newsletter_section_article/id|collection/item/field_newsletter_section_content/id'
+
+
+  ids:
+    id:
+      type: string
+process:
+
+  field_newsletter_section_style:
+    plugin: static_map
+    source: field_newsletter_display
+    map:
+      'email_teaser': '1'
+      'email_feature': '0'
+      'title': '0'
+    default_value: '0'
+
+  field_newsletter_section_title: field_newsletter_section_title
+
+  pseudo_field_newsletter_section_select:
+    - plugin: migration_lookup
+      migration:
+        - express_nodes_newsletter_section_article
+        - express_nodes_newsletter_section_content
+      source: field_newsletter_section_content
+
+
+  field_newsletter_section_select:
+    plugin: sub_process_managed
+    source:
+      - '@pseudo_field_newsletter_section_select'
+    process:
+      target_id: '0'
+      target_revision_id: '1'
+
+
+destination:
+  plugin: 'entity_reference_revisions:paragraph'
+  default_bundle: 'newsletter_section'
+
+
+migration_dependencies:
+  required:
+    - express_nodes_newsletter_section_article
+    - express_nodes_newsletter_section_content
+
+
+dependencies:
+  enforced:
+    module:
+      - migrate_express
