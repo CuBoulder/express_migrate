@@ -10,7 +10,7 @@ source:
   data_parser_plugin: simple_xml
   urls:
     - data.xml
-  item_selector: /root/nodes/item/faqs/item/fields2/field_qa_collection/data/item/collection/item/field_qa
+  item_selector: /root/nodes/item/faqs/item/fields/field_newsletter_text_block/data/item/
   fields:
 
 

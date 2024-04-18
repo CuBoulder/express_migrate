@@ -29,6 +29,32 @@ source:
     - name: weight
       label: 'Weight'
       selector: weight
+
+    - name: footer_value
+      label: footer_value
+      selector: fields/field_newsletter_footer/value
+
+    - name: footer_format
+      label: footer_format
+      selector: fields/field_newsletter_footer/format
+
+    - name: path_value
+      label: path_value
+      selector: fields/field_newsletter_path/value
+
+    - name: design_value
+      label: design_value
+      selector: fields/field_newsletter_design/value
+
+    - name: name_image_fid
+      label: name_image_fid
+      selector: fields/field_newsletter_name_image/fid
+
+    - name: social_links_value
+      label: social_links_value
+      selector: fields/field_newsletter_name_social_links/value
+
+
   ids:
     tid:
       type: integer
@@ -39,6 +65,31 @@ process:
   description: description
   weight: weight
 
+  field_newsletter_footer/value: footer_value
+  field_newsletter_footer/format: footer_format
+
+  field_newsletter_path/value: path_value
+
+  field_newsletter_design/value:
+    plugin: static_map
+    source: field_newsletter_display
+    map:
+      'design-01': 'classic'
+      'design-02': 'minimal'
+      'design-03': 'lightbox'
+      'design-04': 'darkbox'
+      'design-05': 'simple'
+    default_value: 'classic'
+
+
+  field_newsletter_name_image:
+    plugin: migration_lookup
+    migration: express_media_images
+    source: name_image_fid
+
+
+
+
 destination:
   plugin: entity:taxonomy_term
   default_bundle: newsletter
@@ -48,6 +99,7 @@ destination:
 migration_dependencies:
   required:
     - express_vocabularies
+    - express_media_images
 dependencies:
   enforced:
     module:

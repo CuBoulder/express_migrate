@@ -64,15 +64,15 @@ source:
 
     - name: field_newsletter_intro_image
       label: 'field_newsletter_intro_image'
-      selector: fields2/field_newsletter_intro_image/data/item/id
+      selector: fields2/field_newsletter_intro_image/data/item/field_newsletter_intro_image_fid
 
     - name: field_newsletter_title
       label: 'field_newsletter_title'
-      selector: fields2/field_newsletter_title/data/item/id
+      selector: fields2/field_newsletter_title/data/item/field_newsletter_title_value
 
     - name: field_newsletter_type
       label: 'field_newsletter_type'
-      selector: fields2/field_newsletter_type/data/item/id
+      selector: fields/field_newsletter_type/data/item/field_newsletter_type_tid
 
   ids:
     nid:
@@ -108,6 +108,24 @@ process:
     plugin: migrate_inline_images
     source: body_value
 
+#  field_newsletter_title:
+
+  field_newsletter_intro_image:
+    plugin: migration_lookup
+    migration: express_media_images
+    source: field_newsletter_intro_image
+
+  dump_sourcevar:
+    plugin: callback
+    callable: var_dump
+    source: field_newsletter_type
+
+  field_newsletter_type:
+    plugin: migration_lookup
+    migration: express_taxonomy_terms_newsletter
+    source: field_newsletter_type
+
+
 
 
   'body/summary': body_summary
@@ -137,7 +155,7 @@ migration_dependencies:
   required:
 #    - express_nodes_newsletter_ad_promo
     - express_nodes_newsletter_section
-#    - express_nodes_newsletter_text_block
+    - express_nodes_newsletter_text_block
     - express_taxonomy_terms_newsletter
 
 dependencies:
