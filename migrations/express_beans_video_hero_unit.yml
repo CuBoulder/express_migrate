@@ -29,6 +29,14 @@ source:
       label: field_hero_unit_headline
       selector: 'fields/field_hero_unit_headline/data/item/field_hero_unit_headline_value'
 
+    - name: field_hero_unit_image
+      label: field_hero_unit_image
+      selector: 'fields/field_hero_unit_image/data/item/field_hero_unit_image_fid'
+
+    - name: field_hero_unit_link
+      label: field_hero_unit_link
+      selector: 'fields/field_hero_unit_link/data/item'
+
     - name: field_hero_unit_link_color
       label: field_hero_unit_link_color
       selector: 'fields/field_hero_unit_link_color/data/item/field_hero_unit_link_color_value'
@@ -55,9 +63,7 @@ source:
       label: field_hero_video_size
       selector: 'fields/field_hero_video_size/data/item/field_hero_video_size_value'
 
-    - name: field_hero_unit_image
-      label: field_hero_unit_image
-      selector: 'fields/field_hero_unit_image/data/item/field_hero_unit_image_fid'
+
 
     - name: field_video_hero_url
       label: field_video_hero_url
@@ -76,13 +82,21 @@ process:
 
   id: bid
 
-  info: label
+  info: title
 
   field_headline: field_hero_unit_headline
 
-  field_solid_colors:
-    plugin: default_value
-    default_value: none
+  field_links:
+    - plugin: skip_on_empty
+      source: field_hero_unit_link
+      method: process
+      message: 'Row does not contain categories.'
+    - plugin: sub_process_managed
+      source: field_hero_unit_link
+      process:
+        uri: 'field_hero_unit_link_url'
+        title: 'field_hero_unit_link_title'
+
 
   field_link_color:
     plugin: static_map
@@ -107,11 +121,11 @@ process:
     plugin: static_map
     source: field_hero_unit_text_align
     map:
-      'a': 'text-left'
-      'b': 'text-end'
+      'left': 'text-left'
+      'right': 'text-end'
       'center': 'text-center'
-      'c': 'text-lefthalf'
-      'd': 'text-righthalf'
+      'left-half': 'text-lefthalf'
+      'right-half': 'text-righthalf'
     default_value: 'text-left'
 
 
@@ -123,12 +137,7 @@ process:
       'white': 'text-white'
     default_value: 'text-body'
 
-  field_hero_overlay:
-    plugin: static_map
-    source: field_hero_video_overlay
-    map:
-      '0': 'Off'
-      '1': 'On'
+  field_hero_overlay: field_hero_video_overlay
 
   field_size:
     plugin: static_map
@@ -136,10 +145,11 @@ process:
     map:
       'large': '0'
       'medium': '1'
-      'small': '2'
+      'small': '1'
+      'full': '0'
     default_value: '0'
 
-  field_background_media:
+  field_hero_background_video:
     plugin: migration_lookup
     migration: express_beans_video_hero_unit_field_background_media
     source: field_video_hero_url_id
@@ -147,7 +157,7 @@ process:
 
 destination:
   plugin: 'entity:block_content'
-  default_bundle: 'hero_unit'
+  default_bundle: 'video_hero_unit'
 
 
 migration_dependencies:

@@ -1,0 +1,109 @@
+id: express_beans_social_links
+label: Express Beans Social Links Migration
+migration_tags:
+  - express
+
+source:
+  plugin: url
+  data_fetcher_plugin: file
+  data_parser_plugin: simple_xml
+  urls:
+    - data.xml
+  item_selector: /root/beans/social_links/item
+  fields:
+
+
+    - name: bid
+      label: 'bid'
+      selector: 'bid'
+
+    - name: title
+      label: title
+      selector: 'title'
+
+    - name: label
+      label: label
+      selector: 'label'
+
+    - name: field_social_links_body_value
+      label: field_social_links_body_value
+      selector: 'fields/field_social_links_body/data/item/field_social_links_body_value'
+
+    - name: field_social_links_body_format
+      label: field_social_links_body_format
+      selector: 'fields/field_social_links_body/data/item/field_social_links_body_format'
+
+
+    - name: field_social_links_arrangement
+      label: field_social_links_arrangement
+      selector: 'fields/field_social_links_arrangement/data/item/field_social_links_arrangement_value'
+
+    - name: field_social_links_homepage_url
+      label: field_social_links_homepage_url
+      selector: 'fields/field_social_links_homepage_url/data/item/field_social_links_homepage_url'
+
+    - name: field_social_links_size
+      label: field_social_links_size
+      selector: 'fields/field_social_links_size/data/item/field_social_links_size_value'
+
+    - name: field_social_link_url
+      label: field_social_link_url
+      selector: 'fields/field_social_links_collection/data/item/collection/item/field_social_link_url'
+
+
+
+
+
+  ids:
+    bid:
+      type: integer
+process:
+
+  id: bid
+
+  info: title
+
+  field_social_media_icon_or:
+    plugin: static_map
+    source: field_social_links_arrangement
+    map:
+      'horizontal': 'horizontal'
+      'vertical': 'vertical'
+      'horizontal-icons-only': 'horizontal'
+    default_value: 'horizontal'
+
+  field_social_media_link_size:
+    plugin: static_map
+    source: field_social_links_size
+    map:
+      '24': 'tiny'
+      '32': 'small'
+      '48': 'medium'
+      '64': 'large'
+    default_value: 'small'
+
+  field_social_media_links:
+    - plugin: skip_on_empty
+      source: field_social_link_url
+      method: process
+      message: 'Row does not contain categories.'
+    - plugin: sub_process_managed
+      source: field_social_link_url
+      process:
+        uri: 'field_social_link_url_url'
+
+destination:
+  plugin: 'entity:block_content'
+  default_bundle: 'social_media_icons'
+
+
+migration_dependencies:
+  required:
+    - express_beans_slider_slide
+
+
+
+dependencies:
+  enforced:
+    module:
+      - migrate_express

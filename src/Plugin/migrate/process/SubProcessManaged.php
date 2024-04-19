@@ -229,17 +229,38 @@ class SubProcessManaged extends ProcessPluginBase {
     elseif (array_depth($value) == 1)
     {
       file_put_contents('/tmp/drupaldebug.txt', "Case B\n", FILE_APPEND | LOCK_EX);
-      $newvalue = array();
-      foreach ($value as $x)
+
+      if(!is_array($value))
       {
-        $newvalue[] = array($x);
+        $value = (array)$value;
       }
-      $value = $newvalue;
+      $value = array($value);
+
+//       $newvalue = array();
+
+
+//       foreach ($value as $x)
+//       {
+//         $newvalue[] = array($x);
+//       }
+//       $newvalue[] = array($value);
+//
+//       $value = $newvalue;
     }
     elseif (array_depth($value) == 3)
     {
 //      file_put_contents('/tmp/drupaldebug.txt', "Case C", FILE_APPEND | LOCK_EX);
-      $value = $value[0];
+      //$value = $value[0];
+      $newvalue = array();
+      foreach($value as $x)
+      {
+        if(!is_array($x))
+        {
+          $x = (array)$x;
+        }
+        $newvalue[] = $x;
+      }
+      $value = $newvalue;
     }
 
 //
@@ -262,7 +283,8 @@ class SubProcessManaged extends ProcessPluginBase {
     if (is_array($value) || $value instanceof \Traversable) {
       foreach ($value as $key => $new_value) {
         if (!is_array($new_value)) {
-          throw new MigrateException(sprintf("Input array should hold elements of type array, instead element was of type '%s'", gettype($new_value)));
+//           throw new MigrateException(sprintf("Input array should hold elements of type array, instead element was of type '%s'", gettype($new_value)));
+            $new_value = (array)$new_value;
         }
 
         file_put_contents('/tmp/drupaldebug.txt', "New Value: " . print_r($new_value, true) . "\n", FILE_APPEND | LOCK_EX);

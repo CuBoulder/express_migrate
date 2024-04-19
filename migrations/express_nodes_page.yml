@@ -153,6 +153,7 @@ migration_dependencies:
     - express_beans_articles
     - express_beans_hero_unit
     - express_beans_feature_callout
+    - express_beans_social_links
 
 
 dependencies:

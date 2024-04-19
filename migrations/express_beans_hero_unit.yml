@@ -120,7 +120,7 @@ process:
 
   id: bid
 
-  info: label
+  info: title
 
   field_solid_colors:
     plugin: static_map
@@ -151,7 +151,7 @@ process:
 
   field_links:
     - plugin: skip_on_empty
-      source: field_article_feature_category
+      source: field_hero_unit_link
       method: process
       message: 'Row does not contain categories.'
     - plugin: sub_process_managed
