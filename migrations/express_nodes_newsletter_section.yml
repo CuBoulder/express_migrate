@@ -51,21 +51,34 @@ process:
 
   field_newsletter_section_title: field_newsletter_section_title
 
-  pseudo_field_newsletter_section_select:
+#  pseudo_field_newsletter_section_select:
+#    - plugin: migration_lookup
+#      migration:
+#        - express_nodes_newsletter_section_article
+#        - express_nodes_newsletter_section_content
+#      source: field_newsletter_section_content
+#
+#  field_newsletter_section_select:
+#    plugin: sub_process_managed
+#    source:
+#      - '@pseudo_field_newsletter_section_select'
+#    process:
+#      target_id: '0'
+#      target_revision_id: '1'
+
+
+  field_newsletter_section_select:
     - plugin: migration_lookup
       migration:
         - express_nodes_newsletter_section_article
         - express_nodes_newsletter_section_content
+      no_stub: true
       source: field_newsletter_section_content
+    - plugin: sub_process_managed
+      process:
+        target_id: '0'
+        target_revision_id: '1'
 
-
-  field_newsletter_section_select:
-    plugin: sub_process_managed
-    source:
-      - '@pseudo_field_newsletter_section_select'
-    process:
-      target_id: '0'
-      target_revision_id: '1'
 
 
 destination:

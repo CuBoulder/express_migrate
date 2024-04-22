@@ -75,6 +75,8 @@ process:
   langcode:
     plugin: default_value
     default_value: 'und'
+  nid: nid
+
   title: title
 
   status: status

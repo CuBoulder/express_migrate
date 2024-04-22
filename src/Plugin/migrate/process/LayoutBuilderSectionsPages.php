@@ -64,28 +64,21 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
     $allowedComponents[] = 'articles';
     $allowedComponents[] = 'social_links';
 
+    $allowedE2EComponents = array();
+    $allowedE2EComponents[] = 'video_hero_unit';
+    $allowedE2EComponents[] = 'hero_unit';
+    $allowedE2EComponents[] = 'slider';
+    $allowedE2EComponents[] = 'video_reveal';
+
+
 
 
     foreach ($value as $section) {
       $components = [];
 
 
+      $allE2EComponents = true;
 
-//      $config = [
-//        'id' => 'field_block:node:basic_page:body',
-//        'label_display' => FALSE,
-//        'context_mapping' => [
-//          'entity' => 'layout_builder.entity'
-//        ],
-//        'formatter' => [
-//          'type' => 'text_default',
-//          'label' => 'hidden',
-//          'settings' => [],
-//          'third_party_settings' => []
-//        ]
-//      ];
-//
-//      $components[] = new SectionComponent($generator->generate(), 'first', $config);
 
 
       file_put_contents('/tmp/drupaldebug.txt', "section:" . print_r($section, true) . "\n" , FILE_APPEND | LOCK_EX);
@@ -95,6 +88,10 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
       $sectionColumnMap[2] = 'second';
       $sectionColumnMap[3] = 'third';
       $sectionColumnMap[4] = 'fourth';
+
+
+
+
 
       $current_column = 0;
 
@@ -113,7 +110,10 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
         $component_type = (string)explode(" ", $bean_string)[1];
         $component_display_title = (string)explode(" ", $bean_string)[2];
 
-
+        if(!in_array($component_type, $allowedE2EComponents))
+        {
+          $allE2EComponents = false;
+        }
 
 
         file_put_contents('/tmp/drupaldebug.txt', "bid:" . $component_id . "\n" , FILE_APPEND | LOCK_EX);
@@ -594,9 +594,16 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
       $columnMap[3] = 'ucb_bootstrap_layouts__three_column';
       $columnMap[4] = 'ucb_bootstrap_layouts__four_column';
 
+      $sectionName = $columnMap[$current_column];
+      if($layoutSettings['container_width'] == 'edge-to-edge' && $allE2EComponents == true)
+      {
+        $sectionName = 'ucb_bootstrap_layouts__edge-to-edge';
+      }
+
+
 
       //$sections[] = new Section('layout_onecol', [], $components);
-      $sections[] = new Section($columnMap[$current_column], $layoutSettings, $components);
+      $sections[] = new Section($sectionName, $layoutSettings, $components);
 
 
     }

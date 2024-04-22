@@ -73,6 +73,7 @@ process:
     plugin: default_value
     default_value: 'und'
   title: title
+  nid: nid
 
   path/alias: path
   path/pathauto:

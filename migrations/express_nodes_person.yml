@@ -142,6 +142,8 @@ process:
     default_value: 'und'
   status: status
 
+  nid: nid
+
   title: title
 
   path/alias: path
@@ -189,16 +191,16 @@ process:
     - plugin: default_value
       default_value: 0
 
-  field_ucb_person_department:
-    - plugin: sub_process_managed
-      source: department
-      process:
-        target_id:
-          - plugin: migration_lookup
-            migration: express_taxonomy_terms_department
-            source: '0'
-            no_stub: true
 
+
+  field_ucb_person_department:
+    - plugin: migration_lookup
+      migration: express_taxonomy_terms_department
+      no_stub: true
+      source: department
+    - plugin: sub_process_managed
+      process:
+        target_id: '0'
 
   field_ucb_person_job_type:
     - plugin: skip_on_empty

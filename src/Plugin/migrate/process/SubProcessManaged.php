@@ -234,22 +234,34 @@ class SubProcessManaged extends ProcessPluginBase {
       {
         $value = (array)$value;
       }
-      $value = array($value);
 
-//       $newvalue = array();
+      if(array_is_list($value))
+      {
+        file_put_contents('/tmp/drupaldebug.txt', "Case B.1 - List\n", FILE_APPEND | LOCK_EX);
+        $newvalue = array();
 
-
-//       foreach ($value as $x)
-//       {
-//         $newvalue[] = array($x);
-//       }
-//       $newvalue[] = array($value);
-//
-//       $value = $newvalue;
+        foreach ($value as $x)
+        {
+          $newvalue[] = array($x);
+        }
+        $value = $newvalue;
+      }
+      else
+      {
+        file_put_contents('/tmp/drupaldebug.txt', "Case B.2 - Dict\n", FILE_APPEND | LOCK_EX);
+        $value = array($value);
+      }
     }
+//     elseif (array_depth($value) == 2)
+//     {
+//         file_put_contents('/tmp/drupaldebug.txt', "Case D\n", FILE_APPEND | LOCK_EX);
+//         if(array_is_list())
+//         {
+//         }
+//     }
     elseif (array_depth($value) == 3)
     {
-//      file_put_contents('/tmp/drupaldebug.txt', "Case C", FILE_APPEND | LOCK_EX);
+      file_put_contents('/tmp/drupaldebug.txt', "Case C", FILE_APPEND | LOCK_EX);
       //$value = $value[0];
       $newvalue = array();
       foreach($value as $x)

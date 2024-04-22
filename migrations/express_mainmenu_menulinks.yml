@@ -118,6 +118,7 @@ migration_dependencies:
     - express_nodes_class_note
     - express_nodes_faqs
     - express_nodes_issue
+    - express_nodes_newsletter
 
 dependencies:
   enforced:

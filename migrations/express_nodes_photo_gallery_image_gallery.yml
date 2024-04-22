@@ -25,28 +25,14 @@ source:
       type: integer
 process:
 
-
-#  field_image_gallery_photo/target_id:
-#    plugin: migration_lookup
-#    migration: express_media_images
-#    source: photo_fid
-
-
-  pseudo_field_image_gallery_photo:
+  field_image_gallery_photo:
     - plugin: migration_lookup
       migration: express_media_images
+      no_stub: true
       source: photo_fid
-
-
-  field_image_gallery_photo:
-    plugin: sub_process_managed
-    source:
-      - '@pseudo_field_image_gallery_photo'
-    process:
-      target_id: '0'
-      target_revision_id: '1'
-
-
+    - plugin: sub_process_managed
+      process:
+        target_id: '0'
 
 
 destination:

@@ -85,6 +85,7 @@ process:
     plugin: default_value
     default_value: 'und'
   title: title
+  nid: nid
 
   path/alias: path
   path/pathauto:
@@ -131,19 +132,30 @@ process:
   'body/summary': body_summary
   'body/format': body_format
 
-  pseudo_field_newsletter_section_block:
-    - plugin: migration_lookup
-      migration: express_nodes_newsletter_section
-      source: field_newsletter_section
+#  pseudo_field_newsletter_section_block:
+#    - plugin: migration_lookup
+#      migration: express_nodes_newsletter_section
+#      source: field_newsletter_section
+#
+#
+#  field_newsletter_section_block:
+#    plugin: sub_process_managed
+#    source:
+#      - '@pseudo_field_newsletter_section_block'
+#    process:
+#      target_id: '0'
+#      target_revision_id: '1'
 
 
   field_newsletter_section_block:
-    plugin: sub_process_managed
-    source:
-      - '@pseudo_field_newsletter_section_block'
-    process:
-      target_id: '0'
-      target_revision_id: '1'
+    - plugin: migration_lookup
+      migration: express_nodes_newsletter_section
+      no_stub: true
+      source: field_newsletter_section
+    - plugin: sub_process_managed
+      process:
+        target_id: '0'
+        target_revision_id: '1'
 
 
 destination:
@@ -155,7 +167,7 @@ migration_dependencies:
   required:
 #    - express_nodes_newsletter_ad_promo
     - express_nodes_newsletter_section
-    - express_nodes_newsletter_text_block
+#    - express_nodes_newsletter_text_block
     - express_taxonomy_terms_newsletter
 
 dependencies:

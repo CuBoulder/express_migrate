@@ -17,12 +17,31 @@ source:
     - name: vid
       label: 'vid'
       selector: 'vid'
+    - name: uid
+      label: 'uid'
+      selector: 'uid'
     - name: type
       label: 'Type'
       selector: 'type'
     - name: title
       label: 'Title'
       selector: 'title'
+
+    - name: path
+      label: 'Path'
+      selector: 'path'
+
+    - name: status
+      label: 'Status'
+      selector: 'status'
+
+    - name: created
+      label: 'Created'
+      selector: 'created'
+
+    - name: changed
+      label: 'Changed'
+      selector: 'changed'
 
     - name: body_value
       label: 'Body Value'
@@ -61,6 +80,27 @@ process:
     plugin: default_value
     default_value: 'und'
   title: title
+
+  nid: nid
+
+  path/alias: path
+  path/pathauto:
+    plugin: default_value
+    default_value: 0
+
+  status: status
+  created: created
+  changed: changed
+
+  uid:
+    - plugin: migration_lookup_allow_empty_value
+      migration: express_users
+      no_stub: true
+      source: uid
+    - plugin: default_value
+      default_value: 0
+
+
   'body/value':
     plugin: migrate_inline_images
     source: body_value

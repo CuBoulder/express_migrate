@@ -51,6 +51,10 @@ process:
     plugin: default_value
     default_value: 'und'
   title: title
+
+  nid: nid
+
+
   'body/value':
     plugin: migrate_inline_images
     source: body_value

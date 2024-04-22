@@ -40,19 +40,22 @@ process:
 
   field_ucb_faq_section_title: field_qa_collection_title
 
-  pseudo_field_ucb_faq_question_ans_para:
-    - plugin: migration_lookup
-      migration: express_nodes_faqs_qa
-      source: field_qa
+#  pseudo_field_ucb_faq_question_ans_para:
+#    - plugin: migration_lookup
+#      migration: express_nodes_faqs_qa
+#      source: field_qa
 
 
   field_ucb_faq_question_ans_para:
-    plugin: sub_process_managed
-    source:
-      - '@pseudo_field_ucb_faq_question_ans_para'
-    process:
-      target_id: '0'
-      target_revision_id: '1'
+    - plugin: migration_lookup
+      migration: express_nodes_faqs_qa
+      source: field_qa
+    - plugin: sub_process_managed
+#      source:
+#        - '@pseudo_field_ucb_faq_question_ans_para'
+      process:
+        target_id: '0'
+        target_revision_id: '1'
 
 
 

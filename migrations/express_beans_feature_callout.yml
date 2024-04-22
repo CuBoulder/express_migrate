@@ -35,7 +35,7 @@ source:
 
     - name: field_callouts
       label: 'field_callouts'
-      selector: 'fields/field_callouts/data/item/collection/item/id'
+      selector: 'fields/field_callouts/data/item/id'
 
     - name: delta
       label: 'delta'
@@ -80,19 +80,22 @@ process:
       offset: 3
     default_value: 0
 
-  pseudo_field_grid_layout_content:
-    - plugin: migration_lookup
-      migration: express_beans_feature_callout_field_callouts
-      source: field_callouts
+#  pseudo_field_grid_layout_content:
+#    - plugin: migration_lookup
+#      migration: express_beans_feature_callout_field_callouts
+#      source: field_callouts
 
 
   field_grid_layout_content:
-    plugin: sub_process_managed
-    source:
-      - '@pseudo_field_grid_layout_content'
-    process:
-      target_id: '0'
-      target_revision_id: '1'
+    - plugin: migration_lookup
+      migration: express_beans_feature_callout_field_callouts
+      source: field_callouts
+    - plugin: sub_process_managed
+#      source:
+#        - '@pseudo_field_grid_layout_content'
+      process:
+        target_id: '0'
+        target_revision_id: '1'
 
 destination:
   plugin: 'entity:block_content'

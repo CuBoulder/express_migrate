@@ -72,6 +72,9 @@ process:
   langcode:
     plugin: default_value
     default_value: 'und'
+
+  nid: nid
+
   title: title
 
   path/alias: path
@@ -98,19 +101,22 @@ process:
   'body/format': body_format
 
 
-  pseudo_field_ucb_faq_page_section:
-    - plugin: migration_lookup
-      migration: express_nodes_faqs_collection
-      source: field_qa_collection
+#  pseudo_field_ucb_faq_page_section:
+#    - plugin: migration_lookup
+#      migration: express_nodes_faqs_collection
+#      source: field_qa_collection
 
 
   field_ucb_faq_page_section:
-    plugin: sub_process_managed
-    source:
-      - '@pseudo_field_ucb_faq_page_section'
-    process:
-      target_id: '0'
-      target_revision_id: '1'
+    - plugin: migration_lookup
+      migration: express_nodes_faqs_collection
+      source: field_qa_collection
+    - plugin: sub_process_managed
+#      source:
+#        - '@pseudo_field_ucb_faq_page_section'
+      process:
+        target_id: '0'
+        target_revision_id: '1'
 
 
 
