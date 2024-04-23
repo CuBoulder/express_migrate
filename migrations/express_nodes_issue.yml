@@ -108,18 +108,28 @@ process:
     source: field_issue_image
 
 
-  pseudo_field_ucb_issue_section:
-    plugin: migration_lookup
-    migration: express_nodes_issue_section
-    source: field_issue_section
+#  pseudo_field_ucb_issue_section:
+#    plugin: migration_lookup
+#    migration: express_nodes_issue_section
+#    source: field_issue_section
+#
+#  field_ucb_issue_section:
+#    plugin: sub_process_managed
+#    source:
+#      - '@pseudo_field_ucb_issue_section'
+#    process:
+#      target_id: '0'
+#      target_revision_id: '1'
 
   field_ucb_issue_section:
-    plugin: sub_process_managed
-    source:
-      - '@pseudo_field_ucb_issue_section'
-    process:
-      target_id: '0'
-      target_revision_id: '1'
+    - plugin: migration_lookup
+      migration: express_nodes_issue_section
+      no_stub: true
+      source: field_issue_section
+    - plugin: sub_process_managed
+      process:
+        target_id: '0'
+        target_revision_id: '1'
 
 
 

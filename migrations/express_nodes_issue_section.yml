@@ -48,18 +48,30 @@ process:
     default_value: '0'
 
 
-  pseudo_field_ucb_issue_article_select:
-    plugin: migration_lookup
-    migration: express_nodes_article
-    source: field_issue_section_articles
+#  pseudo_field_ucb_issue_article_select:
+#    plugin: migration_lookup
+#    migration: express_nodes_article
+#    source: field_issue_section_articles
+#
+#  field_ucb_issue_article_select:
+#    plugin: sub_process_managed
+#    source:
+#      - '@pseudo_field_ucb_issue_article_select'
+#    process:
+#      target_id: '0'
+#      target_revision_id: '0'
+
+
 
   field_ucb_issue_article_select:
-    plugin: sub_process_managed
-    source:
-      - '@pseudo_field_ucb_issue_article_select'
-    process:
-      target_id: '0'
-      target_revision_id: '0'
+    - plugin: migration_lookup
+      migration: express_nodes_article
+      no_stub: true
+      source: field_issue_section_articles
+    - plugin: sub_process_managed
+      process:
+        target_id: '0'
+        target_revision_id: '1'
 
 destination:
   plugin: 'entity_reference_revisions:paragraph'
