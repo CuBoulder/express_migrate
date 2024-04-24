@@ -50,6 +50,8 @@ process:
 
   field_newsletter_content_title: field_nl_section_content_title_title
 
+  field_newsletter_content_url: field_nl_section_content_title_url
+
   field_newsletter_content_image:
     plugin: migration_lookup
     migration: express_media_images

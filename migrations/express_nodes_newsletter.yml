@@ -74,6 +74,30 @@ source:
       label: 'field_newsletter_type'
       selector: fields/field_newsletter_type/data/item/field_newsletter_type_tid
 
+    - name: field_newsletter_promo_image_one
+      label: 'field_newsletter_promo_image_one'
+      selector: fields2/field_newsletter_ad_promo/data/field_newsletter_promo_image_one
+
+    - name: field_newsletter_promo_link_one
+      label: 'field_newsletter_promo_link_one'
+      selector: fields2/field_newsletter_ad_promo/data/field_newsletter_promo_link_one
+
+    - name: field_newsletter_promo_image_two
+      label: 'field_newsletter_promo_image_two'
+      selector: fields2/field_newsletter_ad_promo/data/field_newsletter_promo_image_two
+
+    - name: field_newsletter_promo_link_two
+      label: 'field_newsletter_promo_link_two'
+      selector: fields2/field_newsletter_ad_promo/data/field_newsletter_promo_link_two
+
+
+
+
+    - name: field_newsletter_text_block
+      label: 'field_newsletter_text_block'
+      selector: 'fields2/field_newsletter_text_block/data/item/id'
+
+
   ids:
     nid:
       type: integer
@@ -116,10 +140,10 @@ process:
     migration: express_media_images
     source: field_newsletter_intro_image
 
-  dump_sourcevar:
-    plugin: callback
-    callable: var_dump
-    source: field_newsletter_type
+#  dump_sourcevar:
+#    plugin: callback
+#    callable: var_dump
+#    source: field_newsletter_type
 
   field_newsletter_type:
     plugin: migration_lookup
@@ -127,24 +151,34 @@ process:
     source: field_newsletter_type
 
 
+  field_newsletter_content_blocks:
+    - plugin: migration_lookup
+      migration: express_nodes_newsletter_text_block
+      source: field_newsletter_text_block
+    - plugin: sub_process_managed
+      process:
+        target_id: '0'
+        target_revision_id: '1'
+
+
 
 
   'body/summary': body_summary
   'body/format': body_format
 
-#  pseudo_field_newsletter_section_block:
-#    - plugin: migration_lookup
-#      migration: express_nodes_newsletter_section
-#      source: field_newsletter_section
-#
-#
-#  field_newsletter_section_block:
-#    plugin: sub_process_managed
-#    source:
-#      - '@pseudo_field_newsletter_section_block'
-#    process:
-#      target_id: '0'
-#      target_revision_id: '1'
+  field_newsletter_promo_image_one:
+    plugin: migration_lookup
+    migration: express_media_images
+    source: field_newsletter_promo_image_one
+
+  field_newsletter_promo_link_one: field_newsletter_promo_link_one
+
+  field_newsletter_promo_image_two:
+    plugin: migration_lookup
+    migration: express_media_images
+    source: field_newsletter_promo_image_two
+
+  field_newsletter_promo_link_two: field_newsletter_promo_link_two
 
 
   field_newsletter_section_block:
@@ -165,9 +199,8 @@ destination:
 
 migration_dependencies:
   required:
-#    - express_nodes_newsletter_ad_promo
     - express_nodes_newsletter_section
-#    - express_nodes_newsletter_text_block
+    - express_nodes_newsletter_text_block
     - express_taxonomy_terms_newsletter
 
 dependencies:

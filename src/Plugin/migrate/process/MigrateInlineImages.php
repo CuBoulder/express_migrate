@@ -25,6 +25,9 @@ class MigrateInlineImages extends ProcessPluginBase {
 
     file_put_contents('/tmp/drupaldebug.txt', "Migrate Inline Images Start\n" , FILE_APPEND | LOCK_EX);
 
+    file_put_contents('/tmp/drupaldebug.txt', $value . "\n" , FILE_APPEND | LOCK_EX);
+
+
     $html = new HtmlDocument();
 
     $html->load($value);
@@ -32,13 +35,23 @@ class MigrateInlineImages extends ProcessPluginBase {
     $replace='img';
     foreach($html->find($replace) as $key=>$element){
       $newelement = $html->find($replace,$key);
+
+//       file_put_contents('/tmp/drupaldebug.txt', print_r($newelement, true) . "\n" , FILE_APPEND | LOCK_EX);
+
       $src = $newelement->src;
       $style = $newelement->style;
+      $dataalign = $newelement->getAttribute('data-align');
 
-      $filename = explode('?', basename($src))[0];
+//       file_put_contents('/tmp/drupaldebug.txt', $dataalign . "\n" , FILE_APPEND | LOCK_EX);
+
+
+      $filename = urldecode(explode('?', basename($src))[0]);
+
+
       $query = \Drupal::entityQuery('media')->condition('bundle', 'image')->condition('name', $filename)->accessCheck(FALSE);
       $result = $query->execute();
       $value = reset($result);
+
 
       $mediaobject = \Drupal::entityTypeManager()->getStorage('media')->load($value);
 
@@ -51,7 +64,7 @@ class MigrateInlineImages extends ProcessPluginBase {
 
 
 
-      $newelement->outertext = '<drupal-media data-entity-type="media" data-entity-uuid="' . $uuid . '"></drupal-media>';
+      $newelement->outertext = '<drupal-media data-entity-type="media" data-align="' . $dataalign . '"  data-entity-uuid="' . $uuid . '"></drupal-media>';
 
     }
 

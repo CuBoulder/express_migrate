@@ -1,0 +1,59 @@
+id: express_nodes_newsletter_text_block
+label: Express Nodes Newsletter Text Block Migration
+migration_tags:
+  - express
+  - newsletter
+
+
+source:
+  plugin: url
+  data_fetcher_plugin: file
+  data_parser_plugin: simple_xml
+  urls:
+    - data.xml
+  item_selector: /root/nodes/item/newsletter/item/fields2/field_newsletter_text_block/data/item
+  fields:
+
+
+    - name: id
+      label: 'id'
+      selector: 'id'
+
+    - name: field_newsletter_block_body_value
+      label: 'field_newsletter_block_body'
+      selector: 'collection/item/field_newsletter_block_body/field_newsletter_block_body_value'
+
+    - name: field_newsletter_block_body_format
+      label: 'field_newsletter_block_body'
+      selector: 'collection/item/field_newsletter_block_body/field_newsletter_block_body_format'
+
+    - name: field_newsletter_block_title
+      label: 'field_newsletter_block_title'
+      selector: 'collection/item/field_newsletter_block_title/field_newsletter_block_title_value'
+
+
+  ids:
+    id:
+      type: string
+process:
+
+  field_newsletter_block_title: field_newsletter_block_title
+  field_newsletter_block_text/value: field_newsletter_block_body_value
+  field_newsletter_block_text/format: field_newsletter_block_body_format
+
+
+
+destination:
+  plugin: 'entity_reference_revisions:paragraph'
+  default_bundle: 'ucb_newsletter_text_block'
+
+
+migration_dependencies:
+  required:
+    - express_media_images
+
+
+dependencies:
+  enforced:
+    module:
+      - migrate_express
