@@ -187,6 +187,7 @@ class SubProcessManaged extends ProcessPluginBase {
     $configuration += [
       'include_source' => FALSE,
       'source_key' => 'source',
+      'do_not_split' => FALSE
     ];
     parent::__construct($configuration, $plugin_id, $plugin_definition);
   }
@@ -235,7 +236,9 @@ class SubProcessManaged extends ProcessPluginBase {
         $value = (array)$value;
       }
 
-      if(array_is_list($value))
+
+
+      if(array_is_list($value) && !$this->configuration['do_not_split'])
       {
         file_put_contents('/tmp/drupaldebug.txt', "Case B.1 - List\n", FILE_APPEND | LOCK_EX);
         $newvalue = array();
@@ -252,13 +255,6 @@ class SubProcessManaged extends ProcessPluginBase {
         $value = array($value);
       }
     }
-//     elseif (array_depth($value) == 2)
-//     {
-//         file_put_contents('/tmp/drupaldebug.txt', "Case D\n", FILE_APPEND | LOCK_EX);
-//         if(array_is_list())
-//         {
-//         }
-//     }
     elseif (array_depth($value) == 3)
     {
       file_put_contents('/tmp/drupaldebug.txt', "Case C", FILE_APPEND | LOCK_EX);

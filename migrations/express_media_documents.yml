@@ -1,9 +1,7 @@
-id: express_media_images
-label: Express Media Images Migration
+id: express_media_documents
+label: Express Media Documents Migration
 migration_tags:
   - express
-  - test
-  - article
 
 source:
   plugin: url
@@ -11,7 +9,7 @@ source:
   data_parser_plugin: simple_xml
   urls:
     - data.xml
-  item_selector: /root/files/images/item
+  item_selector: /root/files/documents/item
   fields:
     - name: fid
       label: 'fid'
@@ -45,34 +43,20 @@ process:
   name: filename
   uri: uri
 
-  field_media_image/target_id:
+  field_media_document_file/target_id:
     plugin: migration_lookup
-    migration: express_files_images
+    migration: express_files_documents
     source: fid
-
-  field_media_image/alt:
-    plugin: default_value
-    default_value: 'alttext'
-
-
-  thumbnail/target_id:
-    plugin: migration_lookup
-    migration: express_files_images
-    source: fid
-
-  focal_point:
-    source: focal_point
-    plugin: focal_point_migration
 
 destination:
   plugin: entity:media
-  default_bundle: image
+  default_bundle: document
 
 
 
 migration_dependencies:
   required:
-    - express_files_images
+    - express_files_documents
 
 dependencies:
   enforced:

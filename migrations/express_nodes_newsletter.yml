@@ -129,9 +129,14 @@ process:
       default_value: 0
 
 
-  'body/value':
+  'field_newsletter_intro_body/value':
     plugin: migrate_inline_images
     source: body_value
+
+  'field_newsletter_intro_body/summary': body_summary
+  'field_newsletter_intro_body/format': body_format
+
+
 
 #  field_newsletter_title:
 
@@ -163,8 +168,7 @@ process:
 
 
 
-  'body/summary': body_summary
-  'body/format': body_format
+
 
   field_newsletter_promo_image_one:
     plugin: migration_lookup
