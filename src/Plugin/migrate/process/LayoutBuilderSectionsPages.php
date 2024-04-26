@@ -63,6 +63,7 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
     $allowedComponents[] = 'article_slider';
     $allowedComponents[] = 'articles';
     $allowedComponents[] = 'social_links';
+    $allowedComponents[] = 'localist_events';
 
     $allowedE2EComponents = array();
     $allowedE2EComponents[] = 'video_hero_unit';
@@ -246,7 +247,7 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
         $component_id_array = [$component_id];
         #file_put_contents('/tmp/drupaldebug.txt', print_r($component_id_array, true), FILE_APPEND | LOCK_EX);
 
-        $destid = $lookup->lookup(['express_beans_feature_callout', 'express_beans_block', 'express_beans_content_row', 'express_beans_content_sequence', 'express_beans_video_hero_unit', 'express_beans_expandable', 'express_beans_slider', 'express_beans_video_reveal', 'express_beans_people_list_block', 'express_beans_block_wrapper', 'express_beans_article_slider', 'express_beans_article_grid', 'express_beans_article_feature', 'express_beans_articles', 'express_beans_hero_unit', 'express_beans_social_links'], $component_id_array);
+        $destid = $lookup->lookup(['express_beans_feature_callout', 'express_beans_block', 'express_beans_content_row', 'express_beans_content_sequence', 'express_beans_video_hero_unit', 'express_beans_expandable', 'express_beans_slider', 'express_beans_video_reveal', 'express_beans_people_list_block', 'express_beans_block_wrapper', 'express_beans_article_slider', 'express_beans_article_grid', 'express_beans_article_feature', 'express_beans_articles', 'express_beans_hero_unit', 'express_beans_social_links', 'express_beans_localist_events'], $component_id_array);
 
         file_put_contents('/tmp/drupaldebug.txt', "destid:" . print_r($destid, true) . "\n" , FILE_APPEND | LOCK_EX);
 

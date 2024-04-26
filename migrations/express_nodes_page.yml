@@ -155,6 +155,7 @@ migration_dependencies:
     - express_beans_hero_unit
     - express_beans_feature_callout
     - express_beans_social_links
+    - express_beans_localist_events
 
 
 dependencies:
