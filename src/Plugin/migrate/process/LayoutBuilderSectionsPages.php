@@ -53,6 +53,9 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
     $allowedComponents[] = 'expandable';
     $allowedComponents[] = 'title';
     $allowedComponents[] = 'body';
+    $allowedComponents[] = 'menu_main';
+    $allowedComponents[] = 'menu_secondary';
+    $allowedComponents[] = 'menu_footer';
     $allowedComponents[] = 'photogallery';
     $allowedComponents[] = 'slider';
     $allowedComponents[] = 'video_reveal';
@@ -178,6 +181,81 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
 
 
         }
+
+        if ($component_type == 'menu_main')
+        {
+          file_put_contents('/tmp/drupaldebug.txt', "Main Menu Bean" . "\n" , FILE_APPEND | LOCK_EX);
+          $config = [
+            'id' => 'menu_block:main',
+            'label_display' => FALSE,
+            'provider' => 'menu_block',
+            'follow_parent' => 'child',
+            'label_type' => 'block',
+            'level' => '2',
+            'depth' => 0,
+            'parent' => 'main:',
+            'suggestion' => 'main'
+
+          ];
+
+          file_put_contents('/tmp/drupaldebug.txt', "Main Menu column name: " . $sectionColumnMap[$current_column] . "\n" , FILE_APPEND | LOCK_EX);
+
+          $components[] = new SectionComponent($generator->generate(), $sectionColumnMap[$current_column], $config);
+          continue;
+
+
+        }
+
+        if ($component_type == 'menu_secondary')
+        {
+          file_put_contents('/tmp/drupaldebug.txt', "Secondary Menu Bean" . "\n" , FILE_APPEND | LOCK_EX);
+          $config = [
+            'id' => 'menu_block:secondary',
+            'label_display' => FALSE,
+            'provider' => 'menu_block',
+            'follow_parent' => 'child',
+            'label_type' => 'block',
+            'level' => '2',
+            'depth' => 0,
+            'parent' => 'secondary:',
+            'suggestion' => 'secondary'
+
+          ];
+
+          file_put_contents('/tmp/drupaldebug.txt', "Secondary Menu column name: " . $sectionColumnMap[$current_column] . "\n" , FILE_APPEND | LOCK_EX);
+
+          $components[] = new SectionComponent($generator->generate(), $sectionColumnMap[$current_column], $config);
+          continue;
+
+
+        }
+
+        if ($component_type == 'menu_footer')
+        {
+          file_put_contents('/tmp/drupaldebug.txt', "Footer Menu Bean" . "\n" , FILE_APPEND | LOCK_EX);
+          $config = [
+            'id' => 'menu_block:footer',
+            'label_display' => FALSE,
+            'provider' => 'menu_block',
+            'follow_parent' => 'child',
+            'label_type' => 'block',
+            'level' => '2',
+            'depth' => 0,
+            'parent' => 'footer:',
+            'suggestion' => 'footer'
+
+          ];
+
+          file_put_contents('/tmp/drupaldebug.txt', "Footer Menu column name: " . $sectionColumnMap[$current_column] . "\n" , FILE_APPEND | LOCK_EX);
+
+          $components[] = new SectionComponent($generator->generate(), $sectionColumnMap[$current_column], $config);
+          continue;
+
+
+        }
+
+
+
 
        if ($component_type == 'photogallery')
        {
