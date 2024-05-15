@@ -74,6 +74,47 @@ source:
       selector: 'fields/field_video_hero_url/data/item/id'
 
 
+    - name: bs_icon
+      label: 'bs_icon'
+      selector: 'style/icon'
+
+    - name: bs_background_style
+      label: 'bs_background_style'
+      selector: 'style/background_style'
+
+    - name: bs_content_font_scale
+      label: 'bs_content_font_scale'
+      selector: 'style/content_font_scale'
+
+    - name: bs_heading
+      label: 'bs_heading'
+      selector: 'style/heading'
+
+    - name: bs_heading_alignment
+      label: 'bs_heading_alignment'
+      selector: 'style/heading_alignment'
+
+    - name: bs_heading_style
+      label: 'bs_heading_style'
+      selector: 'style/heading_style'
+
+    - name: bs_icon_color
+      label: 'bs_icon_color'
+      selector: 'style/icon_color'
+
+    - name: bs_icon_position
+      label: 'bs_icon_position'
+      selector: 'style/icon_position'
+
+    - name: bs_icon_size
+      label: 'bs_icon_size'
+      selector: 'style/icon_size'
+
+    - name: bs_title_font_scale
+      label: 'bs_title_font_scale'
+      selector: 'style/title_font_scale'
+
+
 
   ids:
     bid:
@@ -153,6 +194,16 @@ process:
     plugin: migration_lookup
     migration: express_beans_video_hero_unit_field_background_media
     source: field_video_hero_url_id
+
+  'field_bs_background_style/value': bs_background_style
+  'field_bs_content_font_scale/value': bs_content_font_scale
+  'field_bs_heading/value': bs_heading
+  'field_bs_heading_alignment/value': bs_heading_alignment
+  'field_bs_heading_style/value': bs_heading_style
+  'field_bs_icon_color/value': bs_icon_color
+  'field_bs_icon_position/value': bs_icon_position
+  'field_bs_icon_size/value': bs_icon_size
+  'field_bs_title_font_scale/value': bs_title_font_scale
 
 
 destination:

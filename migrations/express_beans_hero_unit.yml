@@ -127,7 +127,7 @@ process:
     source: field_hero_unit_bg_color
     map:
       'white': '--ucb-white'
-      'gray': '--ucb-light-gray'
+      'gray': '--ucb-dark-gray'
       'black': '--ucb-black'
       'dark_gray': '--ucb-dark-gray'
       'gold': '--ucb-light-gray'

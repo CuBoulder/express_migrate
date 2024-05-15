@@ -35,39 +35,39 @@ source:
 
     - name: field_callout_image_fid
       label: 'field_callout_image_fid'
-      selector: 'field_callout_image/field_callout_image_fid'
+      selector: 'collection/item/field_callout_image/field_callout_image_fid'
 
     - name: field_callout_image_alt
       label: 'field_callout_image_alt'
-      selector: 'field_callout_image/field_callout_image_alt'
+      selector: 'collection/item/field_callout_image/field_callout_image_alt'
 
     - name: field_callout_image_title
       label: 'field_callout_image_title'
-      selector: 'field_callout_image/field_callout_image_title'
+      selector: 'collection/item/field_callout_image/field_callout_image_title'
 
     - name: field_callout_image_width
       label: 'field_callout_image_width'
-      selector: 'field_callout_image/field_callout_image_width'
+      selector: 'collection/item/field_callout_image/field_callout_image_width'
 
     - name: field_callout_image_height
       label: 'field_callout_image_height'
-      selector: 'field_callout_image/field_callout_image_height'
+      selector: 'collection/item/field_callout_image/field_callout_image_height'
 
     - name: field_callout_text_value
       label: 'field_callout_text_value'
-      selector: 'field_callout_text/field_callout_text_value'
+      selector: 'collection/item/field_callout_text/field_callout_text_value'
 
     - name: field_callout_text_format
       label: 'field_callout_text_format'
-      selector: 'field_callout_text/field_callout_text_format'
+      selector: 'collection/item/field_callout_text/field_callout_text_format'
 
     - name: field_callout_title_title
       label: 'field_callout_title_title'
-      selector: 'field_callout_title/field_callout_title_title'
+      selector: 'collection/item/field_callout_title/field_callout_title_title'
 
     - name: field_callout_title_url
       label: 'field_callout_title_url'
-      selector: 'field_callout_title/field_callout_title_url'
+      selector: 'collection/item/field_callout_title/field_callout_title_url'
 
 
 
