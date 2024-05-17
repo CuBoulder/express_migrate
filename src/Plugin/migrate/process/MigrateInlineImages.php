@@ -42,18 +42,54 @@ class MigrateInlineImages extends ProcessPluginBase {
       $style = $newelement->style;
       $dataalign = $newelement->getAttribute('data-align');
 
-//       file_put_contents('/tmp/drupaldebug.txt', $dataalign . "\n" , FILE_APPEND | LOCK_EX);
+      $filepath = explode('?', $src)[0];
+      $filepath = substr($filepath, 20);
+      $filearray = explode('/', $filepath);
+      if($filearray[0] == 'styles')
+      {
+        array_shift($filearray);
+        array_shift($filearray);
+        array_shift($filearray);
+      }
+      $filepath = 'public://' . implode('/', $filearray);
+
+      file_put_contents('/tmp/drupaldebug.txt', "Filepath: " . $filepath . "\n" , FILE_APPEND | LOCK_EX);
+
+      $fid = array_key_first(\Drupal::entityTypeManager()->getStorage('file')->loadByProperties(['uri' => $filepath]));
+
+      file_put_contents('/tmp/drupaldebug.txt', "FID: " . $fid . "\n" , FILE_APPEND | LOCK_EX);
+
+      $fileobject = \Drupal::entityTypeManager()->getStorage('file')->load($fid);
+
+      if(is_null($fid))
+      {
+        file_put_contents('/tmp/drupaldebug.txt', "Could not load FID" . "\n" , FILE_APPEND | LOCK_EX);
+
+        continue;
+      }
 
 
-      $filename = urldecode(explode('?', basename($src))[0]);
+      $result = \Drupal::service('file.usage')->listUsage($fileobject);
+      $mid = array_key_first($result['file']['media']);
 
 
-      $query = \Drupal::entityQuery('media')->condition('bundle', 'image')->condition('name', $filename)->accessCheck(FALSE);
-      $result = $query->execute();
-      $value = reset($result);
 
 
-      $mediaobject = \Drupal::entityTypeManager()->getStorage('media')->load($value);
+
+      file_put_contents('/tmp/drupaldebug.txt', "MID: " . $mid . "\n" , FILE_APPEND | LOCK_EX);
+
+
+
+//       $filename = urldecode(explode('?', basename($src))[0]);
+
+
+//       $query = \Drupal::entityQuery('media')->condition('bundle', 'image')->condition('name', $filename)->accessCheck(FALSE);
+//       $result = $query->execute();
+//       $value = reset($result);
+
+
+//       $mediaobject = \Drupal::entityTypeManager()->getStorage('media')->load($value);
+      $mediaobject = \Drupal::entityTypeManager()->getStorage('media')->load($mid);
 
       $uuid = '';
 

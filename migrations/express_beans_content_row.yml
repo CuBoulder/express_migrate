@@ -35,7 +35,7 @@ source:
 
     - name: field_callouts
       label: 'field_callouts'
-      selector: 'fields/field_callouts/data/item/grid_layout_content/id'
+      selector: 'fields/field_callouts/data/item/id'
 
     - name: delta
       label: 'delta'
@@ -100,7 +100,7 @@ process:
     source: field_callout_style
     map:
       teaser: 0
-      large_teaser: 0
+      large_teaser: 4
       large_teaser_alt: 1
       tiles: 2
       tiles_large: 2
@@ -112,19 +112,31 @@ process:
 
 
 
-  pseudo_field_row_layout_content:
-    - plugin: migration_lookup
-      migration: express_beans_row_field_callouts_row_layout_content
-      source: field_callouts
+#  pseudo_field_row_layout_content:
+#    - plugin: migration_lookup
+#      migration: express_beans_content_row_field_callouts_row_layout_content
+#      source: field_callouts
+#
+#
+#  field_row_layout_content:
+#    plugin: sub_process_managed
+#    source:
+#      - '@pseudo_field_row_layout_content'
+#    process:
+#      target_id: '0'
+#      target_revision_id: '1'
 
 
   field_row_layout_content:
-    plugin: sub_process_managed
-    source:
-      - '@pseudo_field_row_layout_content'
-    process:
-      target_id: '0'
-      target_revision_id: '1'
+    - plugin: migration_lookup
+      migration: express_beans_content_row_field_callouts_row_layout_content
+      no_stub: true
+      source: field_callouts
+    - plugin: sub_process_managed
+      process:
+        target_id: '0'
+        target_revision_id: '1'
+
 
   'field_bs_background_style/value': bs_background_style
   'field_bs_content_font_scale/value': bs_content_font_scale
@@ -143,7 +155,7 @@ destination:
 
 migration_dependencies:
   required:
-    - express_beans_row_field_callouts_row_layout_content
+    - express_beans_content_row_field_callouts_row_layout_content
 
 
 dependencies:

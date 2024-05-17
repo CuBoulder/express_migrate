@@ -450,6 +450,10 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
           {
             $layoutSettings['column_width'] = '3-3-6';
           }
+          elseif($distribution == 'center')
+          {
+            $layoutSettings['column_width'] = '3-6-3';
+          }
         }
 
       }
