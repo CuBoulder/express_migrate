@@ -36,6 +36,9 @@ source:
     - name: focal_point
       label: 'Focal Point'
       selector: 'focal_point'
+    - name: alt
+      label: 'Alt'
+      selector: 'alt'
 
   ids:
     fid:
@@ -49,9 +52,8 @@ process:
     migration: express_files_images
     source: fid
 
-  field_media_image/alt:
-    plugin: default_value
-    default_value: 'alttext'
+  field_media_image/alt: alt
+
 
 
   thumbnail/target_id:
