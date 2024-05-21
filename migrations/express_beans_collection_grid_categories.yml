@@ -1,0 +1,67 @@
+id: express_beans_collection_grid_categories
+label: Express Beans Collection Grid Categories Migration
+migration_tags:
+  - express
+
+source:
+  plugin: url
+  data_fetcher_plugin: file
+  data_parser_plugin: simple_xml
+  urls:
+    - data.xml
+  item_selector: /root/beans/collection_grid/item/fields/field_collection_grid_categories/data/item
+  fields:
+
+
+    - name: id
+      label: 'id'
+      selector: 'id'
+
+    - name: collection_grid_category
+      label: collection_grid_category
+      selector: 'collection/item/field_collection_grid_category/field_collection_grid_category_tid'
+
+    - name: collection_grid_label
+      label: collection_grid_label
+      selector: 'collection/item/field_collection_grid_label/field_collection_grid_label_value'
+
+
+  ids:
+    id:
+      type: string
+process:
+
+  field_collection_grid_category:
+    - plugin: skip_on_empty
+      source: collection_grid_category
+      method: process
+      message: 'Row does not contain categories.'
+    - plugin: sub_process_managed
+      source: collection_grid_category
+      process:
+        target_id:
+          - plugin: migration_lookup
+            migration: express_taxonomy_terms_collection_categories
+            source: '0'
+            no_stub: true
+
+
+
+  field_collection_filter_label: collection_grid_label
+
+
+
+destination:
+  plugin: 'entity_reference_revisions:paragraph'
+  default_bundle: 'collection_grid_filter'
+
+
+migration_dependencies:
+  required:
+    - express_taxonomy_terms_collection_categories
+
+
+dependencies:
+  enforced:
+    module:
+      - migrate_express

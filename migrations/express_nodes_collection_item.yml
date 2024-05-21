@@ -67,6 +67,13 @@ source:
       label: 'Summary Value'
       selector: 'fields/field_collection_preview/data/item/field_collection_preview_format'
 
+    - name: thumbnail
+      label: 'Thumbnail'
+      selector: 'fields/field_collection_preview/data/item/field_collection_preview_format'
+
+
+      field_collection_thumbnail
+
 
 
   ids:

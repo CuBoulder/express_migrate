@@ -156,6 +156,7 @@ migration_dependencies:
     - express_beans_feature_callout
     - express_beans_social_links
     - express_beans_localist_events
+    - express_beans_collection_grid
 
 
 dependencies:
