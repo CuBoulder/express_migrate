@@ -59,20 +59,20 @@ source:
       label: 'Type'
       selector: 'fields/field_collection_type/data/item/field_collection_type_tid'
 
-    - name: summary_value
-      label: 'Summary Value'
+    - name: preview_value
+      label: 'Preview Value'
       selector: 'fields/field_collection_preview/data/item/field_collection_preview_value'
 
-    - name: summary_format
-      label: 'Summary Value'
+    - name: preview_format
+      label: 'Preview Format'
       selector: 'fields/field_collection_preview/data/item/field_collection_preview_format'
 
     - name: thumbnail
       label: 'Thumbnail'
-      selector: 'fields/field_collection_preview/data/item/field_collection_preview_format'
+      selector: 'fields/field_collection_thumbnail/data/item/field_collection_thumbnail_fid'
 
 
-      field_collection_thumbnail
+
 
 
 
@@ -114,12 +114,6 @@ process:
 
   'body/format': body_format
 
-  'field_collection_item_summary/value':
-    plugin: migrate_inline_images
-    source: summary_value
-
-  'field_collection_item_summary/format': summary_format
-
 
   field_collection_item_category:
     - plugin: skip_on_empty
@@ -148,6 +142,19 @@ process:
             migration: express_taxonomy_terms_collection_type
             source: '0'
             no_stub: true
+
+  field_collection_item_summary/value:
+    plugin: migrate_inline_images
+    source: preview_value
+
+  field_collection_item_summary/format: preview_format
+
+
+
+  field_collection_item_thumbnail/target_id:
+    plugin: migration_lookup
+    migration: express_media_images
+    source: thumbnail
 
 
 destination:

@@ -127,13 +127,25 @@ process:
 #      source: field_callouts
 
 
+#  field_grid_layout_content:
+#    - plugin: migration_lookup
+#      migration: express_beans_feature_callout_field_callouts
+#      source: field_callouts
+#    - plugin: sub_process_managed
+##      source:
+##        - '@pseudo_field_grid_layout_content'
+#      process:
+#        target_id: '0'
+#        target_revision_id: '1'
+
+
   field_grid_layout_content:
     - plugin: migration_lookup
       migration: express_beans_feature_callout_field_callouts
+      no_stub: true
       source: field_callouts
     - plugin: sub_process_managed
-#      source:
-#        - '@pseudo_field_grid_layout_content'
+      do_not_split: true
       process:
         target_id: '0'
         target_revision_id: '1'

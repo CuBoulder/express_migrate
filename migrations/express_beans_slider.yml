@@ -36,7 +36,7 @@ source:
 
     - name: field_slider_slide
       label: field_slider_slide
-      selector: 'fields/field_slider_slide/data/item/grid_layout_content/id'
+      selector: 'fields/field_slider_slide/data/item/id'
 
 
     - name: bs_icon
@@ -116,19 +116,16 @@ process:
     default_value: 'bottom-overlay'
 
 
-  pseudo_field_slider_slide_items:
+  field_slider_slide:
     - plugin: migration_lookup
       migration: express_beans_slider_slide
+      no_stub: true
       source: field_slider_slide
+    - plugin: sub_process_managed
+      process:
+        target_id: '0'
+        target_revision_id: '1'
 
-
-  field_slider_slide:
-    plugin: sub_process_managed
-    source:
-      - '@pseudo_field_slider_slide_items'
-    process:
-      target_id: '0'
-      target_revision_id: '1'
 
   'field_bs_background_style/value': bs_background_style
   'field_bs_content_font_scale/value': bs_content_font_scale

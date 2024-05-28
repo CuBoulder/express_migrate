@@ -32,7 +32,7 @@ source:
 
     - name: field_expandable_section
       label: field_expandable_section
-      selector: 'fields/field_expandable_section/data/item/grid_layout_content/id'
+      selector: 'fields/field_expandable_section/data/item/id'
 
     - name: field_expandable_open
       label: field_expandable_open
@@ -102,25 +102,34 @@ process:
     default_value: 0
 
 
-  pseudo_field_expandable_content_copy_items:
-    - plugin: migration_lookup
-      migration: express_beans_expandable_field_expandable_section_grid_layout_content
-      source: field_expandable_section
-
-#  dump:
-#    plugin: callback
-#    callable: var_dump
-#    source: '@pseudo_field_expandable_content_copy_items'
+#  pseudo_field_expandable_content_copy_items:
+#    - plugin: migration_lookup
+#      migration: express_beans_expandable_field_expandable_section
+#      source: field_expandable_section
+#
+##  dump:
+##    plugin: callback
+##    callable: var_dump
+##    source: '@pseudo_field_expandable_content_copy_items'
+#
+#  field_expandable_content_copy:
+#    plugin: sub_process_managed
+#    source:
+#      - '@pseudo_field_expandable_content_copy_items'
+#    process:
+#      target_id: '0'
+#      target_revision_id: '1'
 
   field_expandable_content_copy:
-    plugin: sub_process_managed
-    source:
-      - '@pseudo_field_expandable_content_copy_items'
-    process:
-      target_id: '0'
-      target_revision_id: '1'
-
-
+    - plugin: migration_lookup
+      migration: express_beans_expandable_field_expandable_section
+      no_stub: true
+      source: field_expandable_section
+    - plugin: sub_process_managed
+      do_not_split: true
+      process:
+        target_id: '0'
+        target_revision_id: '1'
 
 
 
@@ -145,7 +154,7 @@ destination:
 
 migration_dependencies:
   required:
-    - express_beans_expandable_field_expandable_section_grid_layout_content
+    - express_beans_expandable_field_expandable_section
 
 
 

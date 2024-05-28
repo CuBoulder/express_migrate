@@ -1,5 +1,5 @@
-id: express_beans_expandable_field_expandable_section_grid_layout_content
-label: Express Beans Expandable Field Expandable Section Grid Layout Migration
+id: express_beans_expandable_field_expandable_section
+label: Express Beans Expandable Field Expandable Section Migration
 migration_tags:
   - express
 
@@ -9,7 +9,7 @@ source:
   data_parser_plugin: simple_xml
   urls:
     - data.xml
-  item_selector: /root/beans/expandable/item/fields/field_expandable_section/data/item/grid_layout_content
+  item_selector: /root/beans/expandable/item/fields/field_expandable_section/data/item
   fields:
 
     - name: id
@@ -18,15 +18,15 @@ source:
 
     - name: field_expandable_text_value
       label: 'field_expandable_text_value'
-      selector: 'field_expandable_text/field_expandable_text_value'
+      selector: 'collection/item/field_expandable_text/field_expandable_text_value'
 
     - name: field_expandable_text_format
       label: 'field_expandable_text_format'
-      selector: 'field_expandable_text/field_expandable_text_format'
+      selector: 'collection/item/field_expandable_text/field_expandable_text_format'
 
     - name: field_expandable_title_value
       label: 'field_expandable_title_value'
-      selector: 'field_expandable_title/field_expandable_title_value'
+      selector: 'collection/item/field_expandable_title/field_expandable_title_value'
 
 
 
