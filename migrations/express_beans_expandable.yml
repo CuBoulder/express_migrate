@@ -88,7 +88,7 @@ process:
 
   id: bid
 
-  info: label
+  info: title
 
 
   'field_expandable_content_type':

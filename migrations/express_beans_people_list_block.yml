@@ -98,7 +98,7 @@ process:
 
   id: bid
 
-  info: label
+  info: title
 
 
   field_people_block_display:

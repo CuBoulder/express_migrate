@@ -36,7 +36,7 @@ class MigrateInlineImages extends ProcessPluginBase {
     foreach($html->find($replace) as $key=>$element){
       $newelement = $html->find($replace,$key);
 
-//       file_put_contents('/tmp/drupaldebug.txt', print_r($newelement, true) . "\n" , FILE_APPEND | LOCK_EX);
+      file_put_contents('/tmp/drupaldebug.txt', print_r($newelement, true) . "\n" , FILE_APPEND | LOCK_EX);
 
       $src = $newelement->src;
       $style = $newelement->style;
@@ -44,6 +44,7 @@ class MigrateInlineImages extends ProcessPluginBase {
 
       $filepath = explode('?', $src)[0];
       $filepath = substr($filepath, 20);
+      $filepath = urldecode($filepath);
       $filearray = explode('/', $filepath);
       if($filearray[0] == 'styles')
       {

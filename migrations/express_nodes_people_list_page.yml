@@ -154,16 +154,71 @@ process:
   'body/summary': body_summary
   'body/format': body_format
 
-  field_ucb_people_department_s: dept_filter_show
-  field_ucb_people_filter_1_s: filter1_show
-  field_ucb_people_filter_2_s: filter2_show
-  field_ucb_people_filter_3_s: filter3_show
-  field_ucb_people_job_type_s: pos_filter_show
+  field_ucb_people_department_s:
+    plugin: static_map
+    source: dept_filter_show
+    map:
+      'TRUE': 1
+      'FALSE': 0
+    default_value: 0
+
+  field_ucb_people_filter_1_s:
+    plugin: static_map
+    source: filter1_show
+    map:
+      'TRUE': 1
+      'FALSE': 0
+    default_value: 0
+
+  field_ucb_people_filter_2_s:
+    plugin: static_map
+    source: filter2_show
+    map:
+      'TRUE': 1
+      'FALSE': 0
+    default_value: 0
+
+  field_ucb_people_filter_3_s:
+    plugin: static_map
+    source: filter3_show
+    map:
+      'TRUE': 1
+      'FALSE': 0
+    default_value: 0
+
+  field_ucb_people_job_type_s:
+    plugin: static_map
+    source: pos_filter_show
+    map:
+      'TRUE': 1
+      'FALSE': 0
+    default_value: 0
 
   field_ucb_people_display: list_display
 
-  field_ucb_people_group_by: group_by
-  field_ucb_people_order_by: order_by
+
+  field_ucb_people_group_by:
+    plugin: static_map
+    source: group_by
+    map:
+      'department': department
+      'people_filter_1': filter_1
+      'people_filter_2': filter_2
+      'people_filter_3': filter_3
+      'person_type': job_type
+    default_value: none
+
+
+
+
+
+  field_ucb_people_order_by:
+    plugin: static_map
+    source: order_by
+    map:
+      'name': last
+      'type': type
+    default_value: last
 
   field_ucb_people_job_type:
     - plugin: skip_on_empty
