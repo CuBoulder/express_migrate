@@ -73,6 +73,13 @@ process:
   'link/uri':
     plugin: link_uri
     source: link_path
+
+
+#  route:
+#    plugin: route
+#    source:
+#      - link_path
+#      - options
 #  'link/options': options
 #  route:
 #    plugin: route
@@ -84,6 +91,11 @@ process:
 #  url: '@route/url'
 #  options: '@route/options'
 #  external: external
+  options:
+    plugin: array_wrap
+    source: options
+
+
   weight: weight
   expanded: expanded
   enabled: enabled

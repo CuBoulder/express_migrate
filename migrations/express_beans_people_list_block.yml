@@ -143,6 +143,11 @@ process:
       migration: express_taxonomy_terms_person_type
       source: field_people_list_person_type
 
+  'field_bs_icon/value': bs_icon
+  'field_bs_icon/format':
+    plugin: default_value
+    default_value: 'icon_picker'
+
   'field_bs_background_style/value': bs_background_style
   'field_bs_content_font_scale/value': bs_content_font_scale
   'field_bs_heading/value': bs_heading
