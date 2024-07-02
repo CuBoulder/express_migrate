@@ -8,6 +8,8 @@ use Drupal\shortcode\ShortcodeService;
 use Drush\Attributes as CLI;
 use Drush\Commands\DrushCommands;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\node\Entity\Node;
+use \Drupal\Core\Url;
 
 /**
  * A Drush commandfile.
@@ -35,7 +37,56 @@ final class MigrateExpressCommands extends DrushCommands {
   }
 
 
-//  protected function process_entity($) {}
+  /**
+   * Convert shortcodes in to CKEditor5 HTML.
+   */
+  #[CLI\Command(name: 'migrate_express:store-report')]
+  #[CLI\Option(name: 'option-name', description: 'Report File')]
+  #[CLI\Usage(name: 'migrate_express:shortcode-convert', description: 'Usage description')]
+  public function storeReport($arg1, $options = ['option-name' => 'default']) {
+
+    $myfile = fopen("../report.html", "r");
+    $report = fread($myfile, filesize("../report.html"));
+
+    $node = null;
+
+    try {
+
+      $alias = \Drupal::service('path_alias.manager')->getPathByAlias('/site-report');
+
+      $params = Url::fromUri("internal:" . $alias)->getRouteParameters();
+      $entity_type = key($params);
+      $node = \Drupal::entityTypeManager()->getStorage($entity_type)->load($params[$entity_type]);
+
+    }
+    catch(\Exception $e) {
+
+    }
+
+    if(is_null($node))
+    {
+      $node = Node::create([
+        'type' => 'basic_page',
+        'title' => 'Site Report',
+        'body' => [
+          'value' => $report,
+          'format' => 'full_html',
+        ],
+      ]);
+
+      $node->save();
+      fclose($myfile);
+    }
+    else
+    {
+      $node->set('body',  ['value' => $report, 'format' => 'full_html']);
+      $node->save();
+    }
+  }
+
+
+
+
 
   /**
    * Convert shortcodes in to CKEditor5 HTML.
@@ -43,7 +94,7 @@ final class MigrateExpressCommands extends DrushCommands {
   #[CLI\Command(name: 'migrate_express:shortcode-convert', aliases: ['scc'])]
   #[CLI\Option(name: 'option-name', description: 'Option description')]
   #[CLI\Usage(name: 'migrate_express:shortcode-convert', description: 'Usage description')]
-  public function commandName($arg1, $options = ['option-name' => 'default']) {
+  public function shortcodeConvert($arg1, $options = ['option-name' => 'default']) {
 
     $this->logger()->success(dt('Loading service...'));
     $sc = \Drupal::service('shortcode');

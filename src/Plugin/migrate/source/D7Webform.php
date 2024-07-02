@@ -976,6 +976,7 @@ class D7Webform extends DrupalSqlBase implements ImportAwareInterface, RollbackA
    */
   public function postRollback(MigrateRollbackEvent $event) {
     // Remove any Webform from webform if webform no longer exists.
+
     $webforms = $this->query()->execute();
     foreach ($webforms as $webform) {
       $webform_nid = $webform['nid'];
