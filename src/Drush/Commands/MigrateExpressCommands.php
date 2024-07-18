@@ -229,60 +229,60 @@ final class MigrateExpressCommands extends DrushCommands {
       }
     }
 
-//
-//    // Paragraph Content
-//
-//    $this->logger()->success(dt('Loading Paragraph nids...'));
-//    $nids = \Drupal::entityQuery('paragraph')->accessCheck(FALSE)->execute();
-////    $this->logger()->success(print_r($nids, true));
-//
-//
-//
-//
-//    $this->logger()->success(dt('Loading Paragraph entities...'));
-//
-//
-//
-//    foreach($nids as $nid)
-//    {
-//      $this->logger()->success(dt('Loading Paragraph ' . $nid));
-//      $entities =  \Drupal\paragraphs\Entity\Paragraph::loadMultiple([$nid]);
-//
-//
-//      foreach ($entities as $entity)
-//      {
-//        $this->logger()->success(dt('Getting Paragraph entity fields...'));
-//
-//        $fields = $entity->getFieldDefinitions();
-//        $fieldnames = [];
-//        foreach($fields as $field)
-//        {
-//          $fieldnames[] = (string)$field->getName();
-//        }
-//
-//        foreach ($fieldnames as $fieldname)
-//        {
-//          if(in_array($fieldname, $paragraph_fields))
-//          {
-//            $this->logger()->success($fieldname);
-//
-//            if($fieldname == 'body')
-//            {
-//              $entity->set($fieldname,  ['value' => $sc->postprocessText($sc->process($entity->get($fieldname)->value), 'en'), 'format' => $entity->get($fieldname)->format, 'summary' => $entity->get($fieldname)->summary]);
-//            }
-//            else
-//            {
-//              $this->logger()->success($sc->postprocessText($sc->process($entity->get($fieldname)->value), 'en'));
-//              $entity->set($fieldname,  ['value' => $sc->postprocessText($sc->process($entity->get($fieldname)->value), 'en'), 'format' => $entity->get($fieldname)->format]);
-//            }
-//            $this->logger()->success('Saving...');
-//
-//            $entity->save();
-//          }
-//        }
-//      }
-//    }
-//
+
+    // Paragraph Content
+
+    $this->logger()->success(dt('Loading Paragraph nids...'));
+    $nids = \Drupal::entityQuery('paragraph')->accessCheck(FALSE)->execute();
+//    $this->logger()->success(print_r($nids, true));
+
+
+
+
+    $this->logger()->success(dt('Loading Paragraph entities...'));
+
+
+
+    foreach($nids as $nid)
+    {
+      $this->logger()->success(dt('Loading Paragraph ' . $nid));
+      $entities =  \Drupal\paragraphs\Entity\Paragraph::loadMultiple([$nid]);
+
+
+      foreach ($entities as $entity)
+      {
+        $this->logger()->success(dt('Getting Paragraph entity fields...'));
+
+        $fields = $entity->getFieldDefinitions();
+        $fieldnames = [];
+        foreach($fields as $field)
+        {
+          $fieldnames[] = (string)$field->getName();
+        }
+
+        foreach ($fieldnames as $fieldname)
+        {
+          if(in_array($fieldname, $paragraph_fields))
+          {
+            $this->logger()->success($fieldname);
+
+            if($fieldname == 'body')
+            {
+              $entity->set($fieldname,  ['value' => $sc->postprocessText($sc->process($entity->get($fieldname)->value), 'en'), 'format' => $entity->get($fieldname)->format, 'summary' => $entity->get($fieldname)->summary]);
+            }
+            else
+            {
+              $this->logger()->success($sc->postprocessText($sc->process($entity->get($fieldname)->value), 'en'));
+              $entity->set($fieldname,  ['value' => $sc->postprocessText($sc->process($entity->get($fieldname)->value), 'en'), 'format' => $entity->get($fieldname)->format]);
+            }
+            $this->logger()->success('Saving...');
+
+            $entity->save();
+          }
+        }
+      }
+    }
+
 
 
 //    $entities =  \Drupal\paragraph\Entity\Paragraph::loadMultiple($nids);
