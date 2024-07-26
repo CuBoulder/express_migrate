@@ -143,12 +143,12 @@ final class MigrateExpressCommands extends DrushCommands {
     // Block Content
 
     $this->logger()->success(dt('Loading Block nids...'));
-    $nids = \Drupal::entityQuery('block_content')->accessCheck(FALSE)->execute();
+    $block_ids = \Drupal::entityQuery('block_content')->accessCheck(FALSE)->execute();
 //    $this->logger()->success(print_r($nids, true));
 
     $this->logger()->success(dt('Loading Block entities...'));
 
-    $entities =  \Drupal\block\Entity\Block::loadMultiple($nids);
+    $entities =  \Drupal\block_content\Entity\BlockContent::loadMultiple($block_ids);
 
 
 //    $this->logger()->success(print_r($entities, true));
