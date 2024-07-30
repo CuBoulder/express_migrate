@@ -130,6 +130,7 @@ final class MigrateExpressCommands extends DrushCommands {
     $paragraph_fields[] = 'field_grid_layout_content_text'; //value, format
     $paragraph_fields[] = 'field_newsletter_block_text'; //value, format
     $paragraph_fields[] = 'field_newsletter_content_text'; //value, format
+    $paragraph_fields[] = 'field_row_layout_content_text'; //value, format
     $paragraph_fields[] = 'field_sequence_item_descr'; //value, format
     $paragraph_fields[] = 'field_slide_image_text'; //value, format
     $paragraph_fields[] = 'field_text'; //value, format
