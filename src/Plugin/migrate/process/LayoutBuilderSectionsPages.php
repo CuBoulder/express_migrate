@@ -298,16 +298,28 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
          }
 
 
-         $config = [
-           'id' => 'inline_block:'. $block_content->bundle(),
-           'label' => $block_content->label(),
-           'provider' => 'layout_builder',
-           'label_display' => $label_display,
-           'view_mode' => 'full',
-           'block_revision_id' => $block_content->getRevisionId(),
-           'block_serialized' => serialize($block_content),
-           'context_mapping' => [],
-         ];
+//         $config = [
+//           'id' => 'inline_block:'. $block_content->bundle(),
+//           'label' => $block_content->label(),
+//           'provider' => 'layout_builder',
+//           'label_display' => $label_display,
+//           'view_mode' => 'full',
+//           'block_revision_id' => $block_content->getRevisionId(),
+//           'block_serialized' => serialize($block_content),
+//           'context_mapping' => [],
+//         ];
+
+           $config = [
+               'id' => 'block_content:'. $block_content->uuid(),
+               'label' => $block_content->label(),
+               'provider' => 'block_content',
+               'label_display' => $label_display,
+               'view_mode' => 'full',
+               'block_serialized' => serialize($block_content),
+               'context_mapping' => [],
+           ];
+
+
 
          file_put_contents('/tmp/drupaldebug.txt', "Photogallery column name: " . $sectionColumnMap[$current_column] . "\n" , FILE_APPEND | LOCK_EX);
 
@@ -363,15 +375,25 @@ class LayoutBuilderSectionsPages extends ProcessPluginBase {
           $label_display = 0;
         }
 
+//        $config = [
+//          'id' => 'inline_block:'. $block_content->bundle(),
+//          'label' => $block_content->label(),
+//          'provider' => 'layout_builder',
+//          'label_display' => $label_display,
+//          'view_mode' => 'full',
+//          'block_revision_id' => $block_content->getRevisionId(),
+//          'block_serialized' => serialize($block_content),
+//          'context_mapping' => [],
+//        ];
+
         $config = [
-          'id' => 'inline_block:'. $block_content->bundle(),
-          'label' => $block_content->label(),
-          'provider' => 'layout_builder',
-          'label_display' => $label_display,
-          'view_mode' => 'full',
-          'block_revision_id' => $block_content->getRevisionId(),
-          'block_serialized' => serialize($block_content),
-          'context_mapping' => [],
+            'id' => 'block_content:'. $block_content->uuid(),
+            'label' => $block_content->label(),
+            'provider' => 'block_content',
+            'label_display' => $label_display,
+            'view_mode' => 'full',
+            'block_serialized' => serialize($block_content),
+            'context_mapping' => [],
         ];
 
         file_put_contents('/tmp/drupaldebug.txt', "Component column name: " . $sectionColumnMap[$current_column] . "\n" , FILE_APPEND | LOCK_EX);
