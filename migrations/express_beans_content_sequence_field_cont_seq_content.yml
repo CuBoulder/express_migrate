@@ -9,7 +9,7 @@ source:
   data_parser_plugin: simple_xml
   urls:
     - data.xml
-  item_selector: /root/beans/content_sequence/item/fields/field_cont_seq_content/data/item/grid_layout_content
+  item_selector: /root/beans/content_sequence/item/fields/field_cont_seq_content/data/item
   fields:
 
 
@@ -19,19 +19,19 @@ source:
 
     - name: body_value
       label: body_value
-      selector: 'field_cont_seq_body/field_cont_seq_body_value'
+      selector: 'collection/item/field_cont_seq_body/field_cont_seq_body_value'
 
     - name: body_format
       label: body_format
-      selector: 'field_cont_seq_body/field_cont_seq_body_format'
+      selector: 'collection/item/field_cont_seq_body/field_cont_seq_body_format'
 
     - name: title_title
       label: title_title
-      selector: 'field_cont_seq_title/field_cont_seq_title_title'
+      selector: 'collection/item/field_cont_seq_title/field_cont_seq_title_title'
 
     - name: title_url
       label: title_url
-      selector: 'field_cont_seq_title/field_cont_seq_title_url'
+      selector: 'collection/item/field_cont_seq_title/field_cont_seq_title_url'
 
   ids:
     id:

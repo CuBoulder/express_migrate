@@ -25,17 +25,25 @@ source:
       label: label
       selector: 'label'
 
+    - name: field_cont_seq_description_value
+      label: 'field_cont_seq_description_value'
+      selector: 'fields/field_cont_seq_description/data/item/field_cont_seq_description_value'
+
+    - name: field_cont_seq_description_format
+      label: 'field_cont_seq_description_format'
+      selector: 'fields/field_cont_seq_description/data/item/field_cont_seq_description_format'
+
     - name: field_cont_seq_content
       label: 'field_cont_seq_content'
-      selector: 'fields/field_cont_seq_content/data/item/grid_layout_content/id'
+      selector: 'fields/field_cont_seq_content/data/item/id'
 
     - name: field_cont_seq_display
       label: 'field_cont_seq_display'
       selector: 'fields/field_cont_seq_display/data/item/field_cont_seq_display_value'
 
-    - name: field_cont_seq_scale
-      label: field_cont_seq_scale
-      selector: 'fields/field_cont_seq_scale/data/item/field_cont_seq_scale_value'
+#    - name: field_cont_seq_scale
+#      label: field_cont_seq_scale
+#      selector: 'fields/field_cont_seq_scale/data/item/field_cont_seq_scale_value'
 
 
     - name: bs_icon
@@ -89,44 +97,42 @@ process:
 
   info: label
 
+  'body/value':
+    plugin: migrate_inline_images
+    source: field_cont_seq_description_value
+  'body/format': field_cont_seq_description_format
+
   field_content_sequence_display:
     plugin: static_map
     source: field_cont_seq_display
     map:
-      advanced: advanced
-      simple_horizontal: horizontal
+      advanced: vertical
+      simple_horizontal: vertical
       simple_vertical: vertical
     default_value: vertical
 
-  field_content_sequence_scale:
-    plugin: static_map
-    source: field_cont_seq_scale
-    map:
-      '.5': '0.5'
-      '1': '1'
-      '2': '2'
-    default_value: '1'
+#  field_content_sequence_scale:
+#    plugin: static_map
+#    source: field_cont_seq_scale
+#    map:
+#      '.5': '0.5'
+#      '1': '1'
+#      '2': '2'
+#    default_value: '1'
 
 
-  pseudo_field_content_sequence_items:
-    - plugin: migration_lookup
-      migration: express_beans_content_sequence_field_cont_seq_content
-      source: field_cont_seq_content
-
-
-#  dump:
-#    - plugin: callback
-#      callable: var_dump
-#      source: '@pseudo_field_content_sequence_items'
 
 
   field_content_sequence_items:
-    plugin: sub_process_managed
-    source:
-      - '@pseudo_field_content_sequence_items'
-    process:
-      target_id: '0'
-      target_revision_id: '1'
+    - plugin: migration_lookup
+      migration: express_beans_content_sequence_field_cont_seq_content
+      no_stub: true
+      source: field_cont_seq_content
+    - plugin: sub_process_managed
+      do_not_split: true
+      process:
+        target_id: '0'
+        target_revision_id: '1'
 
   'field_bs_icon/value': bs_icon
   'field_bs_icon/format':
