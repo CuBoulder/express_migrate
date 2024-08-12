@@ -95,7 +95,7 @@ process:
 
   id: bid
 
-  info: label
+  info: title
 
   'body/value':
     plugin: migrate_inline_images

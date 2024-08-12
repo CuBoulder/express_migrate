@@ -25,6 +25,14 @@ source:
       label: body_format
       selector: 'collection/item/field_cont_seq_body/field_cont_seq_body_format'
 
+    - name: display_date
+      label: display_date
+      selector: 'collection/item/field_cont_seq_display_date/field_cont_seq_display_date_value'
+
+    - name: photo_fid
+      label: 'photo_fid'
+      selector: 'collection/item/field_cont_seq_photos/field_cont_seq_photos_fid'
+
     - name: title_title
       label: title_title
       selector: 'collection/item/field_cont_seq_title/field_cont_seq_title_title'
@@ -40,6 +48,13 @@ process:
 
   'field_sequence_item_descr/value': body_value
   'field_sequence_item_descr/format': body_format
+
+  'field_sequence_item_d_start_date': display_date
+
+  field_sequence_item_media/target_id:
+    plugin: migration_lookup
+    migration: express_media_images
+    source: photo_fid
 
   'field_sequence_item_title': title_title
   'field_sequence_item_url': title_url
