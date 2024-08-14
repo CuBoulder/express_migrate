@@ -44,7 +44,7 @@ final class MigrateExpressCommands extends DrushCommands {
     #[CLI\Usage(name: 'migrate_express:shortcode-convert', description: 'Usage description')]
     public function storeReport($argv, $options = []) {
 
-    $myfile = fopen("sites/default/files/migration_report.html", "r");
+    $myfile = fopen("/files/migration_report.html", "r");
     $report = fread($myfile, filesize("sites/default/files/migration_report.html"));
 
 
