@@ -175,6 +175,33 @@ process:
             source: '0'
             no_stub: true
 
+#  field_ucb_related_articles_parag:
+#    - plugin: skip_on_empty
+#      source: tags
+#      method: process
+#      message: 'Row does not contain categories.'
+#    - plugin: sub_process_managed
+#      source: tags
+#      process:
+#        target_id:
+#          - plugin: migration_lookup
+#            migration: express_nodes_article_related_article_paragraph
+#            source: '0'
+#            no_stub: true
+
+
+  field_ucb_related_articles_parag:
+    - plugin: migration_lookup
+      migration: express_nodes_article_related_article_paragraph
+      no_stub: true
+      source: nid
+    - plugin: sub_process_managed
+      do_not_split: true
+      process:
+        target_id: '0'
+        target_revision_id: '1'
+
+
 
 destination:
   plugin: entity:node
@@ -186,6 +213,7 @@ migration_dependencies:
     - express_taxonomy_terms_category
     - express_taxonomy_terms_tags
     - express_taxonomy_terms_byline
+    - express_nodes_article_related_article_paragraph
 
 dependencies:
   enforced:
