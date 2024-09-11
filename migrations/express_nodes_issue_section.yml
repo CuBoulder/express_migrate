@@ -69,6 +69,7 @@ process:
       no_stub: true
       source: field_issue_section_articles
     - plugin: sub_process_managed
+      do_not_split: true
       process:
         target_id: '0'
         target_revision_id: '1'
