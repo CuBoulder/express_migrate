@@ -32,6 +32,10 @@ source:
       label: 'field_issue_section_articles'
       selector: 'collection/item/field_issue_section_display/field_issue_section_display_value'
 
+    - name: field_issue_section_title
+      label: 'field_issue_section_title'
+      selector: 'collection/item/field_issue_section_title/field_issue_section_title_value'
+
   ids:
     id:
       type: string
@@ -47,6 +51,8 @@ process:
       'title': '3'
     default_value: '0'
 
+  field_ucb_issue_section_title: field_issue_section_title
+
 
 #  pseudo_field_ucb_issue_article_select:
 #    plugin: migration_lookup
@@ -61,6 +67,11 @@ process:
 #      target_id: '0'
 #      target_revision_id: '0'
 
+#  pseudo_field_ucb_issue_article_select_revision:
+#    - plugin: migration_lookup
+#      migration: express_nodes_article
+#      source: field_issue_section_articles
+#    - plugin: node_revision_lookup
 
 
   field_ucb_issue_article_select:
@@ -68,11 +79,13 @@ process:
       migration: express_nodes_article
       no_stub: true
       source: field_issue_section_articles
+    - plugin: node_revision_lookup
     - plugin: sub_process_managed
       do_not_split: true
       process:
         target_id: '0'
         target_revision_id: '1'
+
 
 destination:
   plugin: 'entity_reference_revisions:paragraph'
