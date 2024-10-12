@@ -37,7 +37,10 @@ source:
     nid:
       type: integer
 process:
-  'field_article_text/value': body_value
+  'field_article_text/value':
+    plugin: migrate_inline_images
+    source: body_value
+
   'field_article_text/format': body_format
 
 
@@ -54,6 +57,10 @@ process:
     process:
       target_id: '0'
       target_revision_id: '1'
+
+  field_article_media_location:
+    plugin: default_value
+    default_value: '3'
 
 
 

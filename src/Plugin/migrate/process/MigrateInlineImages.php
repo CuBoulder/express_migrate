@@ -41,8 +41,17 @@ class MigrateInlineImages extends ProcessPluginBase {
       $src = $newelement->src;
       $style = $newelement->style;
       $dataalign = $newelement->getAttribute('data-align');
-
       $filepath = explode('?', $src)[0];
+
+      if(substr($filepath, 0, 8) == 'https://')
+      {
+        $filepath = substr($filepath, 8);
+        $filearray = explode('/', $filepath);
+        array_shift($filearray);
+        $filepath = implode('/', $filearray);
+      }
+
+
       $filepath = substr($filepath, 20);
       $filepath = urldecode($filepath);
       $filearray = explode('/', $filepath);
@@ -101,7 +110,7 @@ class MigrateInlineImages extends ProcessPluginBase {
 
 
 
-      $newelement->outertext = '<drupal-media data-entity-type="media" data-align="' . $dataalign . '"  data-entity-uuid="' . $uuid . '"></drupal-media>';
+      $newelement->outertext = '<drupal-media data-entity-type="media" data-align="' . $dataalign . '" data-view-mode="medium_image_style" data-entity-uuid="' . $uuid . '"></drupal-media>';
 
     }
 

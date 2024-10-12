@@ -14,13 +14,14 @@ use \Drupal\Core\Url;
 /**
  * A Drush commandfile.
  */
-final class MigrateExpressCommands extends DrushCommands {
+final class MigrateExpressCommands extends DrushCommands
+{
 
     /**
      * Constructs a MigrateExpressCommands object.
      */
     public function __construct(
-        private readonly Token $token,
+        private readonly Token            $token,
         private readonly ShortcodeService $shortcode,
   ) {
         parent::__construct();
@@ -29,10 +30,11 @@ final class MigrateExpressCommands extends DrushCommands {
     /**
      * {@inheritdoc}
      */
-    public static function create(ContainerInterface $container) {
+    public static function create(ContainerInterface $container)
+    {
         return new static(
             $container->get('token'),
-            $container->get('shortcode'),
+            $container->get('shortcode')
     );
     }
 
@@ -42,10 +44,11 @@ final class MigrateExpressCommands extends DrushCommands {
      */
     #[CLI\Command(name: 'migrate_express:store-report')]
     #[CLI\Usage(name: 'migrate_express:shortcode-convert', description: 'Usage description')]
-    public function storeReport($argv, $options = []) {
+    public function storeReport($argv, $options = [])
+    {
 
-    $myfile = fopen("/files/migration_report.html", "r");
-    $report = fread($myfile, filesize("sites/default/files/migration_report.html"));
+        $myfile = fopen("/files/migration_report.html", "r");
+        $report = fread($myfile, filesize("sites/default/files/migration_report.html"));
 
 
 //        $report = $argv;
@@ -69,13 +72,11 @@ final class MigrateExpressCommands extends DrushCommands {
             $node = \Drupal::entityTypeManager()->getStorage($entity_type)->load($params[$entity_type]);
             $this->logger()->success(dt("Test 5"));
 
-        }
-        catch(\Exception $e) {
+        } catch (\Exception $e) {
             $this->logger()->success(dt($e->getMessage()));
         }
 
-        if(is_null($node))
-        {
+        if (is_null($node)) {
             $node = Node::create([
                 'type' => 'basic_page',
                 'title' => 'Site Report',
@@ -87,16 +88,11 @@ final class MigrateExpressCommands extends DrushCommands {
 
             $node->save();
 //      fclose($myfile);
-        }
-        else
-        {
-            $node->set('body',  ['value' => $report, 'format' => 'full_html']);
+        } else {
+            $node->set('body', ['value' => $report, 'format' => 'full_html']);
             $node->save();
         }
     }
-
-
-
 
 
     /**

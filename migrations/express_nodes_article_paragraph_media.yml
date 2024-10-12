@@ -21,10 +21,24 @@ source:
       label: 'Photo'
       selector: 'fields/field_image/data/item/field_image_fid'
 
+    - name: include_media
+      label: 'include_media'
+      selector: 'fields/include_media'
+
   ids:
     nid:
       type: integer
 process:
+
+
+  skip_requested:
+    plugin: skip_on_value
+    method: row
+    value: yes
+    source: include_media
+
+
+
   'field_media':
     plugin: migration_lookup
     migration: express_media_images

@@ -74,6 +74,16 @@ source:
       label: 'Tags'
       selector: 'fields/field_tags/data/item/field_tags_tid'
 
+    - name: title_image_fid
+      label: 'Title Image FID'
+      selector: 'fields/title_image_fid'
+
+    - name: title_image_alt
+      label: 'Title Image Alt'
+      selector: 'fields/title_image_alt'
+
+
+
 
 
 
@@ -200,6 +210,11 @@ process:
       process:
         target_id: '0'
         target_revision_id: '1'
+
+  field_article_title_background:
+    plugin: migration_lookup
+    migration: express_media_images
+    source: title_image_fid
 
 
 
